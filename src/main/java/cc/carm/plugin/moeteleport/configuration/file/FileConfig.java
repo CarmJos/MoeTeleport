@@ -11,8 +11,8 @@ import java.io.IOException;
 public class FileConfig {
 
 	private final JavaPlugin plugin;
-
 	private final String fileName;
+
 
 	private File file;
 	private FileConfiguration config;

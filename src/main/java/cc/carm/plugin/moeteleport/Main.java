@@ -2,6 +2,7 @@ package cc.carm.plugin.moeteleport;
 
 import cc.carm.plugin.moeteleport.listener.UserListener;
 import cc.carm.plugin.moeteleport.manager.ConfigManager;
+import cc.carm.plugin.moeteleport.manager.UserManager;
 import cc.carm.plugin.moeteleport.util.ColorParser;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
@@ -17,6 +18,8 @@ public class Main extends JavaPlugin {
 	private static Main instance;
 	public static boolean debugMode = true;
 
+	private UserManager userManager;
+
 	@Override
 	public void onEnable() {
 		instance = this;
@@ -25,6 +28,9 @@ public class Main extends JavaPlugin {
 
 		log("加载配置文件...");
 		ConfigManager.initConfig();
+
+		log("加载用户管理器...");
+		this.userManager = new UserManager(this);
 
 		log("注册监听器...");
 		regListener(new UserListener());
@@ -57,9 +63,13 @@ public class Main extends JavaPlugin {
 		Bukkit.getConsoleSender().sendMessage(ColorParser.parse("[" + getInstance().getName() + "] " + message));
 	}
 
+	public static void error(String message) {
+		log("&4[ERROR] &r" + message);
+	}
+
 	public static void debug(String message) {
 		if (debugMode) {
-			log("[DEBUG] " + message);
+			log("&b[DEBUG] &r" + message);
 		}
 	}
 
@@ -79,6 +89,10 @@ public class Main extends JavaPlugin {
 		if (command == null) return;
 		command.setExecutor(executor);
 		if (tabCompleter != null) command.setTabCompleter(tabCompleter);
+	}
+
+	public static UserManager getUserManager() {
+		return Main.getInstance().userManager;
 	}
 
 }
