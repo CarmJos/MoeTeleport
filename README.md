@@ -20,6 +20,33 @@
 
 详细依赖列表可见 [Dependencies](https://github.com/CarmJos/MoeTeleport/network/dependencies) 。
 
+## 指令
+
+> <参数> - 必须参数
+>
+> [参数] - 可选参数
+
+```text
+# /back
+- 返回上一个传送地点
+
+# /tpa <玩家> 
+- 请求传送到一个玩家身边。
+# /tpahere <玩家>
+- 请求一个玩家传送到自己身边。
+# /tpaccept [玩家]
+- 同意一个请求，可以限定某个玩家。
+# /tpadeny [玩家]
+- 拒绝一个请求，可以限定某个玩家。
+
+# /home [id]
+- 返回家 (不填ID会返回第一个家)
+# /sethome [id]
+- 设置家 (不填ID默认为home)
+# /delhome <ID>
+- 删除家
+```
+
 ## 配置
 
 ### 插件配置文件 ([config.yml](src/main/resources/config.yml))
@@ -36,7 +63,7 @@ permissions:
 
 # 传送请求过期时间
 expireTime: 30
-~~~~
+
 messages: ... # 见源文件
 ```
 
@@ -46,7 +73,7 @@ messages: ... # 见源文件
 # 玩家的家位置记录
 # 格式为 world;x;y;z;yaw;pitch
 homes:
-  - "world;112.21;45;21.241245552;92.5512;-11"
+  "name": "world;112.21;45;21.241245552;92.5512;-11"
 
 ```
 
