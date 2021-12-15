@@ -41,6 +41,8 @@
 
 # /home [id]
 - 返回家 (不填ID会返回第一个家)
+# /listhome
+- 列出所有家的位置
 # /sethome [id]
 - 设置家 (不填ID默认为home)
 # /delhome <ID>
