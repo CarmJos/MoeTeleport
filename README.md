@@ -36,7 +36,7 @@ permissions:
 
 ```
 
-### 玩家数据配置文件 (data/<UUID>.yml)
+### 玩家数据配置文件 (data/\<UUID\>.yml)
 
 ```yaml
 # 玩家的家位置记录
