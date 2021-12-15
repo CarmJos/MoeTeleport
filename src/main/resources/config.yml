@@ -1,5 +1,9 @@
 version: ${project.version}
 
-commands:
-  - "/say Hello I'm %player_name%"
-  - "如果不加斜杠，则会让玩家以文本形式发送出来。"
+defaultHome: 1
+
+permissions:
+  # 以下命令全部为 MoeTeleport 的子节点
+  # 如 "home.1" 的权限全拼就是 "MoeTeleport.home.1"
+  "home.1": 1 # 代表最多可以设置一个家
+  "home.vip": 10 # 最多可以设置10个家

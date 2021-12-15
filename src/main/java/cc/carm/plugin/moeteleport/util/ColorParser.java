@@ -1,5 +1,5 @@
 
-package cc.carm.plugin.protalcommands.util;
+package cc.carm.plugin.moeteleport.util;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

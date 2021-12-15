@@ -1,7 +1,7 @@
-package cc.carm.plugin.protalcommands;
+package cc.carm.plugin.moeteleport;
 
-import cc.carm.plugin.protalcommands.listener.UserListener;
-import cc.carm.plugin.protalcommands.util.ColorParser;
+import cc.carm.plugin.moeteleport.listener.UserListener;
+import cc.carm.plugin.moeteleport.util.ColorParser;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
@@ -10,8 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.List;
 
 public class Main extends JavaPlugin {
 
@@ -81,10 +79,6 @@ public class Main extends JavaPlugin {
 		if (command == null) return;
 		command.setExecutor(executor);
 		if (tabCompleter != null) command.setTabCompleter(tabCompleter);
-	}
-
-	public static List<String> getCommands() {
-		return getInstance().getConfig().getStringList("commands");
 	}
 
 }

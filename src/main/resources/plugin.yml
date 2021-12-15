@@ -1,4 +1,4 @@
-main: cc.carm.plugin.protalcommands.Main
+main: cc.carm.plugin.moeteleport.Main
 name: ${project.name}
 version: ${project.version}
 author: CarmJos

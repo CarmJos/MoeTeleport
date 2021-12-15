@@ -1,4 +1,4 @@
-package cc.carm.plugin.protalcommands.util;
+package cc.carm.plugin.moeteleport.util;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
