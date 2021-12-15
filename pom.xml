@@ -3,6 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+    </properties>
 
     <groupId>cc.carm.plugin</groupId>
     <artifactId>moeteleport</artifactId>
@@ -21,24 +28,15 @@
         <system>GitHub Actions</system>
         <url>${project.url}/actions/workflows/maven.yml</url>
     </ciManagement>
+
     <developers>
         <developer>
             <id>CarmJos</id>
             <name>Carm Jos</name>
             <email>carm@carm.cc</email>
             <url>https://work.carm.cc</url>
-            <roles>
-                <role>Main Developer</role>
-            </roles>
         </developer>
     </developers>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-    </properties>
 
     <repositories>
 

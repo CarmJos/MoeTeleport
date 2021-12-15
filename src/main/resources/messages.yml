@@ -1,0 +1,36 @@
+no-last-location:
+  - "&f您当前没有进行传送，无法返回上个地点。"
+tpa:
+  - "&6%(player) &f请求传送到您身边，您有30秒的时间处理。"
+  - "&a&l[同意] &f输入 &e/tpaccept &f同意该请求。"
+  - "&c&l[拒绝] &f输入 &e/tpadeny &f拒绝该请求。"
+tpahere:
+  - "&6%(player) &f请求传送您到Ta身边，您有30秒的时间处理。"
+  - "&a&l[同意] &f输入 &e/tpaccept &f同意该请求。"
+  - "&c&l[拒绝] &f输入 &e/tpadeny &f拒绝该请求。"
+tpaccept:
+  - "&f您同意了 &6%(player) &f的传送请求。"
+tpadeny:
+  - "&f您&c拒绝&f了 &6%(player) &f的传送请求。"
+accepted:
+  - "&6%(player) &f同意了您的传送请求。"
+denied:
+  - "&6%(player) &c拒绝&f了您的传送请求。"
+
+no-request:
+  - "&f您当前没有任何待处理的传送请求。"
+no-request-player:
+  - "&f您当前没有收到来自 &6%(player) &f的传送请求。"
+multi-requests:
+  - "&f您当前有条请求待处理，请输入 &6%(command) <玩家名> &f决定处理谁的请求。"
+  - "&f您也可以再次输入 &6%(command) &f直接处理最近的一条请求。"
+request-timeout:
+  - "&f来自 &6%(player) &f的传送请求已超时。"
+teleporting:
+  - "&f正在传送到 &6&(location) &f..."
+dangerous:
+  - "&f目标地点不安全，传送被取消。若您执意传送可再次输入 &6/tpaccept &f。"
+
+home-list-header:
+  - "&f您当前设定的所有家："
+home-list-object: "&8#&f%(id) &6(location)"

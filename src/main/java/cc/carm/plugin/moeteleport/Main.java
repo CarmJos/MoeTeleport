@@ -1,6 +1,7 @@
 package cc.carm.plugin.moeteleport;
 
 import cc.carm.plugin.moeteleport.listener.UserListener;
+import cc.carm.plugin.moeteleport.manager.ConfigManager;
 import cc.carm.plugin.moeteleport.util.ColorParser;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
@@ -23,8 +24,7 @@ public class Main extends JavaPlugin {
 		long startTime = System.currentTimeMillis();
 
 		log("加载配置文件...");
-		saveDefaultConfig();
-		reloadConfig();
+		ConfigManager.initConfig();
 
 		log("注册监听器...");
 		regListener(new UserListener());

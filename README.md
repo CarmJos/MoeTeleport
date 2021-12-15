@@ -66,8 +66,11 @@ permissions:
 # 传送请求过期时间
 expireTime: 30
 
-messages: ... # 见源文件
 ```
+
+### 消息配置文件 ([messages.yml](src/main/resources/messages.yml))
+
+详见源文件。
 
 ### 玩家数据配置文件 (data/\<UUID\>.yml)
 
