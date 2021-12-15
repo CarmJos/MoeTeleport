@@ -1,0 +1,9 @@
+main: cc.carm.plugin.protalcommands.Main
+name: ${project.name}
+version: ${project.version}
+author: CarmJos
+website: ${project.url}
+description: ${project.description}
+
+softdepend:
+  - PlaceholderAPI

@@ -1,0 +1,5 @@
+version: ${project.version}
+
+commands:
+  - "/say Hello I'm %player_name%"
+  - "如果不加斜杠，则会让玩家以文本形式发送出来。"
