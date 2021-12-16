@@ -13,7 +13,7 @@
 
 简单的传送请求插件，支持设置家与返回上一个地点。
 
-## 依赖
+## [依赖](https://github.com/CarmJos/MoeTeleport/network/dependencies)
 
 - **[必须]** 插件本体基于 [Spigot-API](https://hub.spigotmc.org/stash/projects/SPIGOT) 、[BukkitAPI](http://bukkit.org/) 实现。
 - **[推荐]** 变量部分基于 [PlaceholderAPI](https://www.spigotmc.org/resources/6245/) 实现。
