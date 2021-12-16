@@ -31,20 +31,20 @@
 
 # /tpa <玩家> 
 - 请求传送到一个玩家身边。
-# /tpahere <玩家>
+# /tpaHere <玩家>
 - 请求一个玩家传送到自己身边。
-# /tpaccept [玩家]
+# /tpAccept [玩家]
 - 同意一个请求，可以限定某个玩家。
-# /tpadeny [玩家]
+# /tpDeny [玩家]
 - 拒绝一个请求，可以限定某个玩家。
 
-# /home [id]
-- 返回家 (不填ID会返回第一个家)
-# /listhome
+# /home [name]
+- 返回家 (不填name会返回第一个家,若存在home则优先返回home)
+# /listHome
 - 列出所有家的位置
-# /sethome [id]
-- 设置家 (不填ID默认为home)
-# /delhome <ID>
+# /setHome [name]
+- 设置家 (不填name默认为home)
+# /delHome <name>
 - 删除家
 ```
 

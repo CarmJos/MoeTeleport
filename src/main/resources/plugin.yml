@@ -7,3 +7,32 @@ description: ${project.description}
 
 softdepend:
   - PlaceholderAPI
+
+commands:
+  "back":
+    description: 返回传送前的上一个地点。
+
+  "tpa":
+    usage: "/tpa <玩家> "
+    description: 请求传送到一个玩家身边。
+  "tpaHere":
+    usage: "/tpaHere <玩家>"
+    description: 请求一个玩家传送到自己身边。
+  "tpaAccept":
+    usage: "/tpAccept [玩家]"
+    description: 同意一个请求，可以限定某个玩家。
+  "tpaDeny":
+    usage: "/tpDeny [玩家]"
+    description: 拒绝一个请求，可以限定某个玩家。
+
+  "home":
+    usage: "/home [名称] "
+    description: "返回家所在位置。"
+  "listHome":
+    description: "列出所有家的位置。"
+  "setHome":
+    usage: "/setHome [名称] "
+    description: "设置家的传送点 (不填名称默认为home)"
+  "delHome":
+    usage: "/delHome <名称> "
+    description: "删除家的传送点。"

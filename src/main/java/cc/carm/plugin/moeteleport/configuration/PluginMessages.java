@@ -9,16 +9,20 @@ public class PluginMessages {
 
 	public static final ConfigMessageList TPA = new ConfigMessageList("tpa");
 	public static final ConfigMessageList TPA_HERE = new ConfigMessageList("tpahere");
-	public static final ConfigMessageList TPA_ACCEPT = new ConfigMessageList("tpaccept");
-	public static final ConfigMessageList TPA_DENY = new ConfigMessageList("tpadeny");
+
+	public static final ConfigMessageList TP_ACCEPT = new ConfigMessageList("tpaccept");
+	public static final ConfigMessageList TP_DENY = new ConfigMessageList("tpdeny");
 
 	public static final ConfigMessageList ACCEPTED = new ConfigMessageList("accepted");
 	public static final ConfigMessageList DENIED = new ConfigMessageList("denied");
 
 	public static final ConfigMessageList TELEPORTING = new ConfigMessageList("teleporting");
 	public static final ConfigMessageList DANGEROUS = new ConfigMessageList("dangerous");
+	public static final ConfigMessageList NOT_AVAILABLE = new ConfigMessageList("notAvailable");
 
 	public static class Request {
+		public static final ConfigMessageList OFFLINE = new ConfigMessageList("offline");
+
 		public static final ConfigMessageList MULTI = new ConfigMessageList("multi-requests");
 		public static final ConfigMessageList TIMEOUT = new ConfigMessageList("request-timeout");
 		public static final ConfigMessageList NOT_FOUND = new ConfigMessageList("no-request");

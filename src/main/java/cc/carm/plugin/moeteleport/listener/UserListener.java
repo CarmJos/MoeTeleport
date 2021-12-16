@@ -1,7 +1,8 @@
 package cc.carm.plugin.moeteleport.listener;
 
 import cc.carm.plugin.moeteleport.Main;
-import cc.carm.plugin.moeteleport.user.UserData;
+import cc.carm.plugin.moeteleport.model.UserData;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -20,8 +21,10 @@ public class UserListener implements Listener {
 
 	@EventHandler
 	public void onQuit(PlayerQuitEvent event) {
-		Main.getUserManager().getData(event.getPlayer()).save(); //保存
-		Main.getUserManager().getUserDataMap().remove(event.getPlayer().getUniqueId());
+		Player player = event.getPlayer();
+		Main.getRequestManager().cancelAllRequests(player);
+		Main.getUserManager().getData(player).save(); //保存
+		Main.getUserManager().getUserDataMap().remove(player.getUniqueId());
 	}
 
 }

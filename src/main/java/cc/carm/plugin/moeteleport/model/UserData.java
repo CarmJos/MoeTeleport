@@ -1,23 +1,29 @@
-package cc.carm.plugin.moeteleport.user;
+package cc.carm.plugin.moeteleport.model;
 
 import cc.carm.plugin.moeteleport.Main;
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class UserData {
 
 	private final @NotNull File dataFile;
 	private final @NotNull FileConfiguration dataConfig;
 
+	private @Nullable Location lastLocation;
+
 	private LinkedHashMap<String, DataLocation> homeLocations;
+
+	private HashMap<UUID/*receiverUUID*/, TeleportRequest> sentRequests; // 记录发出的请求
+	private HashSet<UUID/*senderUUID*/> receivedRequests; // 记录收到的传送请求
 
 	public UserData(@NotNull File dataFolder, @NotNull UUID uuid) {
 		this(new File(dataFolder, uuid + ".yml"));
@@ -51,6 +57,41 @@ public class UserData {
 		return homeLocations;
 	}
 
+	public DataLocation getHomeLocation(@Nullable String homeName) {
+		LinkedHashMap<String, DataLocation> homes = getHomeLocations();
+		if (homeName == null) {
+			if (homes.size() > 1) {
+				return homes.get("home");
+			} else {
+				if (homes.containsKey("home")) return homes.get("home");
+				else return homes.values().stream().findFirst().orElse(null);
+			}
+		} else {
+			return homes.get(homeName);
+		}
+	}
+
+	public @Nullable Location getLastLocation() {
+		return lastLocation;
+	}
+
+	public boolean backToLocation(Player player) {
+		if (getLastLocation() == null) return false;
+		else {
+			player.teleport(getLastLocation());
+			return true;
+		}
+	}
+
+
+	public HashMap<UUID, TeleportRequest> getSentRequests() {
+		return sentRequests;
+	}
+
+	public HashSet<UUID> getReceivedRequests() {
+		return receivedRequests;
+	}
+
 	public @NotNull File getDataFile() {
 		return dataFile;
 	}
@@ -59,7 +100,6 @@ public class UserData {
 		return dataConfig;
 	}
 
-
 	public LinkedHashMap<String, String> saveToMap() {
 		LinkedHashMap<String, DataLocation> homeLocations = getHomeLocations();
 		LinkedHashMap<String, String> data = new LinkedHashMap<>();
@@ -67,7 +107,6 @@ public class UserData {
 		homeLocations.forEach((name, loc) -> data.put(name, loc.serializeToText()));
 		return data;
 	}
-
 
 	public void save() {
 		try {

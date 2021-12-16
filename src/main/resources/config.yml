@@ -10,3 +10,8 @@ permissions:
 
 # 传送请求过期时间
 expireTime: 30
+
+# 危险的方块类型，将判断目的地脚下的方块的类型是否在这个列表中
+dangerousBlocks:
+  - LAVA
+  - AIR

@@ -1,7 +1,16 @@
 package cc.carm.plugin.moeteleport;
 
+import cc.carm.plugin.moeteleport.command.BackCommand;
+import cc.carm.plugin.moeteleport.command.tpa.PlayerNameCompleter;
+import cc.carm.plugin.moeteleport.command.home.*;
+import cc.carm.plugin.moeteleport.command.tpa.TpAcceptCommand;
+import cc.carm.plugin.moeteleport.command.tpa.TpDenyCommand;
+import cc.carm.plugin.moeteleport.command.tpa.TpaCommand;
+import cc.carm.plugin.moeteleport.command.tpa.TpaHereCommand;
 import cc.carm.plugin.moeteleport.listener.UserListener;
 import cc.carm.plugin.moeteleport.manager.ConfigManager;
+import cc.carm.plugin.moeteleport.manager.RequestManager;
+import cc.carm.plugin.moeteleport.manager.TeleportManager;
 import cc.carm.plugin.moeteleport.manager.UserManager;
 import cc.carm.plugin.moeteleport.util.ColorParser;
 import org.bukkit.Bukkit;
@@ -19,6 +28,8 @@ public class Main extends JavaPlugin {
 	public static boolean debugMode = true;
 
 	private UserManager userManager;
+	private TeleportManager teleportManager;
+	private RequestManager requestManager;
 
 	@Override
 	public void onEnable() {
@@ -32,8 +43,24 @@ public class Main extends JavaPlugin {
 		log("加载用户管理器...");
 		this.userManager = new UserManager(this);
 
+		log("加载请求管理器...");
+		this.requestManager = new RequestManager();
+
 		log("注册监听器...");
 		regListener(new UserListener());
+
+		log("注册指令...");
+		registerCommand("back", new BackCommand());
+
+		registerCommand("home", new GoHomeCommand(), new HomeNameCompleter());
+		registerCommand("delHome", new DelHomeCommand(), new HomeNameCompleter());
+		registerCommand("setHome", new SetHomeCommand());
+		registerCommand("listHome", new ListHomeCommand());
+
+		registerCommand("tpa", new TpaCommand(), new PlayerNameCompleter());
+		registerCommand("tpaHere", new TpaHereCommand(), new PlayerNameCompleter());
+		registerCommand("tpAccept", new TpAcceptCommand(), new PlayerNameCompleter());
+		registerCommand("tpDeny", new TpDenyCommand(), new PlayerNameCompleter());
 
 		log("加载完成 ，共耗时 " + (System.currentTimeMillis() - startTime) + " ms 。");
 
@@ -93,6 +120,10 @@ public class Main extends JavaPlugin {
 
 	public static UserManager getUserManager() {
 		return Main.getInstance().userManager;
+	}
+
+	public static RequestManager getRequestManager() {
+		return Main.getInstance().requestManager;
 	}
 
 }

@@ -1,7 +1,7 @@
 package cc.carm.plugin.moeteleport.manager;
 
 import cc.carm.plugin.moeteleport.Main;
-import cc.carm.plugin.moeteleport.user.UserData;
+import cc.carm.plugin.moeteleport.model.UserData;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
