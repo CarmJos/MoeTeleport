@@ -52,20 +52,7 @@
 
 ### 插件配置文件 ([config.yml](src/main/resources/config.yml))
 
-```yaml
-
-defaultHome: 1 # 默认所有玩家可以设置一个家
-
-permissions:
-  # 以下命令全部为 MoeTeleport 的子节点
-  # 如 "home.1" 的权限全拼就是 "MoeTeleport.home.1"
-  "home.1": 1 # 有这个权限的玩家最多可以设置一个家
-  "home.vip": 10 # 有这个权限的玩家最多可以设置10个家
-
-# 传送请求过期时间
-expireTime: 30
-
-```
+详见源文件。
 
 ### 消息配置文件 ([messages.yml](src/main/resources/messages.yml))
 
