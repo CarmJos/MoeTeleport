@@ -11,7 +11,7 @@
 
 # MoeTeleport 喵喵传送
 
-简单的传送请求插件，支持设置家。
+简单的传送请求插件，支持设置家与返回上一个地点。
 
 ## 依赖
 
@@ -20,7 +20,7 @@
 
 详细依赖列表可见 [Dependencies](https://github.com/CarmJos/MoeTeleport/network/dependencies) 。
 
-## 指令
+## [指令](src/main/resources/plugin.yml)
 
 - 必须参数 `<参数>`
 - 可选参数 `[参数]`
@@ -59,6 +59,8 @@
 详见源文件。
 
 ### 玩家数据配置文件 (data/\<UUID\>.yml)
+
+本插件采用 `YAML格式` 存储玩家数据。
 
 ```yaml
 # 玩家的家位置记录
