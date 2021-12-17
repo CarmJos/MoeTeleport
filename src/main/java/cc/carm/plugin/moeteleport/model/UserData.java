@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class UserData {
 
@@ -22,7 +23,7 @@ public class UserData {
 
 	private LinkedHashMap<String, DataLocation> homeLocations;
 
-	private HashMap<UUID/*receiverUUID*/, TeleportRequest> sentRequests; // 记录发出的请求
+	private ConcurrentHashMap<UUID/*receiverUUID*/, TeleportRequest> sentRequests; // 记录发出的请求
 	private HashSet<UUID/*senderUUID*/> receivedRequests; // 记录收到的传送请求
 
 	public UserData(@NotNull File dataFolder, @NotNull UUID uuid) {
@@ -57,17 +58,28 @@ public class UserData {
 		return homeLocations;
 	}
 
-	public DataLocation getHomeLocation(@Nullable String homeName) {
+	public void setHomeLocation(String homeName, Location location) {
+		delHomeLocation(homeName);
+		getHomeLocations().put(homeName, new DataLocation(location));
+	}
+
+	public void delHomeLocation(String homeName) {
+		Map.Entry<String, DataLocation> lastLocation = getHomeLocation(homeName);
+		if (lastLocation != null) getHomeLocations().remove(lastLocation.getKey());
+	}
+
+	public Map.Entry<String, DataLocation> getHomeLocation(@Nullable String homeName) {
 		LinkedHashMap<String, DataLocation> homes = getHomeLocations();
 		if (homeName == null) {
-			if (homes.size() > 1) {
-				return homes.get("home");
+			if (homes.containsKey("home")) {
+				return new AbstractMap.SimpleEntry<>("home", homes.get("home"));
 			} else {
-				if (homes.containsKey("home")) return homes.get("home");
-				else return homes.values().stream().findFirst().orElse(null);
+				return homes.entrySet().stream().findFirst().orElse(null);
 			}
 		} else {
-			return homes.get(homeName);
+			return homes.entrySet().stream()
+					.filter(entry -> entry.getKey().equalsIgnoreCase(homeName))
+					.findFirst().orElse(null);
 		}
 	}
 
@@ -84,7 +96,7 @@ public class UserData {
 	}
 
 
-	public HashMap<UUID, TeleportRequest> getSentRequests() {
+	public ConcurrentHashMap<UUID, TeleportRequest> getSentRequests() {
 		return sentRequests;
 	}
 

@@ -1,11 +1,11 @@
 no-last-location:
   - "&f您当前没有进行传送，无法返回上个地点。"
 tpa:
-  - "&6%(player) &f请求传送到您身边，您有30秒的时间处理。"
+  - "&6%(player) &f请求传送到您身边，您有%(expire)秒的时间回应。"
   - "&a&l[同意] &f输入 &e/tpaccept &f同意该请求。"
   - "&c&l[拒绝] &f输入 &e/tpdeny &f拒绝该请求。"
 tpahere:
-  - "&6%(player) &f请求传送您到Ta身边，您有30秒的时间处理。"
+  - "&6%(player) &f请求传送您到Ta身边，您有%(expire)秒的时间回应。"
   - "&a&l[同意] &f输入 &e/tpaccept &f同意该请求。"
   - "&c&l[拒绝] &f输入 &e/tpdeny &f拒绝该请求。"
 tpaccept:
@@ -19,22 +19,35 @@ denied:
 offline:
   - "&6%(player) &f离线，相关请求已自动取消。"
 
+request-sent:
+  - "&f成功向玩家 &6%(player) 发送传送请求，对方有%(expire)秒的时间回应该请求。"
 no-request:
   - "&f您当前没有任何待处理的传送请求。"
 no-request-player:
   - "&f您当前没有收到来自 &6%(player) &f的传送请求。"
 multi-requests:
-  - "&f您当前有条请求待处理，请输入 &6%(command) <玩家名> &f决定处理谁的请求。"
-  - "&f您也可以再次输入 &6%(command) &f直接处理最近的一条请求。"
-request-timeout:
+  - "&f您当前有条请求待处理，请输入 &6%(command) <玩家名> &f决定回应谁的请求。"
+  - "&f您也可以再次输入 &6%(command) &f直接回应最近的一条请求。"
+request-sent-timeout:
+  - "&f发往 &6%(player) &f的传送请求已超时。"
+request-received-timeout:
   - "&f来自 &6%(player) &f的传送请求已超时。"
 teleporting:
   - "&f正在传送到 &6%(location) &f..."
 dangerous:
   - "&f目标地点不安全，传送被取消。"
+dangerous-here:
+  - "&f当前地点不安全，无法发送传送请求。"
 notAvailable:
   - "&f目标地点暂时无法前往，传送被取消。"
 
 home-list-header:
   - "&f您当前设定的所有家："
 home-list-object: "&8#&f%(id) &6%(location)"
+home-not-found:
+  - "&f您还没有设置这个家，请先输入 &e/setHome <家名称> &f设置一个吧！"
+home-set:
+  - "&f成功设定名为 &6%(name) &f的家传送点。"
+home-removed:
+  - "&f成功移除名为 &6%(name) &f的家传送点。"
+  - "&7原先位置为 &f%(location) &7。"

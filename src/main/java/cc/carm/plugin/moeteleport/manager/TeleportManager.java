@@ -10,6 +10,18 @@ import org.bukkit.entity.Player;
 
 public class TeleportManager {
 
+	public static void teleport(Player player, DataLocation targetLocation) {
+		Location location = targetLocation.getBukkitLocation();
+		if (location == null) {
+			PluginMessages.NOT_AVAILABLE.sendWithPlaceholders(player,
+					new String[]{"%(location)"},
+					new Object[]{targetLocation.toString()}
+			);
+		} else {
+			teleport(player, location);
+		}
+	}
+
 	public static void teleport(Player player, Location targetLocation) {
 		if (targetLocation.isWorldLoaded()) {
 			player.teleport(targetLocation);

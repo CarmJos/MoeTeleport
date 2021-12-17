@@ -1,12 +1,8 @@
 package cc.carm.plugin.moeteleport;
 
 import cc.carm.plugin.moeteleport.command.BackCommand;
-import cc.carm.plugin.moeteleport.command.tpa.PlayerNameCompleter;
 import cc.carm.plugin.moeteleport.command.home.*;
-import cc.carm.plugin.moeteleport.command.tpa.TpAcceptCommand;
-import cc.carm.plugin.moeteleport.command.tpa.TpDenyCommand;
-import cc.carm.plugin.moeteleport.command.tpa.TpaCommand;
-import cc.carm.plugin.moeteleport.command.tpa.TpaHereCommand;
+import cc.carm.plugin.moeteleport.command.tpa.*;
 import cc.carm.plugin.moeteleport.listener.UserListener;
 import cc.carm.plugin.moeteleport.manager.ConfigManager;
 import cc.carm.plugin.moeteleport.manager.RequestManager;
@@ -44,7 +40,7 @@ public class Main extends JavaPlugin {
 		this.userManager = new UserManager(this);
 
 		log("加载请求管理器...");
-		this.requestManager = new RequestManager();
+		this.requestManager = new RequestManager(this);
 
 		log("注册监听器...");
 		regListener(new UserListener());
@@ -59,8 +55,8 @@ public class Main extends JavaPlugin {
 
 		registerCommand("tpa", new TpaCommand(), new PlayerNameCompleter());
 		registerCommand("tpaHere", new TpaHereCommand(), new PlayerNameCompleter());
-		registerCommand("tpAccept", new TpAcceptCommand(), new PlayerNameCompleter());
-		registerCommand("tpDeny", new TpDenyCommand(), new PlayerNameCompleter());
+		registerCommand("tpAccept", new TpAcceptCommand(), new TpRequestCompleter());
+		registerCommand("tpDeny", new TpDenyCommand(), new TpRequestCompleter());
 
 		log("加载完成 ，共耗时 " + (System.currentTimeMillis() - startTime) + " ms 。");
 
@@ -70,6 +66,8 @@ public class Main extends JavaPlugin {
 	public void onDisable() {
 		log(getName() + " " + getDescription().getVersion() + " 开始卸载...");
 		long startTime = System.currentTimeMillis();
+
+		getRequestManager().shutdown();
 
 		log("卸载监听器...");
 		Bukkit.getServicesManager().unregisterAll(this);
