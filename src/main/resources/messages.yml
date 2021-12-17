@@ -1,6 +1,9 @@
 no-last-location:
   - "&f您当前没有进行传送，无法返回上个地点。"
 
+death-back:
+  - "&f您可以输入 &5/back &f返回您的死亡地点。"
+
 not-online:
   - "&f目标玩家并不在线，无法发送请求。"
 tpa:
@@ -19,6 +22,9 @@ accepted:
   - "&d%(player) &f同意了您的传送请求。"
 denied:
   - "&d%(player) &f拒绝了您的传送请求。"
+
+
+
 offline:
   - "&d%(player) &f离线，相关请求已自动取消。"
 

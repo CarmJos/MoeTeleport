@@ -24,6 +24,8 @@ public class PluginMessages {
 
 	public static final ConfigMessageList NOT_AVAILABLE = new ConfigMessageList("notAvailable");
 
+	public static final ConfigMessageList DEATH_BACK = new ConfigMessageList("death-back");
+
 	public static class Request {
 		public static final ConfigMessageList DUPLICATE = new ConfigMessageList("request-duplicate");
 		public static final ConfigMessageList OFFLINE = new ConfigMessageList("offline");

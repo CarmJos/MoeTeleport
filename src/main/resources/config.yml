@@ -4,14 +4,17 @@ defaultHome: 1
 
 permissions:
   # 以下命令全部为 MoeTeleport 的子节点
-  # 如 "home.1" 的权限全拼就是 "MoeTeleport.home.1"
-  "home.1": 1 # 代表最多可以设置一个家
+  # 如 "home.vip" 的权限全拼就是 "MoeTeleport.home.vip"
   "home.vip": 10 # 最多可以设置10个家
 
 # 传送请求过期时间
 expireTime: 30
 
+# 返回死亡点
+# 开启后将允许玩家输入 /back 返回死亡地点。
+death-back: true
+
 # 危险的方块类型，将判断目的地脚下的方块的类型是否在这个列表中
-dangerousBlocks:
+dangerous-blocks:
   - LAVA
   - AIR
