@@ -13,6 +13,8 @@
 
 简单的传送请求插件，支持设置家与返回上一个地点。
 
+本插件由 [璎珞服务器](https://www.yingluo.world/) 请求本人开发，经过授权后开源。
+
 ## [依赖](https://github.com/CarmJos/MoeTeleport/network/dependencies)
 
 - **[必须]** 插件本体基于 [Spigot-API](https://hub.spigotmc.org/stash/projects/SPIGOT) 、[BukkitAPI](http://bukkit.org/) 实现。
