@@ -149,14 +149,14 @@ public class DataLocation implements Cloneable {
 		if (args.length < 4) return null;
 		try {
 			String worldName = args[0];
-			double x = NumberConversions.toDouble(args[0]);
-			double y = NumberConversions.toDouble(args[1]);
-			double z = NumberConversions.toDouble(args[2]);
+			double x = NumberConversions.toDouble(args[1]);
+			double y = NumberConversions.toDouble(args[2]);
+			double z = NumberConversions.toDouble(args[3]);
 			float yaw = 0;
 			float pitch = 0;
-			if (args.length == 5) {
-				yaw = NumberConversions.toFloat(args[3]);
-				pitch = NumberConversions.toFloat(args[4]);
+			if (args.length == 6) {
+				yaw = NumberConversions.toFloat(args[4]);
+				pitch = NumberConversions.toFloat(args[5]);
 			}
 			return new DataLocation(worldName, x, y, z, yaw, pitch);
 		} catch (Exception ex) {
