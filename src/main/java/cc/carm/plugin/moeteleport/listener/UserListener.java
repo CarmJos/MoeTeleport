@@ -23,7 +23,7 @@ public class UserListener implements Listener {
 	}
 
 	@EventHandler
-	public void onDeath(PlayerQuitEvent event) {
+	public void onQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
 		Main.getRequestManager().cancelAllRequests(player);
 		Main.getUserManager().getData(player).save(); //保存
