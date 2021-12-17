@@ -8,6 +8,11 @@ description: ${project.description}
 softdepend:
   - PlaceholderAPI
 
+permissions:
+  "MoeTeleport":
+    description: "插件的主权限节点"
+    default: false
+
 commands:
   "back":
     description: 返回传送前的上一个地点。
