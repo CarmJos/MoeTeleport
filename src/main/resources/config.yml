@@ -5,7 +5,7 @@ defaultHome: 1
 permissions:
   # 以下命令全部为 MoeTeleport 的子节点
   # 如 "home.vip" 的权限全拼就是 "MoeTeleport.home.vip"
-  "home.vip": 10 # 最多可以设置10个家
+  10: "home.vip" # 最多可以设置10个家
 
 # 传送请求过期时间
 expireTime: 30

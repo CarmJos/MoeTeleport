@@ -7,7 +7,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -50,13 +49,13 @@ public class ConfigValueMap<K, V> {
 		if (valueCache != null) return valueCache;
 		ConfigurationSection section = getConfiguration().getConfigurationSection(this.configSection);
 		if (section == null) return new LinkedHashMap<>();
-		Set<String> keys = getConfiguration().getKeys(false);
+		Set<String> keys = section.getKeys(false);
 		if (keys.isEmpty()) return new LinkedHashMap<>();
 		else {
 			LinkedHashMap<K, V> result = new LinkedHashMap<>();
 			for (String key : keys) {
 				K finalKey = keyCast.apply(key);
-				Object val = getConfiguration().get(this.configSection);
+				Object val = section.get(key);
 				V finalValue = this.valueClazz.isInstance(val) ? this.valueClazz.cast(val) : null;
 				if (finalKey != null && finalValue != null) {
 					result.put(finalKey, finalValue);
@@ -67,7 +66,8 @@ public class ConfigValueMap<K, V> {
 		}
 	}
 
-	public void set(HashMap<K, V> valuesMap) {
+	public void set(LinkedHashMap<K, V> valuesMap) {
+		this.valueCache = valuesMap;
 		getConfiguration().createSection(this.configSection, valuesMap);
 		this.save();
 	}
