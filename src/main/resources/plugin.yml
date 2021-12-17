@@ -23,10 +23,10 @@ commands:
   "tpaHere":
     usage: "/tpaHere <玩家>"
     description: 请求一个玩家传送到自己身边。
-  "tpaAccept":
+  "tpAccept":
     usage: "/tpAccept [玩家]"
     description: 同意一个请求，可以限定某个玩家。
-  "tpaDeny":
+  "tpDeny":
     usage: "/tpDeny [玩家]"
     description: 拒绝一个请求，可以限定某个玩家。
 

@@ -20,8 +20,8 @@ public class ListHomeCommand implements CommandExecutor {
 		PluginMessages.Home.HEADER.sendWithPlaceholders(player);
 		data.getHomeLocations().forEach((name, loc) -> PluginMessages.Home.LIST_OBJECT
 				.sendWithPlaceholders(player,
-						new String[]{"%(name)", "%(location)"},
-						new Object[]{name, loc.toString()}
+						new String[]{"%(id)", "%(location)"},
+						new Object[]{name, loc.toFlatString()}
 				));
 		return true;
 	}

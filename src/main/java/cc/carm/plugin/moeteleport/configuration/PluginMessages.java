@@ -25,6 +25,7 @@ public class PluginMessages {
 	public static final ConfigMessageList NOT_AVAILABLE = new ConfigMessageList("notAvailable");
 
 	public static class Request {
+		public static final ConfigMessageList DUPLICATE = new ConfigMessageList("request-duplicate");
 		public static final ConfigMessageList OFFLINE = new ConfigMessageList("offline");
 
 		public static final ConfigMessageList SENT = new ConfigMessageList("request-sent");

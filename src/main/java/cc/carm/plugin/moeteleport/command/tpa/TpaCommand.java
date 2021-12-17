@@ -13,7 +13,8 @@ import org.jetbrains.annotations.NotNull;
 public class TpaCommand implements CommandExecutor {
 
 	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+							 @NotNull String label, @NotNull String[] args) {
 		if (!(sender instanceof Player) || args.length < 1) return false;
 		Player player = (Player) sender;
 		Player target = Bukkit.getPlayer(args[0]);
@@ -21,7 +22,21 @@ public class TpaCommand implements CommandExecutor {
 			PluginMessages.NOT_ONLINE.sendWithPlaceholders(player);
 			return true;
 		}
-		Main.getRequestManager().sendRequest(player, target, TeleportRequest.RequestType.TPA);
+
+		TeleportRequest request = Main.getUserManager().getData(target).getReceivedRequests().get(player.getUniqueId());
+		if (request != null) {
+			PluginMessages.Request.DUPLICATE.sendWithPlaceholders(sender,
+					new String[]{"%(player)", "%(expire)"},
+					new Object[]{target.getName(), request.getRemainSeconds()}
+			);
+			return true;
+		}
+		if (command.getName().equalsIgnoreCase("tpa")) {
+			Main.getRequestManager().sendRequest(player, target, TeleportRequest.RequestType.TPA);
+		} else {
+			Main.getRequestManager().sendRequest(player, target, TeleportRequest.RequestType.TPA_HERE);
+		}
+
 		return true;
 	}
 

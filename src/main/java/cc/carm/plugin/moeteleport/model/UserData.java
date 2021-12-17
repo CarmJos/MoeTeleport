@@ -1,12 +1,10 @@
 package cc.carm.plugin.moeteleport.model;
 
 import cc.carm.plugin.moeteleport.Main;
-import cc.carm.plugin.moeteleport.configuration.PluginConfig;
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,8 +22,10 @@ public class UserData {
 
 	private LinkedHashMap<String, DataLocation> homeLocations;
 
-	private HashSet<UUID/*receiverUUID*/> sentRequests; // 记录发出的请求
-	private ConcurrentHashMap<UUID/*senderUUID*/, TeleportRequest> receivedRequests; // 记录收到的传送请求
+	private final HashSet<UUID/*receiverUUID*/> sentRequests = new HashSet<>(); // 记录发出的请求
+	private final ConcurrentHashMap<UUID/*senderUUID*/, TeleportRequest> receivedRequests = new ConcurrentHashMap<>(); // 记录收到的传送请求
+
+	public boolean enableAutoSelect = false;
 
 	public UserData(@NotNull File dataFolder, @NotNull UUID uuid) {
 		this(new File(dataFolder, uuid + ".yml"));
@@ -88,12 +88,8 @@ public class UserData {
 		return lastLocation;
 	}
 
-	public boolean backToLocation(Player player) {
-		if (getLastLocation() == null) return false;
-		else {
-			player.teleport(getLastLocation());
-			return true;
-		}
+	public void setLastLocation(@Nullable Location lastLocation) {
+		this.lastLocation = lastLocation;
 	}
 
 	public HashSet<UUID> getSentRequests() {
@@ -104,7 +100,13 @@ public class UserData {
 		return receivedRequests;
 	}
 
+	public void setEnableAutoSelect(boolean enableAutoSelect) {
+		this.enableAutoSelect = enableAutoSelect;
+	}
 
+	public boolean isEnableAutoSelect() {
+		return enableAutoSelect;
+	}
 
 	public @NotNull File getDataFile() {
 		return dataFile;

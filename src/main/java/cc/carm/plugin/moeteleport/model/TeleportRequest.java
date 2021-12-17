@@ -1,8 +1,6 @@
 package cc.carm.plugin.moeteleport.model;
 
 import cc.carm.plugin.moeteleport.configuration.PluginConfig;
-import cc.carm.plugin.moeteleport.configuration.PluginMessages;
-import cc.carm.plugin.moeteleport.manager.TeleportManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -52,25 +50,16 @@ public class TeleportRequest {
 		return System.currentTimeMillis() - getCreateTime();
 	}
 
+	public long getRemainTime() {
+		return PluginConfig.EXPIRE_TIME.get() * 1000 - getActiveTime();
+	}
 
-	/**
-	 * 尝试对玩家进行传送
-	 *
-	 * @return 是否传送成功
-	 */
-	public boolean tryTeleport(@NotNull Location location) {
-		if (!location.isWorldLoaded()) return false;
-		if (!TeleportManager.isSafeLocation(location)) {
-			PluginMessages.DANGEROUS.sendWithPlaceholders(getTeleportPlayer());
-			return false;
-		} else {
-			TeleportManager.teleport(getTeleportPlayer(), location);
-			return true;
-		}
+	public long getRemainSeconds() {
+		return getRemainTime() / 1000;
 	}
 
 	public boolean isExpired() {
-		return getActiveTime() > PluginConfig.EXPIRE_TIME.get() * 10000;
+		return getActiveTime() > PluginConfig.EXPIRE_TIME.get() * 1000;
 	}
 
 	public enum RequestType {

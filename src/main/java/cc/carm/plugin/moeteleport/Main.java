@@ -4,8 +4,12 @@ import cc.carm.plugin.moeteleport.command.BackCommand;
 import cc.carm.plugin.moeteleport.command.completer.HomeNameCompleter;
 import cc.carm.plugin.moeteleport.command.completer.PlayerNameCompleter;
 import cc.carm.plugin.moeteleport.command.completer.TpRequestCompleter;
-import cc.carm.plugin.moeteleport.command.home.*;
-import cc.carm.plugin.moeteleport.command.tpa.*;
+import cc.carm.plugin.moeteleport.command.home.DelHomeCommand;
+import cc.carm.plugin.moeteleport.command.home.GoHomeCommand;
+import cc.carm.plugin.moeteleport.command.home.ListHomeCommand;
+import cc.carm.plugin.moeteleport.command.home.SetHomeCommand;
+import cc.carm.plugin.moeteleport.command.tpa.TpHandleCommand;
+import cc.carm.plugin.moeteleport.command.tpa.TpaCommand;
 import cc.carm.plugin.moeteleport.listener.UserListener;
 import cc.carm.plugin.moeteleport.manager.ConfigManager;
 import cc.carm.plugin.moeteleport.manager.RequestManager;
@@ -57,9 +61,9 @@ public class Main extends JavaPlugin {
 		registerCommand("listHome", new ListHomeCommand());
 
 		registerCommand("tpa", new TpaCommand(), new PlayerNameCompleter());
-		registerCommand("tpaHere", new TpaHereCommand(), new PlayerNameCompleter());
-		registerCommand("tpAccept", new TpAcceptCommand(), new TpRequestCompleter());
-		registerCommand("tpDeny", new TpDenyCommand(), new TpRequestCompleter());
+		registerCommand("tpaHere", new TpaCommand(), new PlayerNameCompleter());
+		registerCommand("tpAccept", new TpHandleCommand(), new TpRequestCompleter());
+		registerCommand("tpDeny", new TpHandleCommand(), new TpRequestCompleter());
 
 		log("加载完成 ，共耗时 " + (System.currentTimeMillis() - startTime) + " ms 。");
 

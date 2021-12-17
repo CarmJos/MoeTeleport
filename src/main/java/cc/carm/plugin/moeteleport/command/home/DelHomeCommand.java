@@ -29,7 +29,7 @@ public class DelHomeCommand implements CommandExecutor {
 		} else {
 			PluginMessages.Home.REMOVED.sendWithPlaceholders(player,
 					new String[]{"%(name)", "%(location)"},
-					new Object[]{locationInfo.getKey(), locationInfo.getValue().toString()});
+					new Object[]{locationInfo.getKey(), locationInfo.getValue().toFlatString()});
 			data.delHomeLocation(homeName);
 		}
 		return true;

@@ -8,10 +8,12 @@ import org.bukkit.util.NumberConversions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 public class DataLocation implements Cloneable {
 
+	public static final DecimalFormat format = new DecimalFormat("0.00");
 	private String worldName;
 	private double x;
 	private double y;
@@ -97,8 +99,8 @@ public class DataLocation implements Cloneable {
 		try {
 			return super.clone();
 		} catch (Exception ex) {
+			return null;
 		}
-		return null;
 	}
 
 	@Override
@@ -122,6 +124,10 @@ public class DataLocation implements Cloneable {
 	@Override
 	public String toString() {
 		return worldName + " " + x + " " + y + " " + z + " " + yaw + " " + pitch;
+	}
+
+	public String toFlatString() {
+		return worldName + "@" + format.format(x) + ", " + format.format(y) + ", " + format.format(z);
 	}
 
 	@Deprecated

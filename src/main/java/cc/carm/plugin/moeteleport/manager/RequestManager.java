@@ -42,7 +42,10 @@ public class RequestManager {
 						.peek(entry -> PluginMessages.Request.RECEIVED_TIMEOUT.sendWithPlaceholders(
 								entry.getValue().getReceiver(), new String[]{"%(player)"},
 								new Object[]{entry.getValue().getSender().getName()}))
-						.forEach(entry -> data.getSentRequests().remove(entry.getKey()))
+						.peek(entry -> Main.getUserManager()
+								.getData(entry.getValue().getSender()).getSentRequests()
+								.remove(entry.getKey()))
+						.forEach(entry -> data.getReceivedRequests().remove(entry.getKey()))
 				);
 	}
 
@@ -51,8 +54,9 @@ public class RequestManager {
 
 		PluginMessages.Request.SENT.sendWithPlaceholders(sender,
 				new String[]{"%(player)", "%(expire)"},
-				new Object[]{receiver, expireTime}
+				new Object[]{receiver.getName(), expireTime}
 		);
+
 		switch (type) {
 			case TPA: {
 				PluginMessages.TPA.sendWithPlaceholders(receiver,
@@ -85,7 +89,7 @@ public class RequestManager {
 				new String[]{"%(player)"},
 				new Object[]{request.getSender().getName()}
 		);
-		TeleportManager.teleport(request.getTeleportPlayer(), request.getTeleportLocation());
+		TeleportManager.teleport(request.getTeleportPlayer(), request.getTeleportLocation(), true);
 		removeRequests(request);
 	}
 

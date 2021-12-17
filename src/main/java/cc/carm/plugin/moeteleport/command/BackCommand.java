@@ -21,13 +21,7 @@ public class BackCommand implements CommandExecutor {
 			PluginMessages.NO_LAST_LOCATION.send(player);
 			return true;
 		}
-		if (!TeleportManager.isSafeLocation(data.getLastLocation())) {
-			PluginMessages.DANGEROUS.send(player);
-			return true;
-		}
-
-		TeleportManager.teleport(player, data.getLastLocation());
-		
+		TeleportManager.teleport(player, data.getLastLocation(), false);
 		return true;
 	}
 

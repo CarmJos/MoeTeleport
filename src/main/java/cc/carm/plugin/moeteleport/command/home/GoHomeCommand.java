@@ -26,7 +26,7 @@ public class GoHomeCommand implements CommandExecutor {
 		if (locationInfo == null) {
 			PluginMessages.Home.NOT_FOUND.sendWithPlaceholders(player);
 		} else {
-			TeleportManager.teleport(player, locationInfo.getValue());
+			TeleportManager.teleport(player, locationInfo.getValue(), false);
 		}
 		return true;
 	}

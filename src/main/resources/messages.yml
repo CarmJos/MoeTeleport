@@ -4,39 +4,41 @@ no-last-location:
 not-online:
   - "&f目标玩家并不在线，无法发送请求。"
 tpa:
-  - "&6%(player) &f请求传送到您身边，您有%(expire)秒的时间回应。"
-  - "&a&l[同意] &f输入 &e/tpaccept &f同意该请求。"
-  - "&c&l[拒绝] &f输入 &e/tpdeny &f拒绝该请求。"
+  - "&d%(player) &f请求传送到您身边，您有 &5%(expire)秒 &f的时间回应。"
+  - "&a&l[同意] &f输入 &5/tpaccept &f同意该请求。"
+  - "&c&l[拒绝] &f输入 &5/tpdeny &f拒绝该请求。"
 tpahere:
-  - "&6%(player) &f请求传送您到Ta身边，您有%(expire)秒的时间回应。"
-  - "&a&l[同意] &f输入 &e/tpaccept &f同意该请求。"
-  - "&c&l[拒绝] &f输入 &e/tpdeny &f拒绝该请求。"
+  - "&d%(player) &f请求传送您到Ta身边，您有 &5%(expire)秒 &f的时间回应。"
+  - "&a&l[同意] &f输入 &5/tpaccept &f同意该请求。"
+  - "&c&l[拒绝] &f输入 &5/tpdeny &f拒绝该请求。"
 tpaccept:
-  - "&f您同意了 &6%(player) &f的传送请求。"
+  - "&f您同意了 &d%(player) &f的传送请求。"
 tpdeny:
-  - "&f您&c拒绝&f了 &6%(player) &f的传送请求。"
+  - "&f您&d拒绝&f了 &d%(player) &f的传送请求。"
 accepted:
-  - "&6%(player) &f同意了您的传送请求。"
+  - "&d%(player) &f同意了您的传送请求。"
 denied:
-  - "&6%(player) &c拒绝&f了您的传送请求。"
+  - "&d%(player) &f拒绝了您的传送请求。"
 offline:
-  - "&6%(player) &f离线，相关请求已自动取消。"
+  - "&d%(player) &f离线，相关请求已自动取消。"
 
+request-duplicate:
+  - "&f您已经向 &d%(player) &f发送过传送请求，对方仍有 &5%(expire)秒 &f的时间回应该请求。"
 request-sent:
-  - "&f成功向玩家 &6%(player) 发送传送请求，对方有%(expire)秒的时间回应该请求。"
+  - "&f成功向玩家 &d%(player) &f发送传送请求，对方有 &5%(expire)秒 &f的时间回应该请求。"
 no-request:
   - "&f您当前没有任何待处理的传送请求。"
 no-request-player:
-  - "&f您当前没有收到来自 &6%(player) &f的传送请求。"
+  - "&f您当前没有收到来自 &d%(player) &f的传送请求。"
 multi-requests:
-  - "&f您当前有条请求待处理，请输入 &6%(command) <玩家名> &f决定回应谁的请求。"
-  - "&f您也可以再次输入 &6%(command) &f直接回应最近的一条请求。"
+  - "&f您当前有&d%(num)条请求&f待处理，请输入 &5/%(command) <玩家名> &f决定回应谁的请求。"
+  - "&f您也可以再次输入 &5/%(command) &f直接回应最近的一条请求。"
 request-sent-timeout:
-  - "&f发往 &6%(player) &f的传送请求已超时。"
+  - "&f发往 &d%(player) &f的传送请求已超时。"
 request-received-timeout:
-  - "&f来自 &6%(player) &f的传送请求已超时。"
+  - "&f来自 &d%(player) &f的传送请求已超时。"
 teleporting:
-  - "&f正在传送到 &6%(location) &f..."
+  - "&f正在传送到 &d%(location) &f..."
 dangerous:
   - "&f目标地点不安全，传送被取消。"
 dangerous-here:
@@ -46,15 +48,15 @@ notAvailable:
 
 home-list-header:
   - "&f您当前设定的所有家："
-home-list-object: "&8#&f%(id) &6%(location)"
+home-list-object: "&8#&f%(id) &d%(location)"
 home-not-found:
-  - "&f您还没有设置这个家，请先输入 &e/setHome <家名称> &f设置一个吧！"
+  - "&f您还没有设置这个家，请先输入 &5/setHome <家名称> &f设置一个吧！"
 home-set:
-  - "&f成功设定名为 &6%(name) &f的家传送点。"
+  - "&f成功设定名为 &d%(name) &f的家传送点。"
 home-removed:
-  - "&f成功移除名为 &6%(name) &f的家传送点。"
+  - "&f成功移除名为 &d%(name) &f的家传送点。"
   - "&7原先位置为 &f%(location) &7。"
 home-over-limit:
-  - "&f您最多只能设置 &6%(max) &f个家传送点！"
-  - "&7可以输入 &e/delHome <家名称> &7删除之前的家传送点，"
-  - "&7或输入 &e/setHome <家名称> &7覆盖之前的家传送点。"
+  - "&f您最多只能设置 &d%(max) &f个家传送点！"
+  - "&7可以输入 &5/delHome <家名称> &7删除之前的家传送点，"
+  - "&7或输入 &5/setHome <家名称> &7覆盖之前的家传送点。"
