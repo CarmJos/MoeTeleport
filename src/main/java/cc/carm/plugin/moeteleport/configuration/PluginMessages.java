@@ -7,6 +7,8 @@ public class PluginMessages {
 
 	public static final ConfigMessageList NO_LAST_LOCATION = new ConfigMessageList("no-last-location");
 
+	public static final ConfigMessageList NOT_ONLINE = new ConfigMessageList("not-online");
+
 	public static final ConfigMessageList TPA = new ConfigMessageList("tpa");
 	public static final ConfigMessageList TPA_HERE = new ConfigMessageList("tpahere");
 

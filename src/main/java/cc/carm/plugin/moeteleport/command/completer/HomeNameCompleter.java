@@ -1,4 +1,4 @@
-package cc.carm.plugin.moeteleport.command.home;
+package cc.carm.plugin.moeteleport.command.completer;
 
 import cc.carm.plugin.moeteleport.Main;
 import com.google.common.collect.ImmutableList;

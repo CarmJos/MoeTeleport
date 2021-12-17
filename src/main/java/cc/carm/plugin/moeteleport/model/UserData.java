@@ -23,8 +23,8 @@ public class UserData {
 
 	private LinkedHashMap<String, DataLocation> homeLocations;
 
-	private ConcurrentHashMap<UUID/*receiverUUID*/, TeleportRequest> sentRequests; // 记录发出的请求
-	private HashSet<UUID/*senderUUID*/> receivedRequests; // 记录收到的传送请求
+	private HashSet<UUID/*receiverUUID*/> sentRequests; // 记录发出的请求
+	private ConcurrentHashMap<UUID/*senderUUID*/, TeleportRequest> receivedRequests; // 记录收到的传送请求
 
 	public UserData(@NotNull File dataFolder, @NotNull UUID uuid) {
 		this(new File(dataFolder, uuid + ".yml"));
@@ -95,12 +95,11 @@ public class UserData {
 		}
 	}
 
-
-	public ConcurrentHashMap<UUID, TeleportRequest> getSentRequests() {
+	public HashSet<UUID> getSentRequests() {
 		return sentRequests;
 	}
 
-	public HashSet<UUID> getReceivedRequests() {
+	public ConcurrentHashMap<UUID, TeleportRequest> getReceivedRequests() {
 		return receivedRequests;
 	}
 

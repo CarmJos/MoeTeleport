@@ -1,4 +1,4 @@
-package cc.carm.plugin.moeteleport.command.tpa;
+package cc.carm.plugin.moeteleport.command.completer;
 
 import cc.carm.plugin.moeteleport.Main;
 import cc.carm.plugin.moeteleport.model.UserData;
@@ -40,7 +40,7 @@ public class TpRequestCompleter implements TabCompleter {
 		if (!(sender instanceof Player)) return ImmutableList.of();
 		if (args.length >= 1 && indexes.contains(args.length)) {
 			UserData data = Main.getUserManager().getData((Player) sender);
-			return data.getReceivedRequests().stream()
+			return data.getReceivedRequests().keySet().stream()
 					.map(Bukkit::getPlayer).filter(Objects::nonNull).map(HumanEntity::getName)
 					.filter(s -> StringUtil.startsWithIgnoreCase(s, args[args.length - 1]))
 					.limit(10).collect(Collectors.toList());

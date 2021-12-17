@@ -11,19 +11,16 @@ public class TeleportRequest {
 
 	final @NotNull Player sender;
 	final @NotNull Player receiver;
-	/**
-	 * 用于记录需要被传送的玩家
-	 */
-	final @NotNull Player teleportPlayer;
+	final @NotNull RequestType type;
 
 	final long createTime;
 
 	public TeleportRequest(@NotNull Player sender,
 						   @NotNull Player receiver,
-						   @NotNull Player teleportPlayer) {
+						   @NotNull RequestType type) {
 		this.sender = sender;
 		this.receiver = receiver;
-		this.teleportPlayer = teleportPlayer;
+		this.type = type;
 		this.createTime = System.currentTimeMillis();
 	}
 
@@ -36,11 +33,23 @@ public class TeleportRequest {
 	}
 
 	public @NotNull Player getTeleportPlayer() {
-		return teleportPlayer;
+		return getType() == RequestType.TPA ? getSender() : getReceiver();
+	}
+
+	public @NotNull Location getTeleportLocation() {
+		return getType() == RequestType.TPA_HERE ? getSender().getLocation() : getReceiver().getLocation();
+	}
+
+	public @NotNull RequestType getType() {
+		return type;
 	}
 
 	public long getCreateTime() {
 		return createTime;
+	}
+
+	public long getActiveTime() {
+		return System.currentTimeMillis() - getCreateTime();
 	}
 
 
@@ -61,7 +70,12 @@ public class TeleportRequest {
 	}
 
 	public boolean isExpired() {
-		return (System.currentTimeMillis() - getCreateTime()) > PluginConfig.EXPIRE_TIME.get() * 10000;
+		return getActiveTime() > PluginConfig.EXPIRE_TIME.get() * 10000;
+	}
+
+	public enum RequestType {
+		TPA,
+		TPA_HERE
 	}
 
 

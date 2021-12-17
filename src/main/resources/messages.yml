@@ -1,5 +1,8 @@
 no-last-location:
   - "&f您当前没有进行传送，无法返回上个地点。"
+
+not-online:
+  - "&f目标玩家并不在线，无法发送请求。"
 tpa:
   - "&6%(player) &f请求传送到您身边，您有%(expire)秒的时间回应。"
   - "&a&l[同意] &f输入 &e/tpaccept &f同意该请求。"

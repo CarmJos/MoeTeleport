@@ -1,6 +1,9 @@
 package cc.carm.plugin.moeteleport;
 
 import cc.carm.plugin.moeteleport.command.BackCommand;
+import cc.carm.plugin.moeteleport.command.completer.HomeNameCompleter;
+import cc.carm.plugin.moeteleport.command.completer.PlayerNameCompleter;
+import cc.carm.plugin.moeteleport.command.completer.TpRequestCompleter;
 import cc.carm.plugin.moeteleport.command.home.*;
 import cc.carm.plugin.moeteleport.command.tpa.*;
 import cc.carm.plugin.moeteleport.listener.UserListener;

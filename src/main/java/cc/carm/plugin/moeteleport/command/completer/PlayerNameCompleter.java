@@ -1,4 +1,4 @@
-package cc.carm.plugin.moeteleport.command.tpa;
+package cc.carm.plugin.moeteleport.command.completer;
 
 import com.google.common.collect.ImmutableList;
 import org.bukkit.Bukkit;

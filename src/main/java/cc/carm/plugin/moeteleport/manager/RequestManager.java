@@ -9,11 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 public class RequestManager {
 
@@ -37,7 +34,7 @@ public class RequestManager {
 
 	public void checkRequests() {
 		Main.getUserManager().getUserDataMap().values()
-				.forEach(data -> data.getSentRequests().entrySet().stream()
+				.forEach(data -> data.getReceivedRequests().entrySet().stream()
 						.filter(entry -> entry.getValue().isExpired())
 						.peek(entry -> PluginMessages.Request.SENT_TIMEOUT.sendWithPlaceholders(
 								entry.getValue().getSender(), new String[]{"%(player)"},
@@ -49,55 +46,74 @@ public class RequestManager {
 				);
 	}
 
-	public void sendTpaRequest(Player sender, Player receiver) {
+	public void sendRequest(Player sender, Player receiver, TeleportRequest.RequestType type) {
 		int expireTime = PluginConfig.EXPIRE_TIME.get();
 
 		PluginMessages.Request.SENT.sendWithPlaceholders(sender,
 				new String[]{"%(player)", "%(expire)"},
 				new Object[]{receiver, expireTime}
 		);
-		PluginMessages.TPA.sendWithPlaceholders(receiver,
-				new String[]{"%(player)", "%(expire)"},
-				new Object[]{sender.getName(), expireTime}
-		);
+		switch (type) {
+			case TPA: {
+				PluginMessages.TPA.sendWithPlaceholders(receiver,
+						new String[]{"%(player)", "%(expire)"},
+						new Object[]{sender.getName(), expireTime}
+				);
+				break;
+			}
+			case TPA_HERE: {
+				PluginMessages.TPA_HERE.sendWithPlaceholders(receiver,
+						new String[]{"%(player)", "%(expire)"},
+						new Object[]{sender.getName(), expireTime}
+				);
+				break;
+			}
+		}
 
-		TeleportRequest request = new TeleportRequest(sender, receiver, sender);
+		TeleportRequest request = new TeleportRequest(sender, receiver, type);
+		Main.getUserManager().getData(receiver).getReceivedRequests().put(sender.getUniqueId(), request);
+		Main.getUserManager().getData(sender).getSentRequests().add(receiver.getUniqueId());
 
-		Main.getUserManager().getData(sender).getSentRequests().put(receiver.getUniqueId(), request);
-		Main.getUserManager().getData(receiver).getReceivedRequests().add(sender.getUniqueId());
 	}
 
-	public void sendTpaHereRequest(Player sender, Player receiver) {
-		int expireTime = PluginConfig.EXPIRE_TIME.get();
-
-		PluginMessages.Request.SENT.sendWithPlaceholders(sender,
-				new String[]{"%(player)", "%(expire)"},
-				new Object[]{receiver, expireTime}
+	public void acceptRequest(TeleportRequest request) {
+		PluginMessages.ACCEPTED.sendWithPlaceholders(request.getSender(),
+				new String[]{"%(player)"},
+				new Object[]{request.getReceiver().getName()}
 		);
-		PluginMessages.TPA_HERE.sendWithPlaceholders(receiver,
-				new String[]{"%(player)", "%(expire)"},
-				new Object[]{sender.getName(), expireTime}
+		PluginMessages.TP_ACCEPT.sendWithPlaceholders(request.getReceiver(),
+				new String[]{"%(player)"},
+				new Object[]{request.getSender().getName()}
 		);
+		TeleportManager.teleport(request.getTeleportPlayer(), request.getTeleportLocation());
+		removeRequests(request);
+	}
 
-		TeleportRequest request = new TeleportRequest(sender, receiver, receiver);
+	public void denyRequest(TeleportRequest request) {
+		PluginMessages.DENIED.sendWithPlaceholders(request.getSender(),
+				new String[]{"%(player)"},
+				new Object[]{request.getReceiver().getName()}
+		);
+		PluginMessages.TP_DENY.sendWithPlaceholders(request.getReceiver(),
+				new String[]{"%(player)"},
+				new Object[]{request.getSender().getName()}
+		);
+		removeRequests(request);
+	}
 
-		Main.getUserManager().getData(sender).getSentRequests().put(receiver.getUniqueId(), request);
-		Main.getUserManager().getData(receiver).getReceivedRequests().add(sender.getUniqueId());
-
+	public void removeRequests(TeleportRequest request) {
+		Main.getUserManager().getData(request.getSender())
+				.getSentRequests()
+				.remove(request.getReceiver().getUniqueId());
+		Main.getUserManager().getData(request.getReceiver())
+				.getReceivedRequests()
+				.remove(request.getSender().getUniqueId());
 	}
 
 	public void cancelAllRequests(Player player) {
 		UUID playerUUID = player.getUniqueId();
 		UserData data = Main.getUserManager().getData(player);
-		data.getSentRequests().keySet().stream()
-				.peek(receiverUUID -> PluginMessages.Request.OFFLINE.sendWithPlaceholders(
-						Bukkit.getPlayer(receiverUUID),
-						new String[]{"%(player)"}, new Object[]{player.getName()}
-				)).map(receiverUUID -> Main.getUserManager().getData(receiverUUID))
-				.filter(Objects::nonNull).map(UserData::getReceivedRequests)
-				.forEach(senders -> senders.remove(playerUUID));
-
-		data.getReceivedRequests().stream()
+		data.getReceivedRequests().keySet().stream()
 				.peek(senderUUID -> PluginMessages.Request.OFFLINE.sendWithPlaceholders(
 						Bukkit.getPlayer(senderUUID),
 						new String[]{"%(player)"}, new Object[]{player.getName()}
@@ -105,38 +121,14 @@ public class RequestManager {
 				.filter(Objects::nonNull).map(UserData::getSentRequests)
 				.forEach(receivers -> receivers.remove(playerUUID));
 
-		data.getSentRequests().clear();
-		data.getReceivedRequests().clear();
-	}
-
-	public Set<Player> getRequestedPlayers(Player player) {
-		UserData data = Main.getUserManager().getData(player);
-		HashSet<UUID> relatedUUIDs = new HashSet<>();
-		relatedUUIDs.addAll(data.getReceivedRequests());
-		relatedUUIDs.addAll(data.getSentRequests().keySet());
-
-		return relatedUUIDs.stream()
-				.map(Bukkit::getPlayer)
-				.filter(Objects::nonNull)
-				.collect(Collectors.toSet());
-	}
-
-	/**
-	 * 取消某玩家所有相关的传送请求
-	 *
-	 * @param player 玩家
-	 */
-	public void clearAllRequests(Player player) {
-		UUID playerUUID = player.getUniqueId();
-		UserData data = Main.getUserManager().getData(player);
-		data.getSentRequests().keySet().stream()
-				.map(receiver -> Main.getUserManager().getData(receiver))
+		data.getSentRequests().stream()
+				.peek(receiverUUID -> PluginMessages.Request.OFFLINE.sendWithPlaceholders(
+						Bukkit.getPlayer(receiverUUID),
+						new String[]{"%(player)"}, new Object[]{player.getName()}
+				)).map(receiverUUID -> Main.getUserManager().getData(receiverUUID))
 				.filter(Objects::nonNull).map(UserData::getReceivedRequests)
 				.forEach(senders -> senders.remove(playerUUID));
-		data.getReceivedRequests().stream()
-				.map(sender -> Main.getUserManager().getData(sender))
-				.filter(Objects::nonNull).map(UserData::getSentRequests)
-				.forEach(receivers -> receivers.remove(playerUUID));
+
 		data.getSentRequests().clear();
 		data.getReceivedRequests().clear();
 	}
