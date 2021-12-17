@@ -44,7 +44,9 @@ public class UserManager {
 		Map<String, Integer> permissions = PluginConfig.PERMISSIONS.get();
 		int value = PluginConfig.DEFAULT_HOME.get();
 		for (Map.Entry<String, Integer> entry : permissions.entrySet()) {
-			if (entry.getValue() > value && player.hasPermission(entry.getKey())) {
+			if (entry.getValue() > value && player.hasPermission(
+					Main.getInstance().getName() + "." + entry.getKey()
+			)) {
 				value = entry.getValue();
 			}
 		}
