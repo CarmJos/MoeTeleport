@@ -54,3 +54,7 @@ home-set:
 home-removed:
   - "&f成功移除名为 &6%(name) &f的家传送点。"
   - "&7原先位置为 &f%(location) &7。"
+home-over-limit:
+  - "&f您最多只能设置 &6%(max) &f个家传送点！"
+  - "&7可以输入 &e/delHome <家名称> &7删除之前的家传送点，"
+  - "&7或输入 &e/setHome <家名称> &7覆盖之前的家传送点。"

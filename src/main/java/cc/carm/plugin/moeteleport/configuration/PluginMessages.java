@@ -40,6 +40,9 @@ public class PluginMessages {
 		public static final ConfigMessageList HEADER = new ConfigMessageList("home-list-header");
 		public static final ConfigMessage LIST_OBJECT = new ConfigMessage("home-list-object");
 
+		public static final ConfigMessageList OVER_LIMIT = new ConfigMessageList("home-over-limit");
+
+
 		public static final ConfigMessageList NOT_FOUND = new ConfigMessageList("home-not-found");
 		public static final ConfigMessageList SET = new ConfigMessageList("home-set");
 

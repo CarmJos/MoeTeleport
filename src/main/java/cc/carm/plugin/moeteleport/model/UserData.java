@@ -1,6 +1,7 @@
 package cc.carm.plugin.moeteleport.model;
 
 import cc.carm.plugin.moeteleport.Main;
+import cc.carm.plugin.moeteleport.configuration.PluginConfig;
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -102,6 +103,8 @@ public class UserData {
 	public ConcurrentHashMap<UUID, TeleportRequest> getReceivedRequests() {
 		return receivedRequests;
 	}
+
+
 
 	public @NotNull File getDataFile() {
 		return dataFile;
