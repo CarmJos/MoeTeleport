@@ -6,8 +6,8 @@ import cc.carm.plugin.moeteleport.configuration.values.ConfigValueMap;
 
 public class PluginConfig {
 
-	public static final ConfigValueMap<String, Integer> PERMISSIONS = new ConfigValueMap<>(
-			"permissions", s -> s, Integer.class
+	public static final ConfigValueMap<Integer, String> PERMISSIONS = new ConfigValueMap<>(
+			"permissions", Integer::parseInt, String.class
 	);
 
 	public static final ConfigValueList<String> DANGEROUS_TYPES = new ConfigValueList<>(

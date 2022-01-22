@@ -41,16 +41,17 @@ public class UserManager {
 	}
 
 	public int getMaxHome(Player player) {
-		Map<String, Integer> permissions = PluginConfig.PERMISSIONS.get();
-		int value = PluginConfig.DEFAULT_HOME.get();
-		for (Map.Entry<String, Integer> entry : permissions.entrySet()) {
-			if (entry.getValue() > value && player.hasPermission(
-					Main.getInstance().getName() + "." + entry.getKey()
+		Map<Integer, String> permissions = PluginConfig.PERMISSIONS.get();
+		int current = PluginConfig.DEFAULT_HOME.get();
+
+		for (Map.Entry<Integer, String> entry : permissions.entrySet()) {
+			if (entry.getKey() > current && player.hasPermission(
+					Main.getInstance().getName() + "." + entry.getValue()
 			)) {
-				value = entry.getValue();
+				current = entry.getKey();
 			}
 		}
-		return value;
+		return current;
 	}
 
 	public HashMap<UUID, UserData> getUserDataMap() {
