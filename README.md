@@ -28,6 +28,10 @@
 - 可选参数 `[参数]`
 
 ```text
+# /MoeTeleport reload
+@ 管理指令 (MoeTeleport.admin)
+- 重载插件配置文件。
+
 # /back
 - 返回上一个传送地点
 
