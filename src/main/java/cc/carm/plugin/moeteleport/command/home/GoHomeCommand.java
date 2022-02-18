@@ -15,21 +15,21 @@ import java.util.Map;
 
 public class GoHomeCommand implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
-							 @NotNull String label, @NotNull String[] args) {
-		if (!(sender instanceof Player)) return false;
-		Player player = (Player) sender;
-		UserData data = Main.getUserManager().getData(player);
-		String homeName = args.length >= 1 ? args[0] : null;
-		Map.Entry<String, DataLocation> locationInfo = data.getHomeLocation(homeName);
-		if (locationInfo == null) {
-			PluginMessages.Home.NOT_FOUND.sendWithPlaceholders(player);
-		} else {
-			TeleportManager.teleport(player, locationInfo.getValue(), false);
-		}
-		return true;
-	}
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+                             @NotNull String label, @NotNull String[] args) {
+        if (!(sender instanceof Player)) return false;
+        Player player = (Player) sender;
+        UserData data = Main.getUserManager().getData(player);
+        String homeName = args.length >= 1 ? args[0] : null;
+        Map.Entry<String, DataLocation> locationInfo = data.getHomeLocation(homeName);
+        if (locationInfo == null) {
+            PluginMessages.Home.NOT_FOUND.sendWithPlaceholders(player);
+        } else {
+            TeleportManager.teleport(player, locationInfo.getValue(), false);
+        }
+        return true;
+    }
 
 
 }

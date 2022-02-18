@@ -20,34 +20,34 @@ import java.util.stream.Collectors;
 
 public class TpRequestCompleter implements TabCompleter {
 
-	List<Integer> indexes;
+    List<Integer> indexes;
 
-	public TpRequestCompleter() {
-		this(1);
-	}
+    public TpRequestCompleter() {
+        this(1);
+    }
 
-	public TpRequestCompleter(Integer index) {
-		this(new Integer[]{index});
-	}
+    public TpRequestCompleter(Integer index) {
+        this(new Integer[]{index});
+    }
 
-	public TpRequestCompleter(Integer[] indexes) {
-		this.indexes = Arrays.asList(indexes);
-	}
+    public TpRequestCompleter(Integer[] indexes) {
+        this.indexes = Arrays.asList(indexes);
+    }
 
-	@Nullable
-	@Override
-	public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
-		if (!(sender instanceof Player)) return ImmutableList.of();
-		if (args.length >= 1 && indexes.contains(args.length)) {
-			UserData data = Main.getUserManager().getData((Player) sender);
-			return data.getReceivedRequests().keySet().stream()
-					.map(Bukkit::getPlayer).filter(Objects::nonNull).map(HumanEntity::getName)
-					.filter(s -> StringUtil.startsWithIgnoreCase(s, args[args.length - 1]))
-					.limit(10).collect(Collectors.toList());
-		} else {
-			return ImmutableList.of();
-		}
-	}
+    @Nullable
+    @Override
+    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
+        if (!(sender instanceof Player)) return ImmutableList.of();
+        if (args.length >= 1 && indexes.contains(args.length)) {
+            UserData data = Main.getUserManager().getData((Player) sender);
+            return data.getReceivedRequests().keySet().stream()
+                    .map(Bukkit::getPlayer).filter(Objects::nonNull).map(HumanEntity::getName)
+                    .filter(s -> StringUtil.startsWithIgnoreCase(s, args[args.length - 1]))
+                    .limit(10).collect(Collectors.toList());
+        } else {
+            return ImmutableList.of();
+        }
+    }
 
 
 }

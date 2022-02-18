@@ -1,4 +1,3 @@
-
 package cc.carm.plugin.moeteleport.util;
 
 import java.util.regex.Matcher;
@@ -7,8 +6,7 @@ import java.util.regex.Pattern;
 public class ColorParser {
 
     public static String parse(String text) {
-        text = parseHexColor(text);
-        return parseColor(text);
+        return parseColor(parseHexColor(text));
     }
 
     public static String parseColor(final String text) {

@@ -15,122 +15,118 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class UserData {
 
-	private final @NotNull File dataFile;
-	private final @NotNull FileConfiguration dataConfig;
+    private final @NotNull File dataFile;
+    private final @NotNull FileConfiguration dataConfig;
+    private final HashSet<UUID/*receiverUUID*/> sentRequests = new HashSet<>(); // 记录发出的请求
+    private final ConcurrentHashMap<UUID/*senderUUID*/, TeleportRequest> receivedRequests = new ConcurrentHashMap<>(); // 记录收到的传送请求
+    public boolean enableAutoSelect = false;
+    private @Nullable Location lastLocation;
+    private LinkedHashMap<String, DataLocation> homeLocations;
 
-	private @Nullable Location lastLocation;
+    public UserData(@NotNull File dataFolder, @NotNull UUID uuid) {
+        this(new File(dataFolder, uuid + ".yml"));
+    }
 
-	private LinkedHashMap<String, DataLocation> homeLocations;
+    public UserData(@NotNull File file) {
+        if (!file.exists()) {
+            try {
+                boolean success = file.createNewFile();
+            } catch (IOException e) {
+                Main.error("在加载用户 " + file.getName() + " 的数据时出现异常。");
+                Main.error(e.getLocalizedMessage());
+            }
+        }
+        this.dataFile = file;
+        this.dataConfig = YamlConfiguration.loadConfiguration(dataFile);
+        loadHomeData();
+    }
 
-	private final HashSet<UUID/*receiverUUID*/> sentRequests = new HashSet<>(); // 记录发出的请求
-	private final ConcurrentHashMap<UUID/*senderUUID*/, TeleportRequest> receivedRequests = new ConcurrentHashMap<>(); // 记录收到的传送请求
+    public void loadHomeData() {
+        LinkedHashMap<String, DataLocation> data = new LinkedHashMap<>();
+        Optional.ofNullable(getDataConfig().getConfigurationSection("homes"))
+                .ifPresent(section -> section.getKeys(false).forEach(homeName -> {
+                    DataLocation location = DataLocation.deserializeText(section.getString(homeName));
+                    if (location != null) data.put(homeName, location);
+                }));
+        this.homeLocations = data;
+    }
 
-	public boolean enableAutoSelect = false;
+    public LinkedHashMap<String, DataLocation> getHomeLocations() {
+        return homeLocations;
+    }
 
-	public UserData(@NotNull File dataFolder, @NotNull UUID uuid) {
-		this(new File(dataFolder, uuid + ".yml"));
-	}
+    public void setHomeLocation(String homeName, Location location) {
+        delHomeLocation(homeName);
+        getHomeLocations().put(homeName, new DataLocation(location));
+    }
 
-	public UserData(@NotNull File file) {
-		if (!file.exists()) {
-			try {
-				boolean success = file.createNewFile();
-			} catch (IOException e) {
-				Main.error("在加载用户 " + file.getName() + " 的数据时出现异常。");
-				Main.error(e.getLocalizedMessage());
-			}
-		}
-		this.dataFile = file;
-		this.dataConfig = YamlConfiguration.loadConfiguration(dataFile);
-		loadHomeData();
-	}
+    public void delHomeLocation(String homeName) {
+        Map.Entry<String, DataLocation> lastLocation = getHomeLocation(homeName);
+        if (lastLocation != null) getHomeLocations().remove(lastLocation.getKey());
+    }
 
-	public void loadHomeData() {
-		LinkedHashMap<String, DataLocation> data = new LinkedHashMap<>();
-		Optional.ofNullable(getDataConfig().getConfigurationSection("homes"))
-				.ifPresent(section -> section.getKeys(false).forEach(homeName -> {
-					DataLocation location = DataLocation.deserializeText(section.getString(homeName));
-					if (location != null) data.put(homeName, location);
-				}));
-		this.homeLocations = data;
-	}
+    public Map.Entry<String, DataLocation> getHomeLocation(@Nullable String homeName) {
+        LinkedHashMap<String, DataLocation> homes = getHomeLocations();
+        if (homeName == null) {
+            if (homes.containsKey("home")) {
+                return new AbstractMap.SimpleEntry<>("home", homes.get("home"));
+            } else {
+                return homes.entrySet().stream().findFirst().orElse(null);
+            }
+        } else {
+            return homes.entrySet().stream()
+                    .filter(entry -> entry.getKey().equalsIgnoreCase(homeName))
+                    .findFirst().orElse(null);
+        }
+    }
 
-	public LinkedHashMap<String, DataLocation> getHomeLocations() {
-		return homeLocations;
-	}
+    public @Nullable Location getLastLocation() {
+        return lastLocation;
+    }
 
-	public void setHomeLocation(String homeName, Location location) {
-		delHomeLocation(homeName);
-		getHomeLocations().put(homeName, new DataLocation(location));
-	}
+    public void setLastLocation(@Nullable Location lastLocation) {
+        this.lastLocation = lastLocation;
+    }
 
-	public void delHomeLocation(String homeName) {
-		Map.Entry<String, DataLocation> lastLocation = getHomeLocation(homeName);
-		if (lastLocation != null) getHomeLocations().remove(lastLocation.getKey());
-	}
+    public HashSet<UUID> getSentRequests() {
+        return sentRequests;
+    }
 
-	public Map.Entry<String, DataLocation> getHomeLocation(@Nullable String homeName) {
-		LinkedHashMap<String, DataLocation> homes = getHomeLocations();
-		if (homeName == null) {
-			if (homes.containsKey("home")) {
-				return new AbstractMap.SimpleEntry<>("home", homes.get("home"));
-			} else {
-				return homes.entrySet().stream().findFirst().orElse(null);
-			}
-		} else {
-			return homes.entrySet().stream()
-					.filter(entry -> entry.getKey().equalsIgnoreCase(homeName))
-					.findFirst().orElse(null);
-		}
-	}
+    public ConcurrentHashMap<UUID, TeleportRequest> getReceivedRequests() {
+        return receivedRequests;
+    }
 
-	public @Nullable Location getLastLocation() {
-		return lastLocation;
-	}
+    public boolean isEnableAutoSelect() {
+        return enableAutoSelect;
+    }
 
-	public void setLastLocation(@Nullable Location lastLocation) {
-		this.lastLocation = lastLocation;
-	}
+    public void setEnableAutoSelect(boolean enableAutoSelect) {
+        this.enableAutoSelect = enableAutoSelect;
+    }
 
-	public HashSet<UUID> getSentRequests() {
-		return sentRequests;
-	}
+    public @NotNull File getDataFile() {
+        return dataFile;
+    }
 
-	public ConcurrentHashMap<UUID, TeleportRequest> getReceivedRequests() {
-		return receivedRequests;
-	}
+    public @NotNull FileConfiguration getDataConfig() {
+        return dataConfig;
+    }
 
-	public void setEnableAutoSelect(boolean enableAutoSelect) {
-		this.enableAutoSelect = enableAutoSelect;
-	}
+    public LinkedHashMap<String, String> saveToMap() {
+        LinkedHashMap<String, DataLocation> homeLocations = getHomeLocations();
+        LinkedHashMap<String, String> data = new LinkedHashMap<>();
+        if (homeLocations.isEmpty()) return data;
+        homeLocations.forEach((name, loc) -> data.put(name, loc.serializeToText()));
+        return data;
+    }
 
-	public boolean isEnableAutoSelect() {
-		return enableAutoSelect;
-	}
-
-	public @NotNull File getDataFile() {
-		return dataFile;
-	}
-
-	public @NotNull FileConfiguration getDataConfig() {
-		return dataConfig;
-	}
-
-	public LinkedHashMap<String, String> saveToMap() {
-		LinkedHashMap<String, DataLocation> homeLocations = getHomeLocations();
-		LinkedHashMap<String, String> data = new LinkedHashMap<>();
-		if (homeLocations.isEmpty()) return data;
-		homeLocations.forEach((name, loc) -> data.put(name, loc.serializeToText()));
-		return data;
-	}
-
-	public void save() {
-		try {
-			getDataConfig().createSection("homes", saveToMap());
-			getDataConfig().save(getDataFile());
-		} catch (Exception ex) {
-			Main.error("在保存 " + getDataFile().getName() + " 时出现异常。");
-			Main.error(ex.getLocalizedMessage());
-		}
-	}
+    public void save() {
+        try {
+            getDataConfig().createSection("homes", saveToMap());
+            getDataConfig().save(getDataFile());
+        } catch (Exception ex) {
+            Main.error("在保存 " + getDataFile().getName() + " 时出现异常。");
+            Main.error(ex.getLocalizedMessage());
+        }
+    }
 }

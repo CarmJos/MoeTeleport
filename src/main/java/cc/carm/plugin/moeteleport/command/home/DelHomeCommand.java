@@ -14,26 +14,26 @@ import java.util.Map;
 
 public class DelHomeCommand implements CommandExecutor {
 
-	@Override
-	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
-							 @NotNull String label, @NotNull String[] args) {
-		if (!(sender instanceof Player)) return false;
-		if (args.length < 1) return false;
+    @Override
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
+                             @NotNull String label, @NotNull String[] args) {
+        if (!(sender instanceof Player)) return false;
+        if (args.length < 1) return false;
 
-		Player player = (Player) sender;
-		UserData data = Main.getUserManager().getData(player);
-		String homeName = args[0];
-		Map.Entry<String, DataLocation> locationInfo = data.getHomeLocation(homeName);
-		if (locationInfo == null) {
-			PluginMessages.Home.NOT_FOUND.sendWithPlaceholders(player);
-		} else {
-			PluginMessages.Home.REMOVED.sendWithPlaceholders(player,
-					new String[]{"%(name)", "%(location)"},
-					new Object[]{locationInfo.getKey(), locationInfo.getValue().toFlatString()});
-			data.delHomeLocation(homeName);
-		}
-		return true;
-	}
+        Player player = (Player) sender;
+        UserData data = Main.getUserManager().getData(player);
+        String homeName = args[0];
+        Map.Entry<String, DataLocation> locationInfo = data.getHomeLocation(homeName);
+        if (locationInfo == null) {
+            PluginMessages.Home.NOT_FOUND.sendWithPlaceholders(player);
+        } else {
+            PluginMessages.Home.REMOVED.sendWithPlaceholders(player,
+                    new String[]{"%(name)", "%(location)"},
+                    new Object[]{locationInfo.getKey(), locationInfo.getValue().toFlatString()});
+            data.delHomeLocation(homeName);
+        }
+        return true;
+    }
 
 
 }
