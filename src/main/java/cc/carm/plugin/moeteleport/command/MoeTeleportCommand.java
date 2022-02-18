@@ -11,7 +11,7 @@ public class MoeTeleportCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command,
                              @NotNull String s, @NotNull String[] args) {
-        if (args[0].equalsIgnoreCase("reload")) {
+        if (args.length == 1 && args[0].equalsIgnoreCase("reload")) {
             commandSender.sendMessage("Reloading config...");
             ConfigManager.reload();
             commandSender.sendMessage("Config reloaded.");
