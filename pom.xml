@@ -13,7 +13,7 @@
 
     <groupId>cc.carm.plugin</groupId>
     <artifactId>moeteleport</artifactId>
-    <version>2.0.0</version>
+    <version>1.2.1</version>
 
     <name>MoeTeleport</name>
     <description>喵喵传送，简单的传送、设置家的插件。</description>

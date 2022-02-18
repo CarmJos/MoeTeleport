@@ -13,7 +13,16 @@ permissions:
     description: "插件的主权限节点"
     default: false
 
+  "MoeTeleport.admin":
+    description: "插件的管理员权限节点"
+    default: op
+
 commands:
+  "MoeTeleport":
+    description: "插件的主命令，用于重载插件或查看插件信息。"
+    permission: "MoeTeleport.admin"
+    usage: "/MoeTeleport reload"
+
   "back":
     description: 返回传送前的上一个地点。
 

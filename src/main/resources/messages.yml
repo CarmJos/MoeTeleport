@@ -8,12 +8,12 @@ not-online:
   - "&f目标玩家并不在线，无法发送请求。"
 tpa:
   - "&d%(player) &f请求传送到您身边，您有 &5%(expire)秒 &f的时间回应。"
-  - "&a&l[同意] &f输入 &5/tpaccept &f同意该请求。"
-  - "&c&l[拒绝] &f输入 &5/tpdeny &f拒绝该请求。"
+  - "&a&l[command=/tpAccept %(player)][同意][/command] &f输入 &5/tpaccept &f同意该请求。"
+  - "&c&l[command=/tpDeny %(player)][拒绝][/command] &f输入 &5/tpdeny &f拒绝该请求。"
 tpahere:
   - "&d%(player) &f请求传送您到Ta身边，您有 &5%(expire)秒 &f的时间回应。"
-  - "&a&l[同意] &f输入 &5/tpaccept &f同意该请求。"
-  - "&c&l[拒绝] &f输入 &5/tpdeny &f拒绝该请求。"
+  - "&a&l[command=/tpAccept %(player)][同意][/command] &f输入 &5/tpaccept &f同意该请求。"
+  - "&c&l[command=/tpDeny %(player)][拒绝][/command] &f输入 &5/tpdeny &f拒绝该请求。"
 tpaccept:
   - "&f您同意了 &d%(player) &f的传送请求。"
 tpdeny:
@@ -38,7 +38,7 @@ no-request-player:
   - "&f您当前没有收到来自 &d%(player) &f的传送请求。"
 multi-requests:
   - "&f您当前有&d%(num)条请求&f待处理，请输入 &5/%(command) <玩家名> &f决定回应谁的请求。"
-  - "&f您也可以再次输入 &5/%(command) &f直接回应最近的一条请求。"
+  - "&f您也可以再次输入 &5/%(command) &f快速回应最近的一条请求。"
 request-sent-timeout:
   - "&f发往 &d%(player) &f的传送请求已超时。"
 request-received-timeout:
@@ -48,13 +48,13 @@ teleporting:
 dangerous:
   - "&f目标地点不安全，传送被取消。"
 dangerous-here:
-  - "&f当前地点不安全，无法发送传送请求。"
+  - "&f当前地点不安全，传送被取消。"
 notAvailable:
   - "&f目标地点暂时无法前往，传送被取消。"
 
 home-list-header:
   - "&f您当前设定的所有家："
-home-list-object: "&8#&f%(id) &d%(location)"
+home-list-object: "&8# &f%(id) &d%(location) &7[command=/home %(id)]✈[/command]"
 home-not-found:
   - "&f您还没有设置这个家，请先输入 &5/setHome <家名称> &f设置一个吧！"
 home-set:

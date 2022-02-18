@@ -53,8 +53,7 @@ public class TeleportManager {
             return false; // not transparent (will suffocate)
         }
         Block ground = leg.getRelative(BlockFace.DOWN);
-        return ground.getType().isSolid()
-                && !PluginConfig.DANGEROUS_TYPES.get().contains(ground.getType().name());
+        return !PluginConfig.DANGEROUS_TYPES.get().contains(ground.getType().name());
     }
 
 

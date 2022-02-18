@@ -13,7 +13,6 @@ import cc.carm.plugin.moeteleport.command.tpa.TpaCommand;
 import cc.carm.plugin.moeteleport.listener.UserListener;
 import cc.carm.plugin.moeteleport.manager.ConfigManager;
 import cc.carm.plugin.moeteleport.manager.RequestManager;
-import cc.carm.plugin.moeteleport.manager.TeleportManager;
 import cc.carm.plugin.moeteleport.manager.UserManager;
 import cc.carm.plugin.moeteleport.model.UserData;
 import cc.carm.plugin.moeteleport.util.ColorParser;
@@ -32,7 +31,6 @@ public class Main extends JavaPlugin {
     public static boolean debugMode = true;
     private static Main instance;
     private UserManager userManager;
-    private TeleportManager teleportManager;
     private RequestManager requestManager;
 
     /**
@@ -132,7 +130,12 @@ public class Main extends JavaPlugin {
         log(getName() + " " + getDescription().getVersion() + " 开始卸载...");
         long startTime = System.currentTimeMillis();
 
+        log("关闭所有请求...");
         getRequestManager().shutdown();
+
+        log("保存用户数据...");
+        getUserManager().getUserDataMap().values().forEach(UserData::save);
+        getUserManager().getUserDataMap().clear();
 
         log("卸载监听器...");
         Bukkit.getServicesManager().unregisterAll(this);
