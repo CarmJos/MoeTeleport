@@ -1,5 +1,6 @@
 package cc.carm.plugin.moeteleport.util;
 
+import de.themoep.minedown.MineDown;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -17,7 +18,7 @@ public class MessageUtil {
     public static void send(@Nullable CommandSender sender, List<String> messages) {
         if (messages == null || messages.isEmpty() || sender == null) return;
         for (String s : messages) {
-            sender.sendMessage(ColorParser.parse(s));
+            sender.spigot().sendMessage(MineDown.parse(s));
         }
     }
 

@@ -8,12 +8,12 @@ not-online:
   - "&f目标玩家并不在线，无法发送请求。"
 tpa:
   - "&d%(player) &f请求传送到您身边，您有 &5%(expire)秒 &f的时间回应。"
-  - "&a&l[command=/tpAccept %(player)][同意][/command] &f输入 &5/tpaccept &f同意该请求。"
-  - "&c&l[command=/tpDeny %(player)][拒绝][/command] &f输入 &5/tpdeny &f拒绝该请求。"
+  - "[&a&l[同意]](show_text=点击同意请求 run_command=/tpAccept %(player)) &f输入 &5/tpAccept &f同意该请求。"
+  - "[&c&l[拒绝]](show_text=点击拒绝请求 run_command=/tpDeny %(player)) &f输入 &5/tpDeny &f拒绝该请求。"
 tpahere:
   - "&d%(player) &f请求传送您到Ta身边，您有 &5%(expire)秒 &f的时间回应。"
-  - "&a&l[command=/tpAccept %(player)][同意][/command] &f输入 &5/tpaccept &f同意该请求。"
-  - "&c&l[command=/tpDeny %(player)][拒绝][/command] &f输入 &5/tpdeny &f拒绝该请求。"
+  - "[&a&l[同意]](show_text=点击同意请求 run_command=/tpAccept %(player)) &f输入 &5/tpAccept &f同意该请求。"
+  - "[&c&l[拒绝]](show_text=点击拒绝请求 run_command=/tpDeny %(player)) &f输入 &5/tpDeny &f拒绝该请求。"
 tpaccept:
   - "&f您同意了 &d%(player) &f的传送请求。"
 tpdeny:
@@ -54,7 +54,7 @@ notAvailable:
 
 home-list-header:
   - "&f您当前设定的所有家："
-home-list-object: "&8# &f%(id) &d%(location) &7[command=/home %(id)]✈[/command]"
+home-list-object: "&8# &f%(id) &d%(location) [&7✈](show_text=点击返回家 %(id) run_command=/home %(id))"
 home-not-found:
   - "&f您还没有设置这个家，请先输入 &5/setHome <家名称> &f设置一个吧！"
 home-set:

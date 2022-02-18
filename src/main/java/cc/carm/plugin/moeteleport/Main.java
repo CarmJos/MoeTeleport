@@ -1,6 +1,7 @@
 package cc.carm.plugin.moeteleport;
 
 import cc.carm.plugin.moeteleport.command.BackCommand;
+import cc.carm.plugin.moeteleport.command.MoeTeleportCommand;
 import cc.carm.plugin.moeteleport.command.completer.HomeNameCompleter;
 import cc.carm.plugin.moeteleport.command.completer.PlayerNameCompleter;
 import cc.carm.plugin.moeteleport.command.completer.TpRequestCompleter;
@@ -109,6 +110,8 @@ public class Main extends JavaPlugin {
         regListener(new UserListener());
 
         log("注册指令...");
+        registerCommand("MoeTeleport", new MoeTeleportCommand());
+
         registerCommand("back", new BackCommand());
 
         registerCommand("home", new GoHomeCommand(), new HomeNameCompleter());

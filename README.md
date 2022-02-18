@@ -18,6 +18,8 @@
 ## [依赖](https://github.com/CarmJos/MoeTeleport/network/dependencies)
 
 - **[必须]** 插件本体基于 [Spigot-API](https://hub.spigotmc.org/stash/projects/SPIGOT) 、[BukkitAPI](http://bukkit.org/) 实现。
+- **[自带]** 消息格式基于 [MineDown](https://github.com/Phoenix616/MineDown) 实现。
+  - 所有 messages.yml 均支持 MineDown 语法。
 - **[推荐]** 变量部分基于 [PlaceholderAPI](https://www.spigotmc.org/resources/6245/) 实现。
 
 详细依赖列表可见 [Dependencies](https://github.com/CarmJos/MoeTeleport/network/dependencies) 。
@@ -64,7 +66,9 @@
 
 ### 消息配置文件 ([messages.yml](src/main/resources/messages.yml))
 
-详见源文件。
+支持 [MineDown 语法](https://wiki.phoenix616.dev/library:minedown:syntax)，详见源文件。
+
+
 
 ### 玩家数据配置文件 (data/\<UUID\>.yml)
 
