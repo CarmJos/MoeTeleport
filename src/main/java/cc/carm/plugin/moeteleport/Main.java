@@ -95,6 +95,7 @@ public class Main extends JavaPlugin {
 
         log("加载用户管理器...");
         this.userManager = new UserManager(this);
+
         if (Bukkit.getOnlinePlayers().size() > 0) {
             log("   加载现有用户数据...");
             for (Player player : Bukkit.getOnlinePlayers()) {
