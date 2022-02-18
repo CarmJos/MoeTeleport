@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Build
+name: Build & Tests
 
 on:
   # 支持手动触发构建
@@ -29,10 +29,15 @@ jobs:
         env:
           MAVEN_USERNAME: ${{ github.repository_owner }}
           MAVEN_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - name: "Target Stage"
-        run: mkdir staging && cp target/*.jar staging
+
+      - name: "Target Staging"
+        run: |
+          mkdir artifacts
+          cp -vrf target/ artifacts/target/
+          cp -vrf asset/*.jar artifacts
+
       - name: "Upload artifact"
         uses: actions/upload-artifact@v2
         with:
           name: Artifact
-          path: staging
+          path: artifacts
