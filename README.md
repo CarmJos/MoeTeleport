@@ -41,7 +41,9 @@
 - 拒绝一个请求，可以限定某个玩家。
 
 # /home [name]
-- 返回家 (不填name会返回第一个家,若存在home则优先返回home)
+- 返回设定的家
+- 不填name会返回第一个设置的家
+- 若存在名为“home”的家则优先返回“home”。
 # /listHome
 - 列出所有家的位置
 # /setHome [name]
