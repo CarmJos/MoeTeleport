@@ -2,7 +2,7 @@ no-last-location:
   - "&f您当前没有进行传送，无法返回上个地点。"
 
 death-back:
-  - "&f您可以输入 &5/back &f返回您的死亡地点。"
+  - "&f您可以输入 &5/back &f或 [&d&l点击这里](show_text=点击返回到死亡地点 run_command=/back) &f返回您的死亡地点。"
 
 not-online:
   - "&f目标玩家并不在线，无法发送请求。"
