@@ -11,9 +11,30 @@
 
 # MoeTeleport 喵喵传送
 
-简单的传送请求插件，支持设置家与返回上一个地点。
+开源的传送插件，包含数个功能，并根据用户需求持续更新添加新功能。
+
+项目代码符合开发规范，适合新手开发者学习Bukkit，制作属于自己的插件。
 
 本插件由 [璎珞服务器](https://www.yingluo.world/) 请求本人开发，经过授权后开源。
+
+## 功能与优势
+
+### 当前功能
+
+- 可点击的消息(如“点击同意”) 
+  - 基于MineDown语法，可自定义配置
+- 玩家间的传送请求
+  - 支持指定处理某位玩家的请求
+- 设置家与回家 (可以理解为私人地标)
+  - 支持依照权限设定不同数量的家作为VIP附加内容
+- 回到死亡地点、上一传送地点
+
+### 优势
+- **轻量插件。** 适合小型服务器使用，配置简单方便。
+- **规范开发。** 插件符合开发规范，适合新手开发者学习。
+- **持续维护。** 新功能需求均可提交，大概率在后续开发中支持。
+  - 功能需求请 [提交Issues](https://github.com/CarmJos/MoeTeleport/issues/new?assignees=&labels=enhancement&template=feature_issues.md&title=) ，不要在帖子中提交！
+  - 提交与 “传送” 相关联的请求才大概率会被更新支持。
 
 ## [依赖](https://github.com/CarmJos/MoeTeleport/network/dependencies)
 
