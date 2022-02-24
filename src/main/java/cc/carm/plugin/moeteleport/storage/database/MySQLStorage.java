@@ -74,7 +74,7 @@ public class MySQLStorage implements DataStorage {
             getSQLManager().createReplace(DBTables.UserLastLocations.TABLE_NAME.get())
                     .setColumnNames("uuid", "world", "x", "y", "z", "yaw", "pitch")
                     .setParams(
-                            data.getUserUUID(), location.getWorld(),
+                            data.getUserUUID(), location.getWorld().getName(),
                             location.getX(), location.getY(), location.getZ(),
                             location.getYaw(), location.getPitch()
                     ).execute();
