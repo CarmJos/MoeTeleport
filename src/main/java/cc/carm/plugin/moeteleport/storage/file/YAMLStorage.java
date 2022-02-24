@@ -4,6 +4,7 @@ import cc.carm.plugin.moeteleport.Main;
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
 import cc.carm.plugin.moeteleport.model.UserData;
 import cc.carm.plugin.moeteleport.storage.DataSerializer;
+import cc.carm.plugin.moeteleport.storage.impl.FileBasedStorage;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

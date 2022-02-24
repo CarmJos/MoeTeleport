@@ -97,9 +97,7 @@ public class Main extends JavaPlugin {
             metrics.addCustomChart(new SimplePie("storage_method", storageMethod::name));
         }
 
-
         log("加载完成 ，共耗时 " + (System.currentTimeMillis() - startTime) + " ms 。");
-
     }
 
     @Override

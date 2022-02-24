@@ -4,6 +4,7 @@ import cc.carm.plugin.moeteleport.Main;
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
 import cc.carm.plugin.moeteleport.model.UserData;
 import cc.carm.plugin.moeteleport.storage.DataSerializer;
+import cc.carm.plugin.moeteleport.storage.impl.FileBasedStorage;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

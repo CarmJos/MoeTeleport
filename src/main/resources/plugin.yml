@@ -1,5 +1,5 @@
 main: cc.carm.plugin.moeteleport.Main
-name: ${project.name}
+name: MoeTeleport
 version: ${project.version}
 author: CarmJos
 website: ${project.url}
@@ -7,6 +7,7 @@ description: ${project.description}
 
 softdepend:
   - PlaceholderAPI
+  - Essentials
 
 permissions:
   "MoeTeleport":

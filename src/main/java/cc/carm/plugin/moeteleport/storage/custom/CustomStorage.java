@@ -1,4 +1,4 @@
-package cc.carm.plugin.moeteleport.storage.impl;
+package cc.carm.plugin.moeteleport.storage.custom;
 
 import cc.carm.plugin.moeteleport.Main;
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
