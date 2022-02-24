@@ -142,6 +142,7 @@ public class MySQLStorage implements DataStorage {
         return getSQLManager().createDelete(DBTables.UserHomes.TABLE_NAME.get())
                 .addCondition("uuid", uuid)
                 .addCondition("name", homeName)
+                .setLimit(1)
                 .build().executeFunction((i) -> i > 0, false);
     }
 
