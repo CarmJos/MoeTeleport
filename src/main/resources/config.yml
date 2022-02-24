@@ -18,7 +18,7 @@ check-update: true
 # 注意：存储配置不会通过重载指令生效，如有修改请重新启动服务器。
 storage:
 
-  # 存储方式，可选 [ yaml | json | mysql(跨服推荐) | Essential(须安装ess插件) ]
+  # 存储方式，可选 [ yaml | json | mysql | Essential(须安装ess插件) ]
   method: yaml
 
   # 选择 yaml/json 存储方式时的存储路径
