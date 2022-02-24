@@ -1,8 +1,6 @@
 # ${project.name} - ${project.description}
 # 项目地址: ${project.url}
 # 下载地址: ${project.distributionManagement.downloadUrl}
-
-
 version: ${project.version}
 debug: false
 
