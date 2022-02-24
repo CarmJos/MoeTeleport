@@ -19,6 +19,7 @@ import cc.carm.plugin.moeteleport.manager.UserManager;
 import cc.carm.plugin.moeteleport.storage.DataStorage;
 import cc.carm.plugin.moeteleport.storage.StorageMethod;
 import cc.carm.plugin.moeteleport.util.ColorParser;
+import cc.carm.plugin.moeteleport.util.JarResourceUtils;
 import cc.carm.plugin.moeteleport.util.SchedulerUtils;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
@@ -30,6 +31,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
 
 public class Main extends JavaPlugin {
     private static Main instance;
@@ -44,6 +47,8 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         instance = this;
         scheduler = new SchedulerUtils(this);
+        outputInfo();
+
         log(getName() + " " + getDescription().getVersion() + " &7开始加载...");
         long startTime = System.currentTimeMillis();
 
@@ -102,6 +107,7 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        outputInfo();
         log(getName() + " " + getDescription().getVersion() + " 开始卸载...");
         long startTime = System.currentTimeMillis();
 
@@ -124,6 +130,13 @@ public class Main extends JavaPlugin {
      */
     public static void regListener(Listener listener) {
         Bukkit.getPluginManager().registerEvents(listener, getInstance());
+    }
+
+    public void outputInfo() {
+        String[] pluginInfo = JarResourceUtils.readResource(this.getResource("PLUGIN_INFO"));
+        if (pluginInfo != null) {
+            Arrays.stream(pluginInfo).forEach(Main::log);
+        }
     }
 
     public static void log(String message) {
