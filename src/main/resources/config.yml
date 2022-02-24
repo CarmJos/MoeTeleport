@@ -33,9 +33,13 @@ storage:
   mysql:
     # 数据库驱动路径
     driver: "com.mysql.cj.jdbc.Driver"
-    url: "jdbc:mysql://127.0.0.1:3306/<db-name>"
+    # 数据库连接配置
+    host: "127.0.0.1"
+    port: 3306
+    database: "minecraft"
     username: "username"
     password: "password"
+    # 插件相关表的名称
     tables:
       last-location: "mt_last_locations"
       home: "mt_homes"

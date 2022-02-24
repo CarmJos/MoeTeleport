@@ -24,7 +24,8 @@ public class MySQLStorage implements DataStorage {
         try {
             Main.log("	尝试连接到数据库...");
             this.sqlManager = EasySQL.createManager(
-                    DBConfiguration.DRIVER_NAME.get(), DBConfiguration.URL.get(),
+                    DBConfiguration.DRIVER_NAME.get(),
+                    DBConfiguration.HOST.get() + ":" + DBConfiguration.PORT.get() + "/" + DBConfiguration.DATABASE.get(),
                     DBConfiguration.USERNAME.get(), DBConfiguration.PASSWORD.get()
             );
         } catch (Exception exception) {
