@@ -16,7 +16,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.LinkedHashMap;
-import java.util.Optional;
 import java.util.UUID;
 
 public class JSONStorage extends FileBasedStorage {
@@ -36,19 +35,20 @@ public class JSONStorage extends FileBasedStorage {
         if (!dataElement.isJsonObject()) throw new NullPointerException(userDataFile.getName());
 
         JsonObject dataObject = dataElement.getAsJsonObject();
-
-        DataLocation lastLocation = Optional
-                .ofNullable(dataObject.get("lastLocation").getAsString())
-                .map(DataLocation::deserializeText)
-                .orElse(null);
+        DataLocation lastLocation = null;
+        if (dataObject.has("lastLocation")) {
+            lastLocation = DataLocation.deserializeText(dataObject.get("lastLocation").getAsString());
+        }
 
         LinkedHashMap<String, DataLocation> homeData = new LinkedHashMap<>();
-        JsonObject homesObject = dataObject.getAsJsonObject("homes");
-        if (homesObject != null) {
-            homesObject.entrySet().forEach(entry -> {
-                DataLocation location = DataLocation.deserializeText(entry.getValue().getAsString());
-                if (location != null) homeData.put(entry.getKey(), location);
-            });
+        if (dataObject.has("homes")) {
+            JsonObject homesObject = dataObject.getAsJsonObject("homes");
+            if (homesObject != null) {
+                homesObject.entrySet().forEach(entry -> {
+                    DataLocation location = DataLocation.deserializeText(entry.getValue().getAsString());
+                    if (location != null) homeData.put(entry.getKey(), location);
+                });
+            }
         }
 
         return new UserData(uuid, lastLocation, homeData);
