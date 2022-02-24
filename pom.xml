@@ -13,7 +13,7 @@
 
     <groupId>cc.carm.plugin</groupId>
     <artifactId>moeteleport</artifactId>
-    <version>2.0.2</version>
+    <version>3.0.0</version>
 
     <name>MoeTeleport</name>
     <description>喵喵传送，简单的传送、设置家的插件。</description>
@@ -109,9 +109,31 @@
         </dependency>
 
         <dependency>
+            <groupId>cc.carm.lib</groupId>
+            <artifactId>easysql-beecp</artifactId>
+            <version>0.3.8</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.carm.lib</groupId>
+            <artifactId>githubreleases4j</artifactId>
+            <version>1.3.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
             <groupId>de.themoep</groupId>
             <artifactId>minedown</artifactId>
             <version>1.7.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
 
@@ -215,6 +237,22 @@
                         <relocation>
                             <pattern>de.themoep.minedown</pattern>
                             <shadedPattern>cc.carm.plugin.moeteleport.lib.minedown</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>cc.carm.plugin.moeteleport.lib.bstats</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>org.json</pattern>
+                            <shadedPattern>cc.carm.plugin.moeteleport.lib.json</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>cc.carm.lib.easysql</pattern>
+                            <shadedPattern>cc.carm.plugin.moeteleport.lib.easysql</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>cc.carm.lib.githubreleases4j</pattern>
+                            <shadedPattern>cc.carm.plugin.moeteleport.lib.github</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
