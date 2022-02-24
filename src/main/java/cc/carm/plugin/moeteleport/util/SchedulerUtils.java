@@ -196,9 +196,9 @@ public class SchedulerUtils {
 
         public SchedulerUtils.TaskBuilder appendTasks(long delay, long interval, Runnable... tasks) {
             this.taskList.add((onComplete) -> {
-                Runnable[] runnables = Arrays.copyOf(tasks, tasks.length + 1);
-                runnables[runnables.length - 1] = onComplete;
-                SchedulerUtils.this.runAtInterval(delay, interval, runnables);
+                Runnable[] all = Arrays.copyOf(tasks, tasks.length + 1);
+                all[all.length - 1] = onComplete;
+                SchedulerUtils.this.runAtInterval(delay, interval, all);
             });
             return this;
         }
