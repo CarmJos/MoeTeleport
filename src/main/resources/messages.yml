@@ -61,6 +61,8 @@ home-list-header:
 home-list-object: "&8# &f%(id) &d%(location) [&7✈](show_text=点击返回家 %(id) run_command=/home %(id))"
 home-not-found:
   - "&f您还没有设置这个家，请先输入 &5/setHome <家名称> &f设置一个吧！"
+name-too-long:
+  - "&f您所输入的家的名字太长，家的名称不应当超过 &d30 &f个字符。"
 home-set:
   - "&f成功设定名为 &d%(name) &f的家传送点。"
 home-removed:

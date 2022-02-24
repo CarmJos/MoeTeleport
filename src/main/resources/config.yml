@@ -1,11 +1,50 @@
-version: ${project.version}
+# ${project.name} - ${project.description}
+# 项目地址: ${project.url}
+# 下载地址: ${project.distributionManagement.downloadUrl}
 
+
+version: ${project.version}
+debug: false
+
+# 统计数据设定
+# 该选项用于帮助开发者统计插件版本与使用情况，且绝不会影响性能与使用体验。
+# 当然，您也可以选择在这里关闭，或在plugins/bStats下的配置文件中关闭。
+metrics: true
+
+# 检查更新设定
+# 该选项用于插件判断是否要检查更新，若您不希望插件检查更新并提示您，可以选择关闭。
+# 检查更新为异步操作，绝不会影响性能与使用体验。
+check-update: true
+
+# 存储相关配置
+# 注意：存储配置不会通过重载指令生效，如有修改请重新启动服务器。
+storage:
+
+  # 存储方式，可选 [ yaml | json | mysql(跨服推荐) | Essential(须安装ess插件) ]
+  method: yaml
+
+  # 选择 yaml/json 存储方式时的存储路径
+  # 默认为相对路径，相对于插件生成的配置文件夹下的路径
+  # 支持绝对路径，如 “/var/data/ud/"(linux) 或 "D:\data\ud\"(windows)
+  # 使用绝对路径时请注意权限问题
+  file-path: data
+
+  # 选择 database 存储方式时的数据库配置
+  mysql:
+    # 数据库驱动路径
+    driver: "com.mysql.cj.jdbc.Driver"
+    url: "jdbc:mysql://127.0.0.1:3306/<db-name>"
+    username: "username"
+    password: "password"
+    tables:
+      last-location: "mt_last_locations"
+      home: "mt_homes"
+
+# 默认玩家可设置多少家
 defaultHome: 1
 
 permissions:
-  # 以下命令全部为 MoeTeleport 的子节点
-  # 如 "home.vip" 的权限全拼就是 "MoeTeleport.home.vip"
-  10: "home.vip" # 最多可以设置10个家
+  10: "MoeTeleport.home.vip" # 最多可以设置10个家
 
 # 传送请求过期时间
 expireTime: 30

@@ -19,6 +19,12 @@ public class SetHomeCommand implements CommandExecutor {
         UserData data = Main.getUserManager().getData(player);
         String homeName = args.length >= 1 ? args[0] : "home";
 
+        if (homeName.length() > 30) {
+            // 限定家的名字长度
+            PluginMessages.Home.NAME_TOO_LONG.sendWithPlaceholders(sender);
+            return true;
+        }
+
         int maxHome = Main.getUserManager().getMaxHome(player);
         if (data.getHomeLocations().size() >= maxHome && data.getHomeLocation(homeName) == null) {
             PluginMessages.Home.OVER_LIMIT.sendWithPlaceholders(sender,

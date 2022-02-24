@@ -46,6 +46,7 @@ public class PluginMessages {
 
         public static final ConfigMessageList OVER_LIMIT = new ConfigMessageList("home-over-limit");
 
+        public static final ConfigMessageList NAME_TOO_LONG = new ConfigMessageList("name-too-long");
 
         public static final ConfigMessageList NOT_FOUND = new ConfigMessageList("home-not-found");
         public static final ConfigMessageList SET = new ConfigMessageList("home-set");
