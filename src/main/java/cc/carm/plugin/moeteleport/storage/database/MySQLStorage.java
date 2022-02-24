@@ -23,9 +23,11 @@ public class MySQLStorage implements DataStorage {
     public boolean initialize() {
         try {
             Main.log("	尝试连接到数据库...");
+            String url = String.format("jdbc:mysql://%s:%s/%s?useSSL=false",
+                    DBConfiguration.HOST.get(), DBConfiguration.PORT.get(), DBConfiguration.DATABASE.get()
+            );
             this.sqlManager = EasySQL.createManager(
-                    DBConfiguration.DRIVER_NAME.get(),
-                    DBConfiguration.HOST.get() + ":" + DBConfiguration.PORT.get() + "/" + DBConfiguration.DATABASE.get(),
+                    DBConfiguration.DRIVER_NAME.get(), url,
                     DBConfiguration.USERNAME.get(), DBConfiguration.PASSWORD.get()
             );
         } catch (Exception exception) {
