@@ -5,6 +5,8 @@ author: CarmJos
 website: ${project.url}
 description: ${project.description}
 
+api-version: 1.13
+
 softdepend:
   - PlaceholderAPI
   - Essentials
