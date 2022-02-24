@@ -2,9 +2,11 @@ package cc.carm.plugin.moeteleport.storage;
 
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
 import org.bukkit.Location;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class DataSerializer {
 
@@ -15,12 +17,12 @@ public class DataSerializer {
         return after;
     }
 
-    public static String serializeLocation(DataLocation loc) {
-        return loc.serializeToText();
+    public static @Nullable String serializeLocation(@Nullable DataLocation loc) {
+        return Optional.ofNullable(loc).map(DataLocation::serializeToText).orElse(null);
     }
 
-    public static String serializeLocation(Location loc) {
-        return serializeLocation(new DataLocation(loc));
+    public static @Nullable String serializeLocation(@Nullable Location loc) {
+        return serializeLocation(Optional.ofNullable(loc).map(DataLocation::new).orElse(null));
     }
 
 

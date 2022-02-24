@@ -57,7 +57,9 @@ public class JSONStorage extends FileBasedStorage {
     @Override
     public void saveUserData(@NotNull UserData data) throws Exception {
         JsonObject dataObject = new JsonObject();
-        dataObject.addProperty("lastLocation", DataSerializer.serializeLocation(data.getLastLocation()));
+        if (data.getLastLocation() != null) {
+            dataObject.addProperty("lastLocation", DataSerializer.serializeLocation(data.getLastLocation()));
+        }
         dataObject.add("homes", GSON.toJsonTree(DataSerializer.serializeLocationsMap(data.getHomeLocations())));
 
         FileWriter writer = new FileWriter(new File(getDataFolder(), data.getUserUUID() + ".json"));
