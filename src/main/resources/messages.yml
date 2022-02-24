@@ -6,6 +6,10 @@ death-back:
 
 not-online:
   - "&f目标玩家并不在线，无法发送请求。"
+
+self-request:
+  - "&f您不能向自己发送请求。"
+
 tpa:
   - "&d%(player) &f请求传送到您身边，您有 &5%(expire)秒 &f的时间回应。"
   - "[&a&l[同意]](show_text=点击同意请求 run_command=/tpAccept %(player)) &f输入 &5/tpAccept &f同意该请求。"

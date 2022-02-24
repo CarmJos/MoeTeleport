@@ -23,6 +23,12 @@ public class TpaCommand implements CommandExecutor {
             return true;
         }
 
+        if (player == target) {
+            // fix #5 - 玩家给自己发送传送请求
+            PluginMessages.SELF_REQUEST.sendWithPlaceholders(player);
+            return true;
+        }
+
         TeleportRequest request = Main.getUserManager().getData(target).getReceivedRequests().get(player.getUniqueId());
         if (request != null) {
             PluginMessages.Request.DUPLICATE.sendWithPlaceholders(sender,
