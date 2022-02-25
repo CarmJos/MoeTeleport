@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.model;
 
-import cc.carm.plugin.moeteleport.Main;
+import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
@@ -12,13 +12,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UserData {
 
     protected final @NotNull UUID userUUID;
-
-    public boolean enableAutoSelect = false;
-    private @Nullable Location lastLocation;
     private final LinkedHashMap<String, DataLocation> homeLocations;
-
     private final HashSet<UUID/*receiverUUID*/> sentRequests = new HashSet<>(); // 记录发出的请求
     private final ConcurrentHashMap<UUID/*senderUUID*/, TeleportRequest> receivedRequests = new ConcurrentHashMap<>(); // 记录收到的传送请求
+    public boolean enableAutoSelect = false;
+    private @Nullable Location lastLocation;
 
     public UserData(@NotNull UUID userUUID) {
         this(userUUID, null, new LinkedHashMap<>());
@@ -43,13 +41,13 @@ public class UserData {
     public void setHomeLocation(String homeName, Location location) {
         delHomeLocation(homeName);
         getHomeLocations().put(homeName, new DataLocation(location));
-        Main.getUserManager().editData((storage) -> storage.setHome(userUUID, homeName, new DataLocation(location)));
+        MoeTeleport.getUserManager().editData((storage) -> storage.setHome(userUUID, homeName, new DataLocation(location)));
     }
 
     public void delHomeLocation(String homeName) {
         Map.Entry<String, DataLocation> lastLocation = getHomeLocation(homeName);
         if (lastLocation != null) getHomeLocations().remove(lastLocation.getKey());
-        Main.getUserManager().editData((storage) -> storage.delHome(userUUID, homeName));
+        MoeTeleport.getUserManager().editData((storage) -> storage.delHome(userUUID, homeName));
     }
 
     public Map.Entry<String, DataLocation> getHomeLocation(@Nullable String homeName) {

@@ -2,11 +2,13 @@ package cc.carm.plugin.moeteleport.storage.impl;
 
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
 import cc.carm.plugin.moeteleport.model.UserData;
+import cc.carm.plugin.moeteleport.model.WarpInfo;
 import cc.carm.plugin.moeteleport.storage.DataStorage;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
 import java.util.UUID;
 
 public abstract class PluginBasedStorage implements DataStorage {
@@ -33,6 +35,11 @@ public abstract class PluginBasedStorage implements DataStorage {
 
     @Override
     public void saveUserData(@NotNull UserData data) {
+        // 一般都由其他插件自行保存，不需要实现。
+    }
+
+    @Override
+    public void saveWarps(@NotNull Map<String, WarpInfo> warps) {
         // 一般都由其他插件自行保存，不需要实现。
     }
 

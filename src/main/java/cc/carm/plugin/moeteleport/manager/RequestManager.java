@@ -1,6 +1,7 @@
 package cc.carm.plugin.moeteleport.manager;
 
 import cc.carm.plugin.moeteleport.Main;
+import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.configuration.PluginConfig;
 import cc.carm.plugin.moeteleport.configuration.PluginMessages;
 import cc.carm.plugin.moeteleport.model.TeleportRequest;
@@ -33,16 +34,16 @@ public class RequestManager {
     }
 
     public void checkRequests() {
-        Main.getUserManager().getUserDataMap().values()
+        MoeTeleport.getUserManager().getUserDataMap().values()
                 .forEach(data -> data.getReceivedRequests().entrySet().stream()
                         .filter(entry -> entry.getValue().isExpired())
-                        .peek(entry -> PluginMessages.Request.SENT_TIMEOUT.sendWithPlaceholders(
-                                entry.getValue().getSender(), new String[]{"%(player)"},
-                                new Object[]{entry.getValue().getReceiver().getName()}))
-                        .peek(entry -> PluginMessages.Request.RECEIVED_TIMEOUT.sendWithPlaceholders(
-                                entry.getValue().getReceiver(), new String[]{"%(player)"},
-                                new Object[]{entry.getValue().getSender().getName()}))
-                        .peek(entry -> Main.getUserManager()
+                        .peek(entry -> {
+                            Player sender = entry.getValue().getSender();
+                            Player receiver = entry.getValue().getReceiver();
+                            PluginMessages.Requests.SENT_TIMEOUT.send(sender, receiver.getName());
+                            PluginMessages.Requests.RECEIVED_TIMEOUT.send(receiver, sender.getName());
+                        })
+                        .peek(entry -> MoeTeleport.getUserManager()
                                 .getData(entry.getValue().getSender()).getSentRequests()
                                 .remove(entry.getKey()))
                         .forEach(entry -> data.getReceivedRequests().remove(entry.getKey()))
@@ -52,84 +53,59 @@ public class RequestManager {
     public void sendRequest(Player sender, Player receiver, TeleportRequest.RequestType type) {
         int expireTime = PluginConfig.EXPIRE_TIME.get();
 
-        PluginMessages.Request.SENT.sendWithPlaceholders(sender,
-                new String[]{"%(player)", "%(expire)"},
-                new Object[]{receiver.getName(), expireTime}
-        );
+        PluginMessages.Requests.SENT.send(sender, receiver.getName(), expireTime);
 
         switch (type) {
             case TPA: {
-                PluginMessages.TPA.sendWithPlaceholders(receiver,
-                        new String[]{"%(player)", "%(expire)"},
-                        new Object[]{sender.getName(), expireTime}
-                );
+                PluginMessages.Requests.RECEIVED_TP_HERE.send(receiver, sender.getName(), expireTime);
                 break;
             }
             case TPA_HERE: {
-                PluginMessages.TPA_HERE.sendWithPlaceholders(receiver,
-                        new String[]{"%(player)", "%(expire)"},
-                        new Object[]{sender.getName(), expireTime}
-                );
+                PluginMessages.Requests.RECEIVED_TP_TO.send(receiver, sender.getName(), expireTime);
                 break;
             }
         }
 
         TeleportRequest request = new TeleportRequest(sender, receiver, type);
-        Main.getUserManager().getData(receiver).getReceivedRequests().put(sender.getUniqueId(), request);
-        Main.getUserManager().getData(sender).getSentRequests().add(receiver.getUniqueId());
+        MoeTeleport.getUserManager().getData(receiver).getReceivedRequests().put(sender.getUniqueId(), request);
+        MoeTeleport.getUserManager().getData(sender).getSentRequests().add(receiver.getUniqueId());
 
     }
 
     public void acceptRequest(TeleportRequest request) {
-        PluginMessages.ACCEPTED.sendWithPlaceholders(request.getSender(),
-                new String[]{"%(player)"},
-                new Object[]{request.getReceiver().getName()}
-        );
-        PluginMessages.TP_ACCEPT.sendWithPlaceholders(request.getReceiver(),
-                new String[]{"%(player)"},
-                new Object[]{request.getSender().getName()}
-        );
+        PluginMessages.Requests.WAS_ACCEPTED.send(request.getSender(), request.getReceiver().getName());
+        PluginMessages.Requests.ACCEPTED.send(request.getReceiver(), request.getSender().getName());
         TeleportManager.teleport(request.getTeleportPlayer(), request.getTeleportLocation(), true);
         removeRequests(request);
     }
 
     public void denyRequest(TeleportRequest request) {
-        PluginMessages.DENIED.sendWithPlaceholders(request.getSender(),
-                new String[]{"%(player)"},
-                new Object[]{request.getReceiver().getName()}
-        );
-        PluginMessages.TP_DENY.sendWithPlaceholders(request.getReceiver(),
-                new String[]{"%(player)"},
-                new Object[]{request.getSender().getName()}
-        );
+        PluginMessages.Requests.WAS_DENIED.send(request.getSender(), request.getReceiver().getName());
+        PluginMessages.Requests.DENIED.send(request.getReceiver(), request.getSender().getName());
         removeRequests(request);
     }
 
     public void removeRequests(TeleportRequest request) {
-        Main.getUserManager().getData(request.getSender())
+        MoeTeleport.getUserManager().getData(request.getSender())
                 .getSentRequests()
                 .remove(request.getReceiver().getUniqueId());
-        Main.getUserManager().getData(request.getReceiver())
+        MoeTeleport.getUserManager().getData(request.getReceiver())
                 .getReceivedRequests()
                 .remove(request.getSender().getUniqueId());
     }
 
     public void cancelAllRequests(Player player) {
         UUID playerUUID = player.getUniqueId();
-        UserData data = Main.getUserManager().getData(player);
+        UserData data = MoeTeleport.getUserManager().getData(player);
         data.getReceivedRequests().keySet().stream()
-                .peek(senderUUID -> PluginMessages.Request.OFFLINE.sendWithPlaceholders(
-                        Bukkit.getPlayer(senderUUID),
-                        new String[]{"%(player)"}, new Object[]{player.getName()}
-                )).map(senderUUID -> Main.getUserManager().getData(senderUUID))
+                .peek(senderUUID -> PluginMessages.Requests.OFFLINE.send(Bukkit.getPlayer(senderUUID), player.getName()))
+                .map(senderUUID -> MoeTeleport.getUserManager().getData(senderUUID))
                 .filter(Objects::nonNull).map(UserData::getSentRequests)
                 .forEach(receivers -> receivers.remove(playerUUID));
 
         data.getSentRequests().stream()
-                .peek(receiverUUID -> PluginMessages.Request.OFFLINE.sendWithPlaceholders(
-                        Bukkit.getPlayer(receiverUUID),
-                        new String[]{"%(player)"}, new Object[]{player.getName()}
-                )).map(receiverUUID -> Main.getUserManager().getData(receiverUUID))
+                .peek(receiverUUID -> PluginMessages.Requests.OFFLINE.send(Bukkit.getPlayer(receiverUUID), player.getName()))
+                .map(receiverUUID -> MoeTeleport.getUserManager().getData(receiverUUID))
                 .filter(Objects::nonNull).map(UserData::getReceivedRequests)
                 .forEach(senders -> senders.remove(playerUUID));
 

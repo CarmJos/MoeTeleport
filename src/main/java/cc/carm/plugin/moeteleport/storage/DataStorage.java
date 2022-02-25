@@ -3,9 +3,11 @@ package cc.carm.plugin.moeteleport.storage;
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
 import cc.carm.plugin.moeteleport.manager.UserManager;
 import cc.carm.plugin.moeteleport.model.UserData;
+import cc.carm.plugin.moeteleport.model.WarpInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.UUID;
 
 public interface DataStorage {
@@ -43,6 +45,22 @@ public interface DataStorage {
      * @throws Exception 当出现任何错误时抛出
      */
     void saveUserData(@NotNull UserData data) throws Exception;
+
+    Map<String, WarpInfo> getWarps();
+
+    default void saveWarps() throws Exception {
+        saveWarps(getWarps());
+    }
+
+    void saveWarps(@NotNull Map<String, WarpInfo> warps) throws Exception;
+
+    void setWarp(@NotNull String name, @NotNull WarpInfo warpInfo) throws Exception;
+
+    boolean delWarp(@NotNull String name) throws Exception;
+
+    default boolean hasWarp(@NotNull String name) {
+        return getWarps().containsKey(name);
+    }
 
     /**
      * 为某用户设定一个家的位置。

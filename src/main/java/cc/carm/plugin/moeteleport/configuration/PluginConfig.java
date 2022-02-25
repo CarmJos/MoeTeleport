@@ -1,8 +1,8 @@
 package cc.carm.plugin.moeteleport.configuration;
 
-import cc.carm.plugin.moeteleport.configuration.values.ConfigValue;
-import cc.carm.plugin.moeteleport.configuration.values.ConfigValueList;
-import cc.carm.plugin.moeteleport.configuration.values.ConfigValueMap;
+import cc.carm.lib.easyplugin.configuration.values.ConfigValue;
+import cc.carm.lib.easyplugin.configuration.values.ConfigValueList;
+import cc.carm.lib.easyplugin.configuration.values.ConfigValueMap;
 
 public class PluginConfig {
 
@@ -22,8 +22,12 @@ public class PluginConfig {
             "storage.method", String.class, "YAML"
     );
 
-    public static final ConfigValueMap<Integer, String> PERMISSIONS = new ConfigValueMap<>(
-            "permissions", Integer::parseInt, String.class
+    public static final ConfigValueMap<Integer, String> HOME_PERMISSIONS = new ConfigValueMap<>(
+            "permissions.home", Integer::parseInt, String.class
+    );
+
+    public static final ConfigValueMap<Integer, String> WARP_PERMISSIONS = new ConfigValueMap<>(
+            "permissions.warp", Integer::parseInt, String.class
     );
 
     public static final ConfigValueList<String> DANGEROUS_TYPES = new ConfigValueList<>(
@@ -35,7 +39,11 @@ public class PluginConfig {
     );
 
     public static final ConfigValue<Integer> DEFAULT_HOME = new ConfigValue<>(
-            "defaultHome", Integer.class, 1
+            "defaults.home", Integer.class, 1
+    );
+
+    public static final ConfigValue<Integer> DEFAULT_WARP = new ConfigValue<>(
+            "defaults.warp", Integer.class, 0
     );
 
     public static final ConfigValue<Boolean> DEATH_GO_BACK = new ConfigValue<>(

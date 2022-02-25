@@ -1,10 +1,10 @@
 package cc.carm.plugin.moeteleport.storage;
 
+import cc.carm.plugin.moeteleport.storage.custom.CustomStorage;
 import cc.carm.plugin.moeteleport.storage.database.MySQLStorage;
-import cc.carm.plugin.moeteleport.storage.extension.EssentialXStorage;
+import cc.carm.plugin.moeteleport.storage.extension.EssentialStorage;
 import cc.carm.plugin.moeteleport.storage.file.JSONStorage;
 import cc.carm.plugin.moeteleport.storage.file.YAMLStorage;
-import cc.carm.plugin.moeteleport.storage.custom.CustomStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,7 +19,7 @@ public enum StorageMethod {
     JSON(2, new String[]{}, JSONStorage::new),
     MYSQL(3, new String[]{"my-sql", "mariadb", "sql", "database"}, MySQLStorage::new),
 
-    ESSENTIALS(11, new String[]{"essential", "ess", "EssentialsX", "essX"}, EssentialXStorage::new);
+    ESSENTIALS(11, new String[]{"essential", "ess", "EssentialsX", "essX"}, EssentialStorage::new);
 
     private final int id;
     private final String[] alias;
@@ -29,6 +29,32 @@ public enum StorageMethod {
         this.id = id;
         this.alias = alias;
         this.storageSupplier = storageSupplier;
+    }
+
+    public static @NotNull StorageMethod read(String s) {
+        StorageMethod byName = readByName(s);
+        if (byName != null) return byName;
+        StorageMethod byAlias = readByAlias(s);
+        if (byAlias != null) return byAlias;
+        try {
+            return Optional.ofNullable(readByID(Integer.parseInt(s))).orElse(YAML);
+        } catch (Exception ex) {
+            return YAML;
+        }
+    }
+
+    public static @Nullable StorageMethod readByName(String name) {
+        return Arrays.stream(values()).filter(value -> value.name().equalsIgnoreCase(name)).findFirst().orElse(null);
+    }
+
+    public static @Nullable StorageMethod readByAlias(String name) {
+        return Arrays.stream(values())
+                .filter(value -> Arrays.stream(value.getAlias()).anyMatch(alias -> alias.equalsIgnoreCase(name)))
+                .findFirst().orElse(null);
+    }
+
+    public static @Nullable StorageMethod readByID(int id) {
+        return Arrays.stream(values()).filter(value -> value.getID() == id).findFirst().orElse(null);
     }
 
     public int getID() {
@@ -49,33 +75,5 @@ public enum StorageMethod {
 
     public @NotNull DataStorage createStorage() {
         return getStorageSupplier().get();
-    }
-
-    public static @NotNull StorageMethod read(String s) {
-        StorageMethod byName = readByName(s);
-        if (byName != null) return byName;
-        StorageMethod byAlias = readByAlias(s);
-        if (byAlias != null) return byAlias;
-        try {
-            return Optional.ofNullable(readByID(Integer.parseInt(s))).orElse(YAML);
-        } catch (Exception ex) {
-            return YAML;
-        }
-    }
-
-
-    public static @Nullable StorageMethod readByName(String name) {
-        return Arrays.stream(values()).filter(value -> value.name().equalsIgnoreCase(name)).findFirst().orElse(null);
-    }
-
-    public static @Nullable StorageMethod readByAlias(String name) {
-        return Arrays.stream(values())
-                .filter(value -> Arrays.stream(value.getAlias()).anyMatch(alias -> alias.equalsIgnoreCase(name)))
-                .findFirst().orElse(null);
-    }
-
-
-    public static @Nullable StorageMethod readByID(int id) {
-        return Arrays.stream(values()).filter(value -> value.getID() == id).findFirst().orElse(null);
     }
 }

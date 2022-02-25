@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.command.home;
 
-import cc.carm.plugin.moeteleport.Main;
+import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.configuration.PluginMessages;
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
 import cc.carm.plugin.moeteleport.model.UserData;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
-public class DelHomeCommand implements CommandExecutor {
+public class HomeDelCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
@@ -21,15 +21,13 @@ public class DelHomeCommand implements CommandExecutor {
         if (args.length < 1) return false;
 
         Player player = (Player) sender;
-        UserData data = Main.getUserManager().getData(player);
+        UserData data = MoeTeleport.getUserManager().getData(player);
         String homeName = args[0];
         Map.Entry<String, DataLocation> locationInfo = data.getHomeLocation(homeName);
         if (locationInfo == null) {
-            PluginMessages.Home.NOT_FOUND.sendWithPlaceholders(player);
+            PluginMessages.Home.NOT_FOUND.send(player);
         } else {
-            PluginMessages.Home.REMOVED.sendWithPlaceholders(player,
-                    new String[]{"%(name)", "%(location)"},
-                    new Object[]{locationInfo.getKey(), locationInfo.getValue().toFlatString()});
+            PluginMessages.Home.REMOVED.send(player, locationInfo.getKey(), locationInfo.getValue().toFlatString());
             data.delHomeLocation(homeName);
         }
         return true;

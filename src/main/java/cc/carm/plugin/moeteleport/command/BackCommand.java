@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.command;
 
-import cc.carm.plugin.moeteleport.Main;
+import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.configuration.PluginMessages;
 import cc.carm.plugin.moeteleport.manager.TeleportManager;
 import cc.carm.plugin.moeteleport.model.UserData;
@@ -16,9 +16,9 @@ public class BackCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
-        UserData data = Main.getUserManager().getData(player);
+        UserData data = MoeTeleport.getUserManager().getData(player);
         if (data.getLastLocation() == null) {
-            PluginMessages.NO_LAST_LOCATION.send(player);
+            PluginMessages.Back.NO_LAST_LOCATION.send(player);
             return true;
         }
         TeleportManager.teleport(player, data.getLastLocation(), false);

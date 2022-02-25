@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.command.completer;
 
-import cc.carm.plugin.moeteleport.Main;
+import cc.carm.plugin.moeteleport.MoeTeleport;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -19,7 +19,8 @@ public class HomeNameCompleter implements TabCompleter {
     public java.util.List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (!(sender instanceof Player)) return ImmutableList.of();
         if (args.length == 1) {
-            return Main.getUserManager().getData((Player) sender).getHomeLocations().keySet().stream()
+            return MoeTeleport.getUserManager().getData((Player) sender)
+                    .getHomeLocations().keySet().stream()
                     .filter(s -> StringUtil.startsWithIgnoreCase(s, args[0]))
                     .limit(10).collect(Collectors.toList());
         } else {

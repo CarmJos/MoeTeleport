@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.listener;
 
-import cc.carm.plugin.moeteleport.Main;
+import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.configuration.PluginConfig;
 import cc.carm.plugin.moeteleport.configuration.PluginMessages;
 import org.bukkit.entity.Player;
@@ -14,22 +14,22 @@ public class UserListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        Main.getUserManager().loadData(event.getPlayer().getUniqueId());
+        MoeTeleport.getUserManager().loadData(event.getPlayer().getUniqueId());
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        Main.getRequestManager().cancelAllRequests(player);
-        Main.getUserManager().unloadData(player.getUniqueId());
+        MoeTeleport.getRequestManager().cancelAllRequests(player);
+        MoeTeleport.getUserManager().unloadData(player.getUniqueId());
     }
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
         if (PluginConfig.DEATH_GO_BACK.get()) {
             Player player = event.getEntity();
-            Main.getUserManager().getData(player).setLastLocation(player.getLocation());
-            PluginMessages.DEATH_BACK.send(player);
+            MoeTeleport.getUserManager().getData(player).setLastLocation(player.getLocation());
+            PluginMessages.Back.DEATH_MESSAGE.send(player);
         }
     }
 

@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.command.tpa;
 
-import cc.carm.plugin.moeteleport.Main;
+import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.configuration.PluginMessages;
 import cc.carm.plugin.moeteleport.model.TeleportRequest;
 import cc.carm.plugin.moeteleport.model.UserData;
@@ -20,9 +20,9 @@ public class TpHandleCommand implements CommandExecutor {
                              @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player)) return false;
         Player player = (Player) sender;
-        UserData data = Main.getUserManager().getData(player);
+        UserData data = MoeTeleport.getUserManager().getData(player);
         if (data.getReceivedRequests().isEmpty()) {
-            PluginMessages.Request.NOT_FOUND.sendWithPlaceholders(player);
+            PluginMessages.Requests.EMPTY_REQUESTS.send(player);
             return true;
         }
         String targetName = args.length > 0 ? args[0] : null;
@@ -31,10 +31,7 @@ public class TpHandleCommand implements CommandExecutor {
         if (targetName != null) {
             Player target = Bukkit.getPlayer(targetName);
             if (target == null || !data.getReceivedRequests().containsKey(target.getUniqueId())) {
-                PluginMessages.Request.NOT_FOUND_PLAYER.sendWithPlaceholders(player,
-                        new String[]{"%(player)"},
-                        new Object[]{target == null ? targetName : target.getName()}
-                );
+                PluginMessages.Requests.NO_REQUEST_FROM.send(player, target == null ? targetName : target.getName());
             } else {
                 handle(data.getReceivedRequests().get(target.getUniqueId()), accept); // 交给Manager处理
             }
@@ -44,10 +41,7 @@ public class TpHandleCommand implements CommandExecutor {
                         .min(Comparator.comparingLong(TeleportRequest::getActiveTime))
                         .ifPresent(request -> handle(request, accept));
             } else {
-                PluginMessages.Request.MULTI.sendWithPlaceholders(player,
-                        new String[]{"%(num)", "%(command)"},
-                        new Object[]{data.getReceivedRequests().size(), command.getName()}
-                );
+                PluginMessages.Requests.MULTI.send(player, data.getReceivedRequests().size(), command.getName());
                 data.setEnableAutoSelect(true);
             }
         }
@@ -56,9 +50,9 @@ public class TpHandleCommand implements CommandExecutor {
 
     private void handle(TeleportRequest request, boolean accept) {
         if (accept) {
-            Main.getRequestManager().acceptRequest(request);
+            MoeTeleport.getRequestManager().acceptRequest(request);
         } else {
-            Main.getRequestManager().denyRequest(request);
+            MoeTeleport.getRequestManager().denyRequest(request);
         }
     }
 

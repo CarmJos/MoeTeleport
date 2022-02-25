@@ -1,6 +1,7 @@
 package cc.carm.plugin.moeteleport.storage;
 
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
+import cc.carm.plugin.moeteleport.model.WarpInfo;
 import org.bukkit.Location;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,6 +24,18 @@ public class DataSerializer {
 
     public static @Nullable String serializeLocation(@Nullable Location loc) {
         return serializeLocation(Optional.ofNullable(loc).map(DataLocation::new).orElse(null));
+    }
+
+    public static Map<String, Object> serializeWarpMap(WarpInfo info) {
+        LinkedHashMap<String, Object> after = new LinkedHashMap<>();
+        if (info.getOwner() != null) after.put("owner", info.getOwner().toString());
+        after.put("world", info.getLocation().getWorldName());
+        after.put("x", info.getLocation().getX());
+        after.put("y", info.getLocation().getY());
+        after.put("z", info.getLocation().getZ());
+        after.put("yaw", info.getLocation().getYaw());
+        after.put("pitch", info.getLocation().getPitch());
+        return after;
     }
 
 

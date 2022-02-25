@@ -23,7 +23,7 @@ storage:
 
   # 选择 yaml/json 存储方式时的存储路径
   # 默认为相对路径，相对于插件生成的配置文件夹下的路径
-  # 支持绝对路径，如 “/var/data/ud/"(linux) 或 "D:\data\ud\"(windows)
+  # 支持绝对路径，如 “/var/data/moe-teleport/"(linux) 或 "D:\data\moe-teleport\"(windows)
   # 使用绝对路径时请注意权限问题
   file-path: data
 
@@ -41,12 +41,20 @@ storage:
     tables:
       last-location: "mt_last_locations"
       home: "mt_homes"
+      warps: "mt_warps"
 
-# 默认玩家可设置多少家
-defaultHome: 1
+
+defaults:
+  # 默认玩家可设置多少家
+  home: 1
+  # 默认玩家可设置多少地标
+  warp: 0
 
 permissions:
-  10: "MoeTeleport.home.vip" # 最多可以设置10个家
+  home:
+    10: "MoeTeleport.home.vip" # 拥有该权限的玩家最多可以设置10个家
+  warp:
+    2: "MoeTeleport.home.vip" # 拥有该权限的玩家最多可以设置2个地标
 
 # 传送请求过期时间
 expireTime: 30

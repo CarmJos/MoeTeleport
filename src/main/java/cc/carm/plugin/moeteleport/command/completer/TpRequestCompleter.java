@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.command.completer;
 
-import cc.carm.plugin.moeteleport.Main;
+import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.model.UserData;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.Bukkit;
@@ -39,7 +39,7 @@ public class TpRequestCompleter implements TabCompleter {
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         if (!(sender instanceof Player)) return ImmutableList.of();
         if (args.length >= 1 && indexes.contains(args.length)) {
-            UserData data = Main.getUserManager().getData((Player) sender);
+            UserData data = MoeTeleport.getUserManager().getData((Player) sender);
             return data.getReceivedRequests().keySet().stream()
                     .map(Bukkit::getPlayer).filter(Objects::nonNull).map(HumanEntity::getName)
                     .filter(s -> StringUtil.startsWithIgnoreCase(s, args[args.length - 1]))

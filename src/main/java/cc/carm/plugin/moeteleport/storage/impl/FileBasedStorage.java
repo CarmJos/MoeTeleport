@@ -1,8 +1,9 @@
 package cc.carm.plugin.moeteleport.storage.impl;
 
+import cc.carm.lib.easyplugin.configuration.values.ConfigValue;
 import cc.carm.plugin.moeteleport.Main;
 import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
-import cc.carm.plugin.moeteleport.configuration.values.ConfigValue;
+import cc.carm.plugin.moeteleport.model.WarpInfo;
 import cc.carm.plugin.moeteleport.storage.DataStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +47,17 @@ public abstract class FileBasedStorage implements DataStorage {
     @Override
     public boolean delHome(@NotNull UUID uuid, @NotNull String homeName) {
         // saveData 方法即保存所有数据，不需要针对单个数据进行变更。
+        return true;
+    }
+
+    @Override
+    public void setWarp(@NotNull String name, @NotNull WarpInfo warpInfo) {
+        // saveWarp 方法即保存所有数据，不需要针对单个数据进行变更。
+    }
+
+    @Override
+    public boolean delWarp(@NotNull String name) {
+        // saveWarp 方法即保存所有数据，不需要针对单个数据进行变更。
         return true;
     }
 

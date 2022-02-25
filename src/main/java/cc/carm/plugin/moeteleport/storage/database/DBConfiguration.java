@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.storage.database;
 
-import cc.carm.plugin.moeteleport.configuration.values.ConfigValue;
+import cc.carm.lib.easyplugin.configuration.values.ConfigValue;
 
 public class DBConfiguration {
 

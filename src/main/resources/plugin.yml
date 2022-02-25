@@ -53,3 +53,21 @@ commands:
   "delHome":
     usage: "/delHome <名称> "
     description: "删除家的传送点。"
+
+  "warp":
+    usage: "/warp [名称] "
+    description: "返回地标点所在位置。"
+  "warpInfo":
+    usage: "/warpInfo <名称> "
+    description: "查看地标点相关信息。"
+  "listWarps":
+    aliases:
+      - warps
+    usage: “/listWarps [页码]”
+    description: "列出服务器中所有地标点位置。"
+  "setWarp":
+    usage: "/setWarp [名称] "
+    description: "设置地标传送点 (不填名称默认为自己的游戏ID)"
+  "delWarp":
+    usage: "/delWarp <名称> "
+    description: "删除一个地标传送点。"

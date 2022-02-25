@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.storage.database;
 
-import cc.carm.plugin.moeteleport.configuration.values.ConfigValue;
+import cc.carm.lib.easyplugin.configuration.values.ConfigValue;
 
 public class DBTables {
 
@@ -34,7 +34,7 @@ public class DBTables {
         );
 
         protected static final String[] TABLE_COLUMNS = new String[]{
-                "`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT '背包ID'",
+                "`id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY",
                 "`uuid` VARCHAR(36) NOT NULL", // 用户的UUID
                 "`name` VARCHAR(32) NOT NULL",
                 "`world` VARCHAR(128) NOT NULL",
@@ -45,6 +45,27 @@ public class DBTables {
                 "`pitch` DOUBLE NOT NULL",
                 "INDEX `user`(`uuid`)",
                 "UNIQUE KEY `home`(`uuid`,`name`)"
+        };
+
+    }
+
+    protected static class Warps {
+
+        protected static final ConfigValue<String> TABLE_NAME = new ConfigValue<>(
+                "storage.mysql.tables.warps", String.class,
+                "mt_warps"
+        );
+
+        protected static final String[] TABLE_COLUMNS = new String[]{
+                "`id` INT NOT NULL AUTO_INCREMENT UNIQUE KEY",
+                "`name` VARCHAR(16) PRIMARY KEY NOT NULL", // 传送点名称 不为空且唯一
+                "`owner` VARCHAR(36)", // 用户的UUID
+                "`world` VARCHAR(128) NOT NULL",
+                "`x` DOUBLE NOT NULL",
+                "`y` DOUBLE NOT NULL",
+                "`z` DOUBLE NOT NULL",
+                "`yaw` DOUBLE NOT NULL",
+                "`pitch` DOUBLE NOT NULL"
         };
 
     }
