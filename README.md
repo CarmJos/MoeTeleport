@@ -21,6 +21,9 @@
 
 ### 当前功能
 
+- 多种存储格式，按需选择。
+  - 支持 YAML、JSON 与 MySQL/MariaDB 存储方式
+  - 支持直接调用 [EssentialsX](https://github.com/EssentialsX/Essentials) 数据，无缝切换
 - 可点击的消息(如“点击同意”) 
   - 基于MineDown语法，可自定义配置
 - 玩家间的传送请求
