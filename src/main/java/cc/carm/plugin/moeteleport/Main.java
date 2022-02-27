@@ -57,7 +57,7 @@ public class Main extends EasyPlugin {
         getInstance().log(messages);
     }
 
-    public static void serve(String... messages) {
+    public static void severe(String... messages) {
         getInstance().error(messages);
     }
 
@@ -74,7 +74,7 @@ public class Main extends EasyPlugin {
 
         info("加载配置文件...");
         if (!ConfigManager.initConfig()) {
-            serve("配置文件初始化失败，请检查。");
+            severe("配置文件初始化失败，请检查。");
             setEnabled(false);
             return false;
         }
@@ -85,7 +85,7 @@ public class Main extends EasyPlugin {
 
         storage = storageMethod.createStorage();
         if (!storage.initialize()) {
-            serve("初始化存储失败，请检查配置文件。");
+            severe("初始化存储失败，请检查配置文件。");
             storage.shutdown();
             setEnabled(false);
             return false; // 初始化失败，不再继续加载

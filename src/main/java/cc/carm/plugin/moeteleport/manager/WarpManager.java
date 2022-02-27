@@ -19,7 +19,7 @@ public class WarpManager {
         try {
             MoeTeleport.getStorage().saveWarps();
         } catch (Exception exception) {
-            Main.serve("保存地标数据失败，请检查配置文件。");
+            Main.severe("保存地标数据失败，请检查配置文件。");
             exception.printStackTrace();
         }
     }
@@ -33,7 +33,7 @@ public class WarpManager {
         try {
             MoeTeleport.getStorage().setWarp(name, new WarpInfo(name,owner, location));
         } catch (Exception exception) {
-            Main.serve("保存地标数据 " + name + " 失败，请检查配置文件。");
+            Main.severe("保存地标数据 " + name + " 失败，请检查配置文件。");
             exception.printStackTrace();
         }
 
@@ -51,7 +51,7 @@ public class WarpManager {
         try {
             MoeTeleport.getStorage().delWarp(name);
         } catch (Exception exception) {
-            Main.serve("删除地标数据 " + name + " 失败，请检查配置文件。");
+            Main.severe("删除地标数据 " + name + " 失败，请检查配置文件。");
             exception.printStackTrace();
         }
     }

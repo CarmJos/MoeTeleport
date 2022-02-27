@@ -18,8 +18,8 @@ public class CustomStorage implements DataStorage {
     @Override
     @TestOnly
     public boolean initialize() {
-        Main.serve("您选择使用自定义存储，但并没有应用成功。");
-        Main.serve("You are using CustomStorage, but not overwrite the methods.");
+        Main.severe("您选择使用自定义存储，但并没有应用成功。");
+        Main.severe("You are using CustomStorage, but not overwrite the methods.");
         return false;
     }
 

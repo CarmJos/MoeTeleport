@@ -36,7 +36,7 @@ public class JSONStorage extends FileBasedStorage {
                 this.warpsMap = loadWarps();
                 return true;
             } catch (Exception e) {
-                Main.serve("无法加载地标数据，请检查文件权限和相关配置。");
+                Main.severe("无法加载地标数据，请检查文件权限和相关配置。");
                 e.printStackTrace();
             }
         }

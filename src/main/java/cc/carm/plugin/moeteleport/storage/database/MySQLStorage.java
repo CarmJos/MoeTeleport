@@ -38,7 +38,7 @@ public class MySQLStorage implements DataStorage {
             );
             this.sqlManager.setDebugMode(() -> Main.getInstance().isDebugging());
         } catch (Exception exception) {
-            Main.serve("无法连接到数据库，请检查配置文件。");
+            Main.severe("无法连接到数据库，请检查配置文件。");
             exception.printStackTrace();
             return false;
         }
@@ -58,7 +58,7 @@ public class MySQLStorage implements DataStorage {
                     .build().execute();
 
         } catch (SQLException exception) {
-            Main.serve("无法创建插件所需的表，请检查数据库权限。");
+            Main.severe("无法创建插件所需的表，请检查数据库权限。");
             exception.printStackTrace();
             return false;
         }
@@ -67,7 +67,7 @@ public class MySQLStorage implements DataStorage {
         try {
             this.warpsMap = loadWarps();
         } catch (Exception e) {
-            Main.serve("无法加载地标数据，请检查数据库权限和相关表。");
+            Main.severe("无法加载地标数据，请检查数据库权限和相关表。");
             e.printStackTrace();
         }
 

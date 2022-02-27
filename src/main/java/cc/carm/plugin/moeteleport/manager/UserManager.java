@@ -58,8 +58,8 @@ public class UserManager {
 
             return data;
         } catch (Exception e) {
-            Main.serve("无法正常读取玩家数据，玩家操作将不会被保存，请检查数据配置！");
-            Main.serve("Could not load user's data, please check the data configuration!");
+            Main.severe("无法正常读取玩家数据，玩家操作将不会被保存，请检查数据配置！");
+            Main.severe("Could not load user's data, please check the data configuration!");
             e.printStackTrace();
             return new UserData(userUUID);
         }
@@ -77,8 +77,8 @@ public class UserManager {
                     "耗时 " + (System.currentTimeMillis() - start) + "ms。");
 
         } catch (Exception e) {
-            Main.serve("无法正常保存玩家数据，请检查数据配置！");
-            Main.serve("Could not save user's data, please check the data configuration!");
+            Main.severe("无法正常保存玩家数据，请检查数据配置！");
+            Main.severe("Could not save user's data, please check the data configuration!");
             e.printStackTrace();
         }
     }
@@ -143,8 +143,8 @@ public class UserManager {
         try {
             task.run(MoeTeleport.getStorage());
         } catch (Exception exception) {
-            Main.serve("无法正常更改玩家数据，请检查数据配置！");
-            Main.serve("Could not edit user's data, please check the data configuration!");
+            Main.severe("无法正常更改玩家数据，请检查数据配置！");
+            Main.severe("Could not edit user's data, please check the data configuration!");
             exception.printStackTrace();
         }
     }
