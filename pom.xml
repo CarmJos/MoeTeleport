@@ -281,6 +281,10 @@
                     </filters>
                     <relocations>
                         <relocation>
+                            <pattern>cc.carm.lib</pattern>
+                            <shadedPattern>cc.carm.plugin.moeteleport.lib</shadedPattern>
+                        </relocation>
+                        <relocation>
                             <pattern>de.themoep.minedown</pattern>
                             <shadedPattern>cc.carm.plugin.moeteleport.lib.minedown</shadedPattern>
                         </relocation>
@@ -293,16 +297,8 @@
                             <shadedPattern>cc.carm.plugin.moeteleport.lib.json</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>cc.carm.lib.easyplugin</pattern>
-                            <shadedPattern>cc.carm.plugin.ultradepository.lib.easyplugin</shadedPattern>
-                        </relocation>
-                        <relocation>
                             <pattern>cc.carm.lib.easysql</pattern>
                             <shadedPattern>cc.carm.plugin.moeteleport.lib.easysql</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>cc.carm.lib.githubreleases4j</pattern>
-                            <shadedPattern>cc.carm.plugin.moeteleport.lib.github</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
