@@ -296,10 +296,6 @@
                             <pattern>org.json</pattern>
                             <shadedPattern>cc.carm.plugin.moeteleport.lib.json</shadedPattern>
                         </relocation>
-                        <relocation>
-                            <pattern>cc.carm.lib.easysql</pattern>
-                            <shadedPattern>cc.carm.plugin.moeteleport.lib.easysql</shadedPattern>
-                        </relocation>
                     </relocations>
                 </configuration>
             </plugin>
