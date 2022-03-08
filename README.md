@@ -108,7 +108,7 @@ homes:
 ```
 
 ## 使用统计
-[![bStats](https://bstats.org/signatures/bukkit/CommandItem.svg)](https://bstats.org/plugin/bukkit/CommandItem/14560)
+[![bStats](https://bstats.org/signatures/bukkit/MoeTeleport.svg)](https://bstats.org/plugin/bukkit/MoeTeleport/14459)
 
 ## 支持与捐赠
 
