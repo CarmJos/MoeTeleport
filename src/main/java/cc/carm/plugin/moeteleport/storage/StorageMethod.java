@@ -10,25 +10,24 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 public enum StorageMethod {
 
-    CUSTOM(0, new String[]{}, CustomStorage::new),
-    YAML(1, new String[]{"yml"}, YAMLStorage::new),
-    JSON(2, new String[]{}, JSONStorage::new),
-    MYSQL(3, new String[]{"my-sql", "mariadb", "sql", "database"}, MySQLStorage::new),
+    CUSTOM(0, new String[]{}, CustomStorage.class),
+    YAML(1, new String[]{"yml"}, YAMLStorage.class),
+    JSON(2, new String[]{}, JSONStorage.class),
+    MYSQL(3, new String[]{"my-sql", "mariadb", "sql", "database"}, MySQLStorage.class),
 
-    ESSENTIALS(11, new String[]{"essential", "ess", "EssentialsX", "essX"}, EssentialStorage::new);
+    ESSENTIALS(11, new String[]{"essential", "ess", "EssentialsX", "essX"}, EssentialStorage.class);
 
     private final int id;
     private final String[] alias;
-    private @NotNull Supplier<@NotNull DataStorage> storageSupplier;
+    private @NotNull Class<? extends DataStorage> storageClazz;
 
-    StorageMethod(int id, String[] alias, @NotNull Supplier<@NotNull DataStorage> storageSupplier) {
+    StorageMethod(int id, String[] alias, @NotNull Class<? extends DataStorage> storageClazz) {
         this.id = id;
         this.alias = alias;
-        this.storageSupplier = storageSupplier;
+        this.storageClazz = storageClazz;
     }
 
     public static @NotNull StorageMethod read(String s) {
@@ -65,15 +64,15 @@ public enum StorageMethod {
         return alias;
     }
 
-    public @NotNull Supplier<@NotNull DataStorage> getStorageSupplier() {
-        return storageSupplier;
+    public @NotNull Class<? extends DataStorage> getStorageClazz() {
+        return storageClazz;
     }
 
-    public void setStorageSupplier(@NotNull Supplier<@NotNull DataStorage> storageSupplier) {
-        this.storageSupplier = storageSupplier;
+    public void setStorageClazz(@NotNull Class<? extends DataStorage> storageClazz) {
+        this.storageClazz = storageClazz;
     }
 
-    public @NotNull DataStorage createStorage() {
-        return getStorageSupplier().get();
+    public @NotNull DataStorage createStorage() throws Exception {
+        return getStorageClazz().newInstance();
     }
 }

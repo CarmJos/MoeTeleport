@@ -6,8 +6,6 @@ import cc.carm.plugin.moeteleport.manager.WarpManager;
 import cc.carm.plugin.moeteleport.storage.DataStorage;
 import cc.carm.plugin.moeteleport.storage.StorageMethod;
 
-import java.util.function.Supplier;
-
 public class MoeTeleport {
 
     public static void outputInfo() {
@@ -15,27 +13,27 @@ public class MoeTeleport {
     }
 
     public static DataStorage getStorage() {
-        return Main.getInstance().getStorage();
+        return Main.getInstance().storage;
     }
 
     public static WarpManager getWarpManager() {
-        return Main.getInstance().getWarpManager();
+        return Main.getInstance().warpManager;
     }
 
     public static UserManager getUserManager() {
-        return Main.getInstance().getUserManager();
+        return Main.getInstance().userManager;
     }
 
     public static RequestManager getRequestManager() {
-        return Main.getInstance().getRequestManager();
+        return Main.getInstance().requestManager;
     }
 
-    public void registerCustomStorage(DataStorage storage) {
-        registerCustomStorage(() -> storage);
+    public void setStorage(DataStorage storage) {
+        Main.getInstance().storage = storage;
     }
 
-    public void registerCustomStorage(Supplier<DataStorage> storageSupplier) {
-        StorageMethod.CUSTOM.setStorageSupplier(storageSupplier);
+    public void registerCustomStorage(Class<? extends DataStorage> storageClazz) {
+        StorageMethod.CUSTOM.setStorageClazz(storageClazz);
     }
 
 }

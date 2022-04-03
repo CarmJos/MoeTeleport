@@ -17,10 +17,10 @@ public class CustomStorage implements DataStorage {
 
     @Override
     @TestOnly
-    public boolean initialize() {
+    public void initialize() throws UnsupportedOperationException {
         Main.severe("您选择使用自定义存储，但并没有应用成功。");
         Main.severe("You are using CustomStorage, but not overwrite the methods.");
-        return false;
+        throw new UnsupportedOperationException("您选择使用自定义存储，但并没有应用成功。");
     }
 
     @Override
@@ -31,14 +31,14 @@ public class CustomStorage implements DataStorage {
 
     @Override
     @TestOnly
-    public @Nullable UserData loadData(@NotNull UUID uuid) {
-        return null;
+    public @Nullable UserData loadData(@NotNull UUID uuid) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("您选择使用自定义存储，但并没有应用成功。");
     }
 
     @Override
     @TestOnly
-    public void saveUserData(@NotNull UserData data) {
-
+    public void saveUserData(@NotNull UserData data) throws UnsupportedOperationException {
+        throw new UnsupportedOperationException("您选择使用自定义存储，但并没有应用成功。");
     }
 
     @Override

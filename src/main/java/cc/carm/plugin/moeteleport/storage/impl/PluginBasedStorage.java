@@ -20,8 +20,10 @@ public abstract class PluginBasedStorage implements DataStorage {
     }
 
     @Override
-    public boolean initialize() {
-        return dependPlugin != null;
+    public void initialize() throws NullPointerException {
+        if (dependPlugin == null) {
+            throw new NullPointerException("该存储类型依赖的插件不存在，请检查配置文件");
+        }
     }
 
     public Plugin getDependPlugin() {

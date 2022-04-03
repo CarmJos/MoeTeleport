@@ -20,16 +20,14 @@ public abstract class FileBasedStorage implements DataStorage {
     protected @Nullable File dataFolder;
 
     @Override
-    public boolean initialize() {
-        try {
-            this.dataFolder = new File(Main.getInstance().getDataFolder(), FILE_PATH.get());
-            if (!dataFolder.exists()) {
-                return dataFolder.mkdir();
-            } else {
-                return dataFolder.isDirectory();
+    public void initialize() throws Exception {
+        this.dataFolder = new File(Main.getInstance().getDataFolder(), FILE_PATH.get());
+        if (!dataFolder.exists()) {
+            if (!dataFolder.mkdir()) {
+                throw new Exception("无法创建数据文件夹！");
             }
-        } catch (Exception ex) {
-            return false;
+        } else if (!dataFolder.isDirectory()) {
+            throw new Exception("数据文件夹路径对应的不是一个文件夹！");
         }
     }
 

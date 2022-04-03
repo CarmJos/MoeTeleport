@@ -26,22 +26,14 @@ public class YAMLStorage extends FileBasedStorage {
     FileConfiguration warpsConfiguration;
 
     @Override
-    public boolean initialize() {
-        if (super.initialize()) {
-            try {
-                this.warpsDataFile = new File(getDataFolder(), "warps.yml");
-                if (!this.warpsDataFile.exists()) {
-                    boolean success = warpsDataFile.createNewFile();
-                }
-                this.warpsConfiguration = YamlConfiguration.loadConfiguration(warpsDataFile);
-                this.warpsMap = loadWarps();
-                return true;
-            } catch (Exception e) {
-                Main.severe("无法加载地标数据，请检查文件权限和相关配置。");
-                e.printStackTrace();
-            }
+    public void initialize() throws Exception {
+        super.initialize();
+        this.warpsDataFile = new File(getDataFolder(), "warps.yml");
+        if (!this.warpsDataFile.exists() && !warpsDataFile.createNewFile()) {
+            throw new Exception("无法创建 warps.yml 文件。");
         }
-        return false;
+        this.warpsConfiguration = YamlConfiguration.loadConfiguration(warpsDataFile);
+        this.warpsMap = loadWarps();
     }
 
     @Override

@@ -26,7 +26,7 @@ public class MySQLStorage implements DataStorage {
     Map<String, WarpInfo> warpsMap = new HashMap<>();
 
     @Override
-    public boolean initialize() {
+    public void initialize() throws Exception {
         try {
             Main.info("	尝试连接到数据库...");
             String url = String.format("jdbc:mysql://%s:%s/%s?useSSL=false",
@@ -38,9 +38,7 @@ public class MySQLStorage implements DataStorage {
             );
             this.sqlManager.setDebugMode(() -> Main.getInstance().isDebugging());
         } catch (Exception exception) {
-            Main.severe("无法连接到数据库，请检查配置文件。");
-            exception.printStackTrace();
-            return false;
+            throw new Exception("无法连接到数据库，请检查配置文件", exception);
         }
 
         try {
@@ -58,20 +56,15 @@ public class MySQLStorage implements DataStorage {
                     .build().execute();
 
         } catch (SQLException exception) {
-            Main.severe("无法创建插件所需的表，请检查数据库权限。");
-            exception.printStackTrace();
-            return false;
+            throw new Exception("无法创建插件所需的表，请检查数据库权限。", exception);
         }
 
         Main.info("	加载地标数据...");
         try {
             this.warpsMap = loadWarps();
         } catch (Exception e) {
-            Main.severe("无法加载地标数据，请检查数据库权限和相关表。");
-            e.printStackTrace();
+            throw new Exception("无法加载地标数据，请检查数据库权限和相关表。", e);
         }
-
-        return true;
     }
 
     @Override

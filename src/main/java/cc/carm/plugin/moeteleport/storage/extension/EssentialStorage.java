@@ -16,15 +16,8 @@ import java.util.UUID;
 
 public class EssentialStorage extends PluginBasedStorage {
 
-    private Essentials essentials;
-
     public EssentialStorage() {
         super("Essentials");
-    }
-
-    @Override
-    public boolean initialize() {
-        return super.initialize() && (this.essentials = (Essentials) getDependPlugin()) != null;
     }
 
     @Override
@@ -40,7 +33,7 @@ public class EssentialStorage extends PluginBasedStorage {
             try {
                 Location warpLocation = getEssentials().getWarps().getWarp(warpName);
                 UUID owner = getEssentials().getWarps().getLastOwner(warpName);
-                warps.put(warpName, new WarpInfo(warpName,owner, new DataLocation(warpLocation)));
+                warps.put(warpName, new WarpInfo(warpName, owner, new DataLocation(warpLocation)));
             } catch (Exception ignore) {
             }
         }
@@ -74,7 +67,7 @@ public class EssentialStorage extends PluginBasedStorage {
     }
 
     public Essentials getEssentials() {
-        return essentials;
+        return (Essentials) getDependPlugin();
     }
 
     public static class EssentialUserData extends UserData {

@@ -34,10 +34,11 @@ import java.util.Arrays;
 
 public class Main extends EasyPlugin {
     private static Main instance;
-    private static DataStorage storage;
-    private WarpManager warpManager;
-    private UserManager userManager;
-    private RequestManager requestManager;
+
+    protected DataStorage storage;
+    protected WarpManager warpManager;
+    protected UserManager userManager;
+    protected RequestManager requestManager;
 
     public Main() {
         super(new EasyPluginMessageProvider.zh_CN());
@@ -81,15 +82,17 @@ public class Main extends EasyPlugin {
 
         info("初始化存储方式...");
         StorageMethod storageMethod = StorageMethod.read(PluginConfig.STORAGE_METHOD.get());
-        info("	正在使用 " + storageMethod.name() + " 进行数据存储");
 
-        storage = storageMethod.createStorage();
-        if (!storage.initialize()) {
+        try {
+            info("	正在使用 " + storageMethod.name() + " 进行数据存储");
+            storage = storageMethod.createStorage();
+            storage.initialize();
+        } catch (Exception ex) {
             severe("初始化存储失败，请检查配置文件。");
-            storage.shutdown();
             setEnabled(false);
             return false; // 初始化失败，不再继续加载
         }
+
 
         info("加载地标管理器...");
         warpManager = new WarpManager();
@@ -98,7 +101,7 @@ public class Main extends EasyPlugin {
         this.userManager = new UserManager();
         if (Bukkit.getOnlinePlayers().size() > 0) {
             info("   加载现有用户数据...");
-            getUserManager().loadAll();
+            this.userManager.loadAll();
         }
 
         info("加载请求管理器...");
@@ -147,16 +150,16 @@ public class Main extends EasyPlugin {
     @Override
     protected void shutdown() {
         info("关闭所有请求...");
-        getRequestManager().shutdown();
+        this.requestManager.shutdown();
 
         info("保存用户数据...");
-        getUserManager().unloadAll(true);
+        this.userManager.unloadAll(true);
 
         info("保存地标数据...");
-        getWarpManager().saveWarps();
+        this.warpManager.saveWarps();
 
         info("终止存储源...");
-        getStorage().shutdown();
+        this.storage.shutdown();
 
         info("卸载监听器...");
         Bukkit.getServicesManager().unregisterAll(this);
@@ -172,22 +175,6 @@ public class Main extends EasyPlugin {
         if (pluginInfo != null) {
             Arrays.stream(pluginInfo).forEach(Main::info);
         }
-    }
-
-    protected DataStorage getStorage() {
-        return storage;
-    }
-
-    protected WarpManager getWarpManager() {
-        return getInstance().warpManager;
-    }
-
-    protected UserManager getUserManager() {
-        return getInstance().userManager;
-    }
-
-    protected RequestManager getRequestManager() {
-        return getInstance().requestManager;
     }
 
 

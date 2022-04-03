@@ -30,17 +30,9 @@ public class JSONStorage extends FileBasedStorage {
     Map<String, WarpInfo> warpsMap = new HashMap<>();
 
     @Override
-    public boolean initialize() {
-        if (super.initialize()) {
-            try {
-                this.warpsMap = loadWarps();
-                return true;
-            } catch (Exception e) {
-                Main.severe("无法加载地标数据，请检查文件权限和相关配置。");
-                e.printStackTrace();
-            }
-        }
-        return false;
+    public void initialize() throws Exception {
+        super.initialize();
+        this.warpsMap = loadWarps();
     }
 
     @Override

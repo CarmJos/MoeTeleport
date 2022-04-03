@@ -15,9 +15,9 @@ public interface DataStorage {
     /**
      * 在插件加载存储源时执行。
      *
-     * @return 是否初始化成功
+     * @throws Exception 当出现任何错误时抛出
      */
-    boolean initialize();
+    void initialize() throws Exception;
 
     /**
      * 在插件被卸载时执行。
