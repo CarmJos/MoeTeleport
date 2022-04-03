@@ -15,7 +15,7 @@
 
 项目代码符合开发规范，适合新手开发者学习Bukkit，制作属于自己的插件。
 
-本插件由 [璎珞服务器](https://www.yingluo.world/) 请求本人开发，经过授权后开源。
+本插件由 [璎珞服务器](https://www.yingluo.world/) 委托本人开发，经过授权后开源。
 
 ## 功能与优势
 
@@ -107,6 +107,9 @@ homes:
 
 ```
 
+## 使用统计
+[![bStats](https://bstats.org/signatures/bukkit/MoeTeleport.svg)](https://bstats.org/plugin/bukkit/MoeTeleport/14459)
+
 ## 支持与捐赠
 
 若您觉得本插件做的不错，您可以捐赠支持我！
@@ -118,7 +121,9 @@ homes:
 ## 开源协议
 
 本项目源码采用 [GNU General Public License v3.0](https://opensource.org/licenses/GPL-3.0) 开源协议。
-> ### 关于 GPL 协议
+<details>
+<summary>关于 GPL 协议</summary>
+ 
 > GNU General Public Licence (GPL) 有可能是开源界最常用的许可模式。GPL 保证了所有开发者的权利，同时为使用者提供了足够的复制，分发，修改的权利：
 >
 > #### 可自由复制
@@ -133,3 +138,4 @@ homes:
 > 需要注意的是，分发的时候，需要明确提供源代码和二进制文件，另外，用于某些程序的某些协议有一些问题和限制，你可以看一下 @PierreJoye 写的 Practical Guide to GPL Compliance 一文。使用 GPL 协议，你必须在源代码代码中包含相应信息，以及协议本身。
 >
 > *以上文字来自 [五种开源协议GPL,LGPL,BSD,MIT,Apache](https://www.oschina.net/question/54100_9455) 。*
+</details>
