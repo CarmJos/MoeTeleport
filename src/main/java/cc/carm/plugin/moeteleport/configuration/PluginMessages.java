@@ -17,7 +17,7 @@ public class PluginMessages extends MessagesRoot {
         ).build();
 
         public static final EasyMessageList DEATH_MESSAGE = MoeMessageList.builder().contents(
-                "&f您可以输入 &5/back &f或 [&d&l点击这里](show_text=点击返回到死亡地点 run_command=/back) &f返回您的死亡地点。"
+                "&f您可以输入 &5/back &f或 [&d&l点击这里](show_text=点击返回到死亡地点 run_command=/moeteleport:back) &f返回您的死亡地点。"
         ).build();
 
     }
@@ -70,14 +70,14 @@ public class PluginMessages extends MessagesRoot {
 
         public static final EasyMessageList RECEIVED_TP_HERE = MoeMessageList.builder().contents(
                 "&d%(player) &f请求传送到您身边，您有 &5%(expire)秒 &f的时间回应。",
-                "  [&a&l[点击同意]](show_text=点击同意请求 run_command=/tpAccept %(player)) &f或输入 &5/tpAccept &f同意该请求。",
-                "  [&c&l[点击拒绝]](show_text=点击拒绝请求 run_command=/tpDeny %(player)) &f或输入 &5/tpDeny &f拒绝该请求。"
+                "  [&a&l[点击同意]](show_text=点击同意请求 run_command=/moeteleport:tpaccept %(player)) &f或输入 &5/tpAccept &f同意该请求。",
+                "  [&c&l[点击拒绝]](show_text=点击拒绝请求 run_command=/moeteleport:tpdeny %(player)) &f或输入 &5/tpDeny &f拒绝该请求。"
         ).params("player", "expire").build();
 
         public static final EasyMessageList RECEIVED_TP_TO = MoeMessageList.builder().contents(
                 "&d%(player) &f请求传送您到Ta身边，您有 &5%(expire)秒 &f的时间回应。",
-                "  [&a&l[点击同意]](show_text=点击同意请求 run_command=/tpAccept %(player)) &f或输入 &5/tpAccept &f同意该请求。",
-                "  [&c&l[点击拒绝]](show_text=点击拒绝请求 run_command=/tpDeny %(player)) &f或输入 &5/tpDeny &f拒绝该请求。"
+                "  [&a&l[点击同意]](show_text=点击同意请求 run_command=/moeteleport:tpaccept %(player)) &f或输入 &5/tpAccept &f同意该请求。",
+                "  [&c&l[点击拒绝]](show_text=点击拒绝请求 run_command=/moeteleport:tpdeny %(player)) &f或输入 &5/tpDeny &f拒绝该请求。"
         ).params("player", "expire").build();
 
 
@@ -145,7 +145,7 @@ public class PluginMessages extends MessagesRoot {
             ).build();
 
             public static final EasyMessageList OBJECT = MoeMessageList.builder().contents(
-                    "&8# &f%(id) &d%(location) [&7✈](show_text=点击返回家 %(id) run_command=/home %(id))"
+                    "&8# &f%(id) &d%(location) [&7✈](show_text=点击返回家 %(id) run_command=/moeteleport:home %(id))"
             ).params("id", "location").build();
 
         }
@@ -177,11 +177,11 @@ public class PluginMessages extends MessagesRoot {
         ).params("max").build();
 
         public static final EasyMessageList INFO_LOCATION = MoeMessageList.builder().contents(
-                "&f地标点 &d%(name) &f所在位置为 &5%(location) &f。[&7✈](show_text=点击前往&d %(name) run_command=/warp %(name))"
+                "&f地标点 &d%(name) &f所在位置为 &5%(location) &f。[&7✈](show_text=点击前往&d %(name) run_command=/moeteleport:warp %(name))"
         ).params("name", "location").build();
 
         public static final EasyMessageList INFO_FULL = MoeMessageList.builder().contents(
-                "&f地标点 &d%(name) &f由 &5%(owner) &f创建，所在位置为 &d%(location) &f。[&7✈](show_text=点击前往&d %(name) run_command=/warp %(name))"
+                "&f地标点 &d%(name) &f由 &5%(owner) &f创建，所在位置为 &d%(location) &f。[&7✈](show_text=点击前往&d %(name) run_command=/moeteleport:warp %(name))"
         ).params("name", "owner", "location").build();
 
         public static final EasyMessageList SET = MoeMessageList.builder().contents(
@@ -207,12 +207,12 @@ public class PluginMessages extends MessagesRoot {
 
             public static final EasyMessageList OBJECT = MoeMessageList.builder().contents(
                     "&8# &f%(id) &7[由%(owner)创建]",
-                    "&8- &d%(location) [&7✈](show_text=点击前往&d %(id) run_command=/warp %(id))"
+                    "&8- &d%(location) [&7✈](show_text=点击前往&d %(id) run_command=/moeteleport:warp %(id))"
             ).params("id", "owner", "location").build();
 
             public static final EasyMessageList OBJECT_NO_OWNER = MoeMessageList.builder().contents(
                     "&8# &f%(id)",
-                    "&8- &d%(location) [&7✈](show_text=点击前往&d %(id) run_command=/warp %(id))"
+                    "&8- &d%(location) [&7✈](show_text=点击前往&d %(id) run_command=/moeteleport:warp %(id))"
             ).params("id", "location").build();
 
         }
