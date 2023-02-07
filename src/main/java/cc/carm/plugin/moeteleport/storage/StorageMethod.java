@@ -2,6 +2,7 @@ package cc.carm.plugin.moeteleport.storage;
 
 import cc.carm.plugin.moeteleport.storage.custom.CustomStorage;
 import cc.carm.plugin.moeteleport.storage.database.MySQLStorage;
+import cc.carm.plugin.moeteleport.storage.extension.CMIStorage;
 import cc.carm.plugin.moeteleport.storage.extension.EssentialStorage;
 import cc.carm.plugin.moeteleport.storage.file.JSONStorage;
 import cc.carm.plugin.moeteleport.storage.file.YAMLStorage;
@@ -18,7 +19,8 @@ public enum StorageMethod {
     JSON(2, new String[]{}, JSONStorage.class),
     MYSQL(3, new String[]{"my-sql", "mariadb", "sql", "database"}, MySQLStorage.class),
 
-    ESSENTIALS(11, new String[]{"essential", "ess", "EssentialsX", "essX"}, EssentialStorage.class);
+    ESSENTIALS(11, new String[]{"essential", "ess", "EssentialsX", "essX"}, EssentialStorage.class),
+    CMI(12, new String[]{}, CMIStorage.class);
 
     private final int id;
     private final String[] alias;

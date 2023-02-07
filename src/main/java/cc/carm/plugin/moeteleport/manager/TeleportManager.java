@@ -1,15 +1,16 @@
 package cc.carm.plugin.moeteleport.manager;
 
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.configuration.PluginConfig;
-import cc.carm.plugin.moeteleport.configuration.PluginMessages;
-import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
+import cc.carm.plugin.moeteleport.conf.PluginConfig;
+import cc.carm.plugin.moeteleport.conf.PluginMessages;
+import cc.carm.plugin.moeteleport.conf.location.DataLocation;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 
 public class TeleportManager {
+
 
     public static void teleport(Player player, DataLocation targetLocation, boolean onlySafety) {
         Location location = targetLocation.getBukkitLocation();
@@ -44,7 +45,7 @@ public class TeleportManager {
             return false; // not transparent (will suffocate)
         }
         Block ground = leg.getRelative(BlockFace.DOWN);
-        return !PluginConfig.DANGEROUS_TYPES.get().contains(ground.getType().name());
+        return !PluginConfig.TELEPORTATION.DANGEROUS_TYPES.getNotNull().contains(ground.getType().name());
     }
 
 

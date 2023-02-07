@@ -1,7 +1,9 @@
 package cc.carm.plugin.moeteleport;
 
+import cc.carm.lib.configuration.core.source.ConfigurationProvider;
 import cc.carm.lib.easyplugin.EasyPlugin;
-import cc.carm.lib.easyplugin.i18n.EasyPluginMessageProvider;
+import cc.carm.lib.easyplugin.updatechecker.GHUpdateChecker;
+import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
 import cc.carm.plugin.moeteleport.command.BackCommand;
 import cc.carm.plugin.moeteleport.command.MoeTeleportCommand;
 import cc.carm.plugin.moeteleport.command.completer.HomeNameCompleter;
@@ -15,25 +17,25 @@ import cc.carm.plugin.moeteleport.command.home.HomeTpCommand;
 import cc.carm.plugin.moeteleport.command.tpa.TpHandleCommand;
 import cc.carm.plugin.moeteleport.command.tpa.TpaCommand;
 import cc.carm.plugin.moeteleport.command.warp.*;
-import cc.carm.plugin.moeteleport.configuration.PluginConfig;
+import cc.carm.plugin.moeteleport.conf.PluginConfig;
+import cc.carm.plugin.moeteleport.conf.PluginMessages;
+import cc.carm.plugin.moeteleport.listener.CommandListener;
 import cc.carm.plugin.moeteleport.listener.UserListener;
-import cc.carm.plugin.moeteleport.manager.ConfigManager;
 import cc.carm.plugin.moeteleport.manager.RequestManager;
 import cc.carm.plugin.moeteleport.manager.UserManager;
 import cc.carm.plugin.moeteleport.manager.WarpManager;
 import cc.carm.plugin.moeteleport.storage.DataStorage;
 import cc.carm.plugin.moeteleport.storage.StorageMethod;
-import cc.carm.plugin.moeteleport.util.JarResourceUtils;
-import cc.carm.plugin.moeteleport.util.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
-
-import java.util.Arrays;
 
 public class Main extends EasyPlugin {
     private static Main instance;
+
+    protected ConfigurationProvider<?> configProvider;
+    protected ConfigurationProvider<?> messageProvider;
+
 
     protected DataStorage storage;
     protected WarpManager warpManager;
@@ -41,47 +43,21 @@ public class Main extends EasyPlugin {
     protected RequestManager requestManager;
 
     public Main() {
-        super(new EasyPluginMessageProvider.zh_CN());
         instance = this;
-    }
-
-    /**
-     * 注册监听器
-     *
-     * @param listener 监听器
-     */
-    public static void regListener(Listener listener) {
-        Bukkit.getPluginManager().registerEvents(listener, getInstance());
-    }
-
-    public static void info(String... messages) {
-        getInstance().log(messages);
-    }
-
-    public static void severe(String... messages) {
-        getInstance().error(messages);
-    }
-
-    public static void debugging(String... messages) {
-        getInstance().debug(messages);
-    }
-
-    public static Main getInstance() {
-        return instance;
     }
 
     @Override
     protected boolean initialize() {
 
-        info("加载配置文件...");
-        if (!ConfigManager.initConfig()) {
-            severe("配置文件初始化失败，请检查。");
-            setEnabled(false);
-            return false;
-        }
+        log("加载插件配置文件...");
+        this.configProvider = MineConfiguration.from(this, "config.yml");
+        this.configProvider.initialize(PluginConfig.class);
+
+        this.messageProvider = MineConfiguration.from(this, "messages.yml");
+        this.messageProvider.initialize(PluginMessages.class);
 
         info("初始化存储方式...");
-        StorageMethod storageMethod = StorageMethod.read(PluginConfig.STORAGE_METHOD.get());
+        StorageMethod storageMethod = StorageMethod.read(PluginConfig.STORAGE.METHOD.get());
 
         try {
             info("	正在使用 " + storageMethod.name() + " 进行数据存储");
@@ -108,7 +84,8 @@ public class Main extends EasyPlugin {
         this.requestManager = new RequestManager(this);
 
         info("注册监听器...");
-        regListener(new UserListener());
+        registerListener(new UserListener());
+        registerListener(new CommandListener());
 
         info("注册指令...");
         registerCommand("MoeTeleport", new MoeTeleportCommand());
@@ -131,15 +108,15 @@ public class Main extends EasyPlugin {
         registerCommand("setWarp", new WarpSetCommand());
         registerCommand("delWarp", new WarpDelCommand(), new WarpNameCompleter(true));
 
-        if (PluginConfig.METRICS.get()) {
+        if (PluginConfig.METRICS.getNotNull()) {
             info("启用统计数据...");
             Metrics metrics = new Metrics(this, 14459);
             metrics.addCustomChart(new SimplePie("storage_method", storageMethod::name));
         }
 
-        if (PluginConfig.CHECK_UPDATE.get()) {
+        if (PluginConfig.CHECK_UPDATE.getNotNull()) {
             info("开始检查更新...");
-            UpdateChecker.checkUpdate();
+            getScheduler().runAsync(GHUpdateChecker.runner(this));
         } else {
             info("已禁用检查更新，跳过。");
         }
@@ -167,15 +144,30 @@ public class Main extends EasyPlugin {
 
     @Override
     public boolean isDebugging() {
-        return PluginConfig.DEBUG.get();
+        return PluginConfig.DEBUG.getNotNull();
     }
 
-    public void outputInfo() {
-        String[] pluginInfo = JarResourceUtils.readResource(this.getResource("PLUGIN_INFO"));
-        if (pluginInfo != null) {
-            Arrays.stream(pluginInfo).forEach(Main::info);
-        }
+    public static void info(String... messages) {
+        getInstance().log(messages);
     }
 
+    public static void severe(String... messages) {
+        getInstance().error(messages);
+    }
 
+    public static void debugging(String... messages) {
+        getInstance().debug(messages);
+    }
+
+    public static Main getInstance() {
+        return instance;
+    }
+
+    public ConfigurationProvider<?> getConfigProvider() {
+        return configProvider;
+    }
+
+    public ConfigurationProvider<?> getMessageProvider() {
+        return messageProvider;
+    }
 }

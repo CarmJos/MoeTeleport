@@ -10,6 +10,7 @@ api-version: 1.13
 softdepend:
   - PlaceholderAPI
   - Essentials
+  - CMI
 
 permissions:
   "MoeTeleport":

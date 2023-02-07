@@ -1,7 +1,7 @@
 package cc.carm.plugin.moeteleport.command.completer;
 
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.model.UserData;
+import cc.carm.plugin.moeteleport.storage.UserData;
 import com.google.common.collect.ImmutableList;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

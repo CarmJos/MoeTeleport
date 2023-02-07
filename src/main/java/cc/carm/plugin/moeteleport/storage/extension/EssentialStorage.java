@@ -1,7 +1,7 @@
 package cc.carm.plugin.moeteleport.storage.extension;
 
-import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
-import cc.carm.plugin.moeteleport.model.UserData;
+import cc.carm.plugin.moeteleport.conf.location.DataLocation;
+import cc.carm.plugin.moeteleport.storage.UserData;
 import cc.carm.plugin.moeteleport.model.WarpInfo;
 import cc.carm.plugin.moeteleport.storage.impl.PluginBasedStorage;
 import com.earth2me.essentials.Essentials;

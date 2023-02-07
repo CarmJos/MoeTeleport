@@ -1,4 +1,4 @@
-package cc.carm.plugin.moeteleport.configuration.location;
+package cc.carm.plugin.moeteleport.conf.location;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;

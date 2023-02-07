@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.storage;
 
-import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
+import cc.carm.plugin.moeteleport.conf.location.DataLocation;
 import cc.carm.plugin.moeteleport.model.WarpInfo;
 import org.bukkit.Location;
 import org.jetbrains.annotations.Nullable;

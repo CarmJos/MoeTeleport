@@ -2,7 +2,7 @@ package cc.carm.plugin.moeteleport.manager;
 
 import cc.carm.plugin.moeteleport.Main;
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
+import cc.carm.plugin.moeteleport.conf.location.DataLocation;
 import cc.carm.plugin.moeteleport.model.WarpInfo;
 import com.google.common.collect.ImmutableMap;
 import org.bukkit.Location;

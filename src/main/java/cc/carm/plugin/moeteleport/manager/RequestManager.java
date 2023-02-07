@@ -2,10 +2,10 @@ package cc.carm.plugin.moeteleport.manager;
 
 import cc.carm.plugin.moeteleport.Main;
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.configuration.PluginConfig;
-import cc.carm.plugin.moeteleport.configuration.PluginMessages;
+import cc.carm.plugin.moeteleport.conf.PluginConfig;
+import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import cc.carm.plugin.moeteleport.model.TeleportRequest;
-import cc.carm.plugin.moeteleport.model.UserData;
+import cc.carm.plugin.moeteleport.storage.UserData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -51,7 +51,7 @@ public class RequestManager {
     }
 
     public void sendRequest(Player sender, Player receiver, TeleportRequest.RequestType type) {
-        int expireTime = PluginConfig.EXPIRE_TIME.get();
+        int expireTime = PluginConfig.REQUEST.EXPIRE_TIME.getNotNull();
 
         PluginMessages.Requests.SENT.send(sender, receiver.getName(), expireTime);
 

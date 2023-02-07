@@ -8,10 +8,6 @@ import cc.carm.plugin.moeteleport.storage.StorageMethod;
 
 public class MoeTeleport {
 
-    public static void outputInfo() {
-        Main.getInstance().outputInfo();
-    }
-
     public static DataStorage getStorage() {
         return Main.getInstance().storage;
     }

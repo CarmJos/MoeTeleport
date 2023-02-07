@@ -1,7 +1,7 @@
 package cc.carm.plugin.moeteleport.command.tpa;
 
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.configuration.PluginMessages;
+import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import cc.carm.plugin.moeteleport.model.TeleportRequest;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

@@ -4,10 +4,10 @@ import cc.carm.lib.easysql.EasySQL;
 import cc.carm.lib.easysql.api.SQLManager;
 import cc.carm.lib.easysql.api.util.UUIDUtil;
 import cc.carm.plugin.moeteleport.Main;
-import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
-import cc.carm.plugin.moeteleport.model.UserData;
+import cc.carm.plugin.moeteleport.conf.location.DataLocation;
 import cc.carm.plugin.moeteleport.model.WarpInfo;
 import cc.carm.plugin.moeteleport.storage.DataStorage;
+import cc.carm.plugin.moeteleport.storage.UserData;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,14 +27,15 @@ public class MySQLStorage implements DataStorage {
 
     @Override
     public void initialize() throws Exception {
+
+        Main.info("加载数据库配置...");
+        Main.getInstance().getConfigProvider().initialize(DatabaseConfig.class);
+
         try {
             Main.info("	尝试连接到数据库...");
-            String url = String.format("jdbc:mysql://%s:%s/%s?useSSL=false",
-                    DBConfiguration.HOST.get(), DBConfiguration.PORT.get(), DBConfiguration.DATABASE.get()
-            );
             this.sqlManager = EasySQL.createManager(
-                    DBConfiguration.DRIVER_NAME.get(), url,
-                    DBConfiguration.USERNAME.get(), DBConfiguration.PASSWORD.get()
+                    DatabaseConfig.DRIVER_NAME.getNotNull(), DatabaseConfig.buildJDBC(),
+                    DatabaseConfig.USERNAME.getNotNull(), DatabaseConfig.PASSWORD.getNotNull()
             );
             this.sqlManager.setDebugMode(() -> Main.getInstance().isDebugging());
         } catch (Exception exception) {
@@ -43,18 +44,9 @@ public class MySQLStorage implements DataStorage {
 
         try {
             Main.info("	创建插件所需表...");
-            getSQLManager().createTable(DBTables.UserLastLocations.TABLE_NAME.get())
-                    .setColumns(DBTables.UserLastLocations.TABLE_COLUMNS)
-                    .build().execute();
-
-            getSQLManager().createTable(DBTables.UserHomes.TABLE_NAME.get())
-                    .setColumns(DBTables.UserHomes.TABLE_COLUMNS)
-                    .build().execute();
-
-            getSQLManager().createTable(DBTables.Warps.TABLE_NAME.get())
-                    .setColumns(DBTables.Warps.TABLE_COLUMNS)
-                    .build().execute();
-
+            for (DatabaseTables value : DatabaseTables.values()) {
+                value.create(this.sqlManager);
+            }
         } catch (SQLException exception) {
             throw new Exception("无法创建插件所需的表，请检查数据库权限。", exception);
         }
@@ -74,6 +66,10 @@ public class MySQLStorage implements DataStorage {
         this.sqlManager = null;
     }
 
+    public SQLManager getSQLManager() {
+        return sqlManager;
+    }
+
     @Override
     public @Nullable UserData loadData(@NotNull UUID uuid) throws Exception {
         LinkedHashMap<String, DataLocation> homes = loadHomes(uuid);
@@ -85,7 +81,7 @@ public class MySQLStorage implements DataStorage {
     public void saveUserData(@NotNull UserData data) throws Exception {
         Location location = data.getLastLocation();
         if (location != null && location.getWorld() != null) {
-            getSQLManager().createReplace(DBTables.UserLastLocations.TABLE_NAME.get())
+            DatabaseTables.LAST_LOCATION.createReplace()
                     .setColumnNames("uuid", "world", "x", "y", "z", "yaw", "pitch")
                     .setParams(
                             data.getUserUUID(), location.getWorld().getName(),
@@ -93,7 +89,7 @@ public class MySQLStorage implements DataStorage {
                             location.getYaw(), location.getPitch()
                     ).execute();
         } else {
-            getSQLManager().createDelete(DBTables.UserLastLocations.TABLE_NAME.get())
+            DatabaseTables.LAST_LOCATION.createDelete()
                     .addCondition("uuid", data.getUserUUID()).setLimit(1)
                     .build().execute();
         }
@@ -110,7 +106,7 @@ public class MySQLStorage implements DataStorage {
     }
 
     private @NotNull LinkedHashMap<String, DataLocation> loadHomes(@NotNull UUID uuid) throws Exception {
-        return getSQLManager().createQuery().inTable(DBTables.UserHomes.TABLE_NAME.get())
+        return DatabaseTables.HOMES.createQuery()
                 .addCondition("uuid", uuid).build()
                 .executeFunction((query) -> {
                     LinkedHashMap<String, DataLocation> homes = new LinkedHashMap<>();
@@ -119,38 +115,24 @@ public class MySQLStorage implements DataStorage {
                     while (resultSet.next()) {
                         String name = resultSet.getString("name");
                         if (name == null) continue;
-                        homes.put(name, new DataLocation(
-                                resultSet.getString("world"),
-                                resultSet.getDouble("x"),
-                                resultSet.getDouble("y"),
-                                resultSet.getDouble("z"),
-                                resultSet.getFloat("yaw"),
-                                resultSet.getFloat("pitch")
-                        ));
+                        homes.put(name, readLocation(resultSet));
                     }
                     return homes;
                 }, new LinkedHashMap<>());
     }
 
     private @Nullable DataLocation loadLastLocation(@NotNull UUID uuid) throws Exception {
-        return getSQLManager().createQuery().inTable(DBTables.UserLastLocations.TABLE_NAME.get())
+        return DatabaseTables.LAST_LOCATION.createQuery()
                 .addCondition("uuid", uuid).setLimit(1).build()
                 .executeFunction((query) -> {
                     ResultSet resultSet = query.getResultSet();
                     if (resultSet == null || !resultSet.next()) return null;
-                    return new DataLocation(
-                            resultSet.getString("world"),
-                            resultSet.getDouble("x"),
-                            resultSet.getDouble("y"),
-                            resultSet.getDouble("z"),
-                            resultSet.getFloat("yaw"),
-                            resultSet.getFloat("pitch")
-                    );
+                    return readLocation(resultSet);
                 });
     }
 
     private @NotNull Map<String, WarpInfo> loadWarps() throws Exception {
-        return getSQLManager().createQuery().inTable(DBTables.Warps.TABLE_NAME.get())
+        return DatabaseTables.WRAPS.createQuery()
                 .orderBy("id", true).build().executeFunction((query) -> {
                     LinkedHashMap<String, WarpInfo> warps = new LinkedHashMap<>();
                     ResultSet resultSet = query.getResultSet();
@@ -159,14 +141,7 @@ public class MySQLStorage implements DataStorage {
                         String uuidString = resultSet.getString("owner");
                         UUID uuid = uuidString == null ? null : UUIDUtil.toUUID(uuidString);
                         String name = resultSet.getString("name");
-                        DataLocation location = new DataLocation(
-                                resultSet.getString("world"),
-                                resultSet.getDouble("x"),
-                                resultSet.getDouble("y"),
-                                resultSet.getDouble("z"),
-                                resultSet.getFloat("yaw"),
-                                resultSet.getFloat("pitch")
-                        );
+                        DataLocation location = readLocation(resultSet);
                         warps.put(name, new WarpInfo(name, uuid, location));
                     }
                     return warps;
@@ -175,7 +150,7 @@ public class MySQLStorage implements DataStorage {
 
     @Override
     public void setHome(@NotNull UUID uuid, @NotNull String homeName, @NotNull DataLocation location) throws Exception {
-        getSQLManager().createReplace(DBTables.UserHomes.TABLE_NAME.get())
+        DatabaseTables.HOMES.createReplace()
                 .setColumnNames("uuid", "name", "world", "x", "y", "z", "yaw", "pitch")
                 .setParams(
                         uuid, homeName, location.getWorldName(),
@@ -187,7 +162,7 @@ public class MySQLStorage implements DataStorage {
 
     @Override
     public boolean delHome(@NotNull UUID uuid, @NotNull String homeName) throws Exception {
-        return getSQLManager().createDelete(DBTables.UserHomes.TABLE_NAME.get())
+        return DatabaseTables.HOMES.createDelete()
                 .addCondition("uuid", uuid)
                 .addCondition("name", homeName)
                 .setLimit(1)
@@ -198,7 +173,7 @@ public class MySQLStorage implements DataStorage {
     public void setWarp(@NotNull String name, @NotNull WarpInfo warpInfo) throws Exception {
         this.warpsMap.put(name, warpInfo);
         DataLocation location = warpInfo.getLocation();
-        getSQLManager().createReplace(DBTables.Warps.TABLE_NAME.get())
+        DatabaseTables.WRAPS.createReplace()
                 .setColumnNames("name", "owner", "world", "x", "y", "z", "yaw", "pitch")
                 .setParams(
                         name, warpInfo.getOwner(), location.getWorldName(),
@@ -213,13 +188,20 @@ public class MySQLStorage implements DataStorage {
         if (actualName == null) return false;
 
         this.warpsMap.remove(actualName);
-        return getSQLManager().createDelete(DBTables.Warps.TABLE_NAME.get())
+        return DatabaseTables.WRAPS.createDelete()
                 .addCondition("name", actualName).setLimit(1)
                 .build().executeFunction((i) -> i > 0, false);
     }
 
-    public SQLManager getSQLManager() {
-        return sqlManager;
+    protected DataLocation readLocation(ResultSet result) throws SQLException {
+        return new DataLocation(
+                result.getString("world"),
+                result.getDouble("x"),
+                result.getDouble("y"),
+                result.getDouble("z"),
+                result.getFloat("yaw"),
+                result.getFloat("pitch")
+        );
     }
 
 

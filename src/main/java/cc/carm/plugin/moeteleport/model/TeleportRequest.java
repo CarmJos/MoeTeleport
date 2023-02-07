@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.model;
 
-import cc.carm.plugin.moeteleport.configuration.PluginConfig;
+import cc.carm.plugin.moeteleport.conf.PluginConfig;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +51,7 @@ public class TeleportRequest {
     }
 
     public long getRemainTime() {
-        return PluginConfig.EXPIRE_TIME.get() * 1000 - getActiveTime();
+        return PluginConfig.REQUEST.EXPIRE_TIME.getNotNull() * 1000 - getActiveTime();
     }
 
     public long getRemainSeconds() {
@@ -59,7 +59,7 @@ public class TeleportRequest {
     }
 
     public boolean isExpired() {
-        return getActiveTime() > PluginConfig.EXPIRE_TIME.get() * 1000;
+        return getActiveTime() > PluginConfig.REQUEST.EXPIRE_TIME.getNotNull() * 1000;
     }
 
     public enum RequestType {

@@ -1,8 +1,7 @@
 package cc.carm.plugin.moeteleport.storage;
 
-import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
+import cc.carm.plugin.moeteleport.conf.location.DataLocation;
 import cc.carm.plugin.moeteleport.manager.UserManager;
-import cc.carm.plugin.moeteleport.model.UserData;
 import cc.carm.plugin.moeteleport.model.WarpInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

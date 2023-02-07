@@ -1,10 +1,10 @@
 package cc.carm.plugin.moeteleport.command.home;
 
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.configuration.PluginMessages;
-import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
+import cc.carm.plugin.moeteleport.conf.PluginMessages;
+import cc.carm.plugin.moeteleport.conf.location.DataLocation;
 import cc.carm.plugin.moeteleport.manager.TeleportManager;
-import cc.carm.plugin.moeteleport.model.UserData;
+import cc.carm.plugin.moeteleport.storage.UserData;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

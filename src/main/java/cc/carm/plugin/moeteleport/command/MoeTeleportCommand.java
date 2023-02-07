@@ -1,6 +1,5 @@
 package cc.carm.plugin.moeteleport.command;
 
-import cc.carm.plugin.moeteleport.manager.ConfigManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

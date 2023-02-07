@@ -2,10 +2,10 @@ package cc.carm.plugin.moeteleport.manager;
 
 import cc.carm.plugin.moeteleport.Main;
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.configuration.PluginConfig;
-import cc.carm.plugin.moeteleport.model.UserData;
+import cc.carm.plugin.moeteleport.conf.PluginConfig;
 import cc.carm.plugin.moeteleport.model.WarpInfo;
 import cc.carm.plugin.moeteleport.storage.DataStorage;
+import cc.carm.plugin.moeteleport.storage.UserData;
 import cc.carm.plugin.moeteleport.util.DataTaskRunner;
 import com.google.common.collect.ImmutableMap;
 import org.bukkit.Bukkit;
@@ -132,11 +132,11 @@ public class UserManager {
     }
 
     public int getMaxHome(Player player) {
-        return getMaxValue(player, PluginConfig.HOME_PERMISSIONS.get(), PluginConfig.DEFAULT_HOME.get());
+        return getMaxValue(player, PluginConfig.HOMES.PERMISSIONS.getNotNull(), PluginConfig.HOMES.DEFAULTS.getNotNull());
     }
 
     public int getMaxWarps(Player player) {
-        return getMaxValue(player, PluginConfig.WARP_PERMISSIONS.get(), PluginConfig.DEFAULT_WARP.get());
+        return getMaxValue(player, PluginConfig.WARPS.PERMISSIONS.getNotNull(), PluginConfig.WARPS.DEFAULTS.getNotNull());
     }
 
     public void editData(@NotNull DataTaskRunner task) {

@@ -1,7 +1,8 @@
-package cc.carm.plugin.moeteleport.model;
+package cc.carm.plugin.moeteleport.storage;
 
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
+import cc.carm.plugin.moeteleport.conf.location.DataLocation;
+import cc.carm.plugin.moeteleport.model.TeleportRequest;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

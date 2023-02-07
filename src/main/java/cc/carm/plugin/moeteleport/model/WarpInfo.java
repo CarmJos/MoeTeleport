@@ -1,6 +1,6 @@
 package cc.carm.plugin.moeteleport.model;
 
-import cc.carm.plugin.moeteleport.configuration.location.DataLocation;
+import cc.carm.plugin.moeteleport.conf.location.DataLocation;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;

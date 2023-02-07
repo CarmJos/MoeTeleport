@@ -1,8 +1,8 @@
 package cc.carm.plugin.moeteleport.listener;
 
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.configuration.PluginConfig;
-import cc.carm.plugin.moeteleport.configuration.PluginMessages;
+import cc.carm.plugin.moeteleport.conf.PluginConfig;
+import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,7 +26,7 @@ public class UserListener implements Listener {
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
-        if (PluginConfig.DEATH_GO_BACK.get()) {
+        if (PluginConfig.BACK.DEATH.getNotNull()) {
             Player player = event.getEntity();
             MoeTeleport.getUserManager().getData(player).setLastLocation(player.getLocation());
             PluginMessages.Back.DEATH_MESSAGE.send(player);

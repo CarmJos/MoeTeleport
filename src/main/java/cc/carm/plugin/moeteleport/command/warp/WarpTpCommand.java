@@ -1,7 +1,7 @@
 package cc.carm.plugin.moeteleport.command.warp;
 
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.configuration.PluginMessages;
+import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import cc.carm.plugin.moeteleport.manager.TeleportManager;
 import cc.carm.plugin.moeteleport.model.WarpInfo;
 import org.bukkit.command.Command;
