@@ -61,7 +61,6 @@ public class PluginConfig extends ConfigurationRoot {
 
         }
 
-
         @HeaderComment("传送引导特效与音效")
         public static final ConfigValue<Boolean> EFFECTS = ConfiguredValue.of(Boolean.class, true);
 

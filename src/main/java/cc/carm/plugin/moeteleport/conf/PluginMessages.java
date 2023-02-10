@@ -1,6 +1,7 @@
 package cc.carm.plugin.moeteleport.conf;
 
 import cc.carm.lib.configuration.core.ConfigurationRoot;
+import cc.carm.lib.easyplugin.utils.ColorParser;
 import cc.carm.lib.mineconfiguration.bukkit.builder.message.CraftMessageListBuilder;
 import cc.carm.lib.mineconfiguration.bukkit.builder.message.CraftMessageValueBuilder;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
