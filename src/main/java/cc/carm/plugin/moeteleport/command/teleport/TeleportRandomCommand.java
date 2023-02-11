@@ -14,7 +14,6 @@ public class TeleportRandomCommand extends TeleportSubCommand {
 
     @Override
     public Void execute(JavaPlugin plugin, CommandSender sender, String[] args) throws Exception {
-        //TODO 随机坐标传送
         return null;
     }
 

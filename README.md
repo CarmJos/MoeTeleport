@@ -40,10 +40,9 @@
 - **规范开发。** 插件架构符合开发规范，适合新手开发者学习。
     - 自 [3.0.0]() 版本开始采用了 EasyPlugin 开发，可能与其他主流插件结构有些不同。
 - **持续维护。** 新功能需求均可提交，大概率在后续开发中支持。
-  -
-  功能需求请 [提交Issues](https://github.com/CarmJos/MoeTeleport/issues/new?assignees=&labels=enhancement&template=feature_issues.md&title=)
+  - 功能需求请 [提交Issues](https://github.com/CarmJos/MoeTeleport/issues/new?assignees=&labels=enhancement&template=feature_issues.md&title=)
   ，不要在帖子中提交！
-    - 提交与 “传送” 相关联的请求才大概率会被更新支持。
+  - 提交与 “传送” 相关联的请求才大概率会被更新支持。
 
 ## [依赖](https://github.com/CarmJos/MoeTeleport/network/dependencies)
 
