@@ -12,10 +12,6 @@
 
 项目代码符合开发规范，适合新手开发者学习Bukkit，制作属于自己的插件。
 
-本插件由 [**璎珞**服务器](https://www.yingluo.world/) 委托本人开发，经过授权后开源。
-
-感谢 [**XingMC**(MagicMC服务器开发者)](https://www.mcbbs.net/?4816320) 为本插件提供后续开发的资金赞助。
-
 ## 功能与优势
 
 ### 当前功能
@@ -146,11 +142,11 @@ homes:
 
 ## 支持与捐赠
 
-若您觉得本插件做的不错，您可以捐赠支持我！
+若您觉得本插件做的不错，您可以捐赠支持我，感谢您成为开源项目的支持者！
 
-感谢您成为开源项目的支持者！
-
-<img height=25% width=25% src="https://raw.githubusercontent.com/CarmJos/CarmJos/main/img/donate-code.jpg"  alt=""/>
+由衷感谢以下支持本项目开发的朋友们：
+- 本插件由 [**璎珞**服务器](https://www.yingluo.world/) 委托本人开发，经过授权后开源。
+- 感谢 [**XingMC**(MagicMC服务器开发者)](https://www.mcbbs.net/?4816320) 为本插件提供后续开发的资金赞助。
 
 ## 开源协议
 
