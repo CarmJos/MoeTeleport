@@ -71,7 +71,7 @@
 
 ----- [ 传送相关指令 ] -----
 
-# teleport to &d<目标玩家>
+# teleport to <目标玩家>
 - 请求传送到目标玩家的位置。
 
 # teleport here <玩家>
