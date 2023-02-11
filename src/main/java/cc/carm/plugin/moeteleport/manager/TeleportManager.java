@@ -15,7 +15,7 @@ public class TeleportManager {
     public static void teleport(Player player, DataLocation targetLocation, boolean onlySafety) {
         Location location = targetLocation.getBukkitLocation();
         if (location == null) {
-            PluginMessages.Teleport.NOT_AVAILABLE.send(player, targetLocation.toFlatString());
+            PluginMessages.TELEPORT.NOT_AVAILABLE.send(player, targetLocation.toFlatString());
         } else {
             teleport(player, location, onlySafety);
         }
@@ -26,12 +26,12 @@ public class TeleportManager {
             if (!onlySafety || TeleportManager.isSafeLocation(targetLocation)) {
                 MoeTeleport.getUserManager().getData(player).setLastLocation(player.getLocation());
                 player.teleport(targetLocation);
-                PluginMessages.Teleport.TELEPORTING.send(player, new DataLocation(targetLocation).toFlatString());
+                PluginMessages.TELEPORT.TELEPORTING.send(player, new DataLocation(targetLocation).toFlatString());
             } else {
-                PluginMessages.Teleport.NOT_SAFE.send(player, new DataLocation(targetLocation).toFlatString());
+                PluginMessages.TELEPORT.NOT_SAFE.send(player, new DataLocation(targetLocation).toFlatString());
             }
         } else {
-            PluginMessages.Teleport.NOT_SAFE.send(player, new DataLocation(targetLocation).toFlatString());
+            PluginMessages.TELEPORT.NOT_SAFE.send(player, new DataLocation(targetLocation).toFlatString());
         }
     }
 

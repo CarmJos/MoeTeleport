@@ -13,6 +13,8 @@ public class TeleportRequest {
 
     final long createTime;
 
+    boolean confirmed; // 当目的地危险时，需要确认
+
     public TeleportRequest(@NotNull Player sender,
                            @NotNull Player receiver,
                            @NotNull RequestType type) {

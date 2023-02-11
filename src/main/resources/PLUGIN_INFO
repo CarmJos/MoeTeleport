@@ -2,5 +2,6 @@
 &d|     |___ ___&5|_   _|___| |___ ___ ___ ___| |_
 &d| | | | . | -_|&5 | | | -_| | -_| . | . |  _|  _|
 &d|_|_|_|___|___|&5 |_| |___|_|___|  _|___|_| |_|
-&d               &5               |_|
-&f 查看更多信息请访问项目主页&d https://github.com/CarmJos/MoeTeleport
+&8# &dMoe&5Teleport     &5            |_|
+&f 当前版本 &d${project.version} &f查看更多信息请访问项目主页
+&8 -> &d https://github.com/CarmJos/MoeTeleport

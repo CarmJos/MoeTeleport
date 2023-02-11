@@ -40,8 +40,8 @@ public class RequestManager {
                         .peek(entry -> {
                             Player sender = entry.getValue().getSender();
                             Player receiver = entry.getValue().getReceiver();
-                            PluginMessages.Requests.SENT_TIMEOUT.send(sender, receiver.getName());
-                            PluginMessages.Requests.RECEIVED_TIMEOUT.send(receiver, sender.getName());
+                            PluginMessages.REQUESTS.SENT_TIMEOUT.send(sender, receiver.getName());
+                            PluginMessages.REQUESTS.RECEIVED_TIMEOUT.send(receiver, sender.getName());
                         })
                         .peek(entry -> MoeTeleport.getUserManager()
                                 .getData(entry.getValue().getSender()).getSentRequests()
@@ -53,15 +53,15 @@ public class RequestManager {
     public void sendRequest(Player sender, Player receiver, TeleportRequest.RequestType type) {
         int expireTime = PluginConfig.REQUEST.EXPIRE_TIME.getNotNull();
 
-        PluginMessages.Requests.SENT.send(sender, receiver.getName(), expireTime);
+        PluginMessages.REQUESTS.SENT.send(sender, receiver.getName(), expireTime);
 
         switch (type) {
             case TPA: {
-                PluginMessages.Requests.RECEIVED_TP_HERE.send(receiver, sender.getName(), expireTime);
+                PluginMessages.REQUESTS.RECEIVED_TP_HERE.send(receiver, sender.getName(), expireTime);
                 break;
             }
             case TPA_HERE: {
-                PluginMessages.Requests.RECEIVED_TP_TO.send(receiver, sender.getName(), expireTime);
+                PluginMessages.REQUESTS.RECEIVED_TP_TO.send(receiver, sender.getName(), expireTime);
                 break;
             }
         }
@@ -73,15 +73,15 @@ public class RequestManager {
     }
 
     public void acceptRequest(TeleportRequest request) {
-        PluginMessages.Requests.WAS_ACCEPTED.send(request.getSender(), request.getReceiver().getName());
-        PluginMessages.Requests.ACCEPTED.send(request.getReceiver(), request.getSender().getName());
+        PluginMessages.REQUESTS.WAS_ACCEPTED.send(request.getSender(), request.getReceiver().getName());
+        PluginMessages.REQUESTS.ACCEPTED.send(request.getReceiver(), request.getSender().getName());
         TeleportManager.teleport(request.getTeleportPlayer(), request.getTeleportLocation(), true);
         removeRequests(request);
     }
 
     public void denyRequest(TeleportRequest request) {
-        PluginMessages.Requests.WAS_DENIED.send(request.getSender(), request.getReceiver().getName());
-        PluginMessages.Requests.DENIED.send(request.getReceiver(), request.getSender().getName());
+        PluginMessages.REQUESTS.WAS_DENIED.send(request.getSender(), request.getReceiver().getName());
+        PluginMessages.REQUESTS.DENIED.send(request.getReceiver(), request.getSender().getName());
         removeRequests(request);
     }
 
@@ -98,13 +98,13 @@ public class RequestManager {
         UUID playerUUID = player.getUniqueId();
         UserData data = MoeTeleport.getUserManager().getData(player);
         data.getReceivedRequests().keySet().stream()
-                .peek(senderUUID -> PluginMessages.Requests.OFFLINE.send(Bukkit.getPlayer(senderUUID), player.getName()))
+                .peek(senderUUID -> PluginMessages.REQUESTS.OFFLINE.send(Bukkit.getPlayer(senderUUID), player.getName()))
                 .map(senderUUID -> MoeTeleport.getUserManager().getData(senderUUID))
                 .filter(Objects::nonNull).map(UserData::getSentRequests)
                 .forEach(receivers -> receivers.remove(playerUUID));
 
         data.getSentRequests().stream()
-                .peek(receiverUUID -> PluginMessages.Requests.OFFLINE.send(Bukkit.getPlayer(receiverUUID), player.getName()))
+                .peek(receiverUUID -> PluginMessages.REQUESTS.OFFLINE.send(Bukkit.getPlayer(receiverUUID), player.getName()))
                 .map(receiverUUID -> MoeTeleport.getUserManager().getData(receiverUUID))
                 .filter(Objects::nonNull).map(UserData::getReceivedRequests)
                 .forEach(senders -> senders.remove(playerUUID));

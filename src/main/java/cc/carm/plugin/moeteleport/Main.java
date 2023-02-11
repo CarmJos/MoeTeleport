@@ -4,23 +4,12 @@ import cc.carm.lib.configuration.core.source.ConfigurationProvider;
 import cc.carm.lib.easyplugin.EasyPlugin;
 import cc.carm.lib.easyplugin.updatechecker.GHUpdateChecker;
 import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
-import cc.carm.plugin.moeteleport.command.BackCommand;
-import cc.carm.plugin.moeteleport.command.MoeTeleportCommand;
-import cc.carm.plugin.moeteleport.command.completer.HomeNameCompleter;
-import cc.carm.plugin.moeteleport.command.completer.PlayerNameCompleter;
-import cc.carm.plugin.moeteleport.command.completer.TpRequestCompleter;
-import cc.carm.plugin.moeteleport.command.completer.WarpNameCompleter;
-import cc.carm.plugin.moeteleport.command.home.HomeDelCommand;
-import cc.carm.plugin.moeteleport.command.home.HomeListCommand;
-import cc.carm.plugin.moeteleport.command.home.HomeSetCommand;
-import cc.carm.plugin.moeteleport.command.home.HomeTpCommand;
-import cc.carm.plugin.moeteleport.command.tpa.TpHandleCommand;
-import cc.carm.plugin.moeteleport.command.tpa.TpaCommand;
-import cc.carm.plugin.moeteleport.command.warp.*;
+import cc.carm.plugin.moeteleport.command.MainCommands;
 import cc.carm.plugin.moeteleport.conf.PluginConfig;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
-import cc.carm.plugin.moeteleport.listener.CommandListener;
+import cc.carm.plugin.moeteleport.listener.TeleportListener;
 import cc.carm.plugin.moeteleport.listener.UserListener;
+import cc.carm.plugin.moeteleport.manager.CommandManager;
 import cc.carm.plugin.moeteleport.manager.RequestManager;
 import cc.carm.plugin.moeteleport.manager.UserManager;
 import cc.carm.plugin.moeteleport.manager.WarpManager;
@@ -36,11 +25,11 @@ public class Main extends EasyPlugin {
     protected ConfigurationProvider<?> configProvider;
     protected ConfigurationProvider<?> messageProvider;
 
-
     protected DataStorage storage;
     protected WarpManager warpManager;
     protected UserManager userManager;
     protected RequestManager requestManager;
+    protected CommandManager commandManager;
 
     public Main() {
         instance = this;
@@ -56,11 +45,11 @@ public class Main extends EasyPlugin {
         this.messageProvider = MineConfiguration.from(this, "messages.yml");
         this.messageProvider.initialize(PluginMessages.class);
 
-        info("初始化存储方式...");
+        log("初始化存储方式...");
         StorageMethod storageMethod = StorageMethod.read(PluginConfig.STORAGE.METHOD.get());
 
         try {
-            info("	正在使用 " + storageMethod.name() + " 进行数据存储");
+            log("	正在使用 " + storageMethod.name() + " 进行数据存储");
             storage = storageMethod.createStorage();
             storage.initialize();
         } catch (Exception ex) {
@@ -70,55 +59,48 @@ public class Main extends EasyPlugin {
         }
 
 
-        info("加载地标管理器...");
+        log("加载地标管理器...");
         warpManager = new WarpManager();
 
-        info("加载用户管理器...");
+        log("加载用户管理器...");
         this.userManager = new UserManager();
         if (Bukkit.getOnlinePlayers().size() > 0) {
-            info("   加载现有用户数据...");
+            log("   加载现有用户数据...");
             this.userManager.loadAll();
         }
 
-        info("加载请求管理器...");
+        log("加载请求管理器...");
         this.requestManager = new RequestManager(this);
 
-        info("注册监听器...");
+        log("注册监听器...");
         registerListener(new UserListener());
-        registerListener(new CommandListener());
+        registerListener(new TeleportListener());
 
-        info("注册指令...");
-        registerCommand("MoeTeleport", new MoeTeleportCommand());
+        log("注册指令...");
+        registerCommand("MoeTeleport", new MainCommands(this));
 
-        registerCommand("back", new BackCommand());
+        try {
+            this.commandManager = new CommandManager(this);
+            if (PluginConfig.COMMAND.ENABLE.getNotNull()) {
+                PluginConfig.COMMAND.ALIAS.getNotNull().forEach(commandManager::register);
+            }
+        } catch (Exception e) {
+            log("注册简化指令失败： " + e.getMessage());
+            e.printStackTrace();
+        }
 
-        registerCommand("listHome", new HomeListCommand());
-        registerCommand("home", new HomeTpCommand(), new HomeNameCompleter());
-        registerCommand("setHome", new HomeSetCommand());
-        registerCommand("delHome", new HomeDelCommand(), new HomeNameCompleter());
-
-        registerCommand("tpa", new TpaCommand(), new PlayerNameCompleter());
-        registerCommand("tpaHere", new TpaCommand(), new PlayerNameCompleter());
-        registerCommand("tpAccept", new TpHandleCommand(), new TpRequestCompleter());
-        registerCommand("tpDeny", new TpHandleCommand(), new TpRequestCompleter());
-
-        registerCommand("listWarps", new WarpListCommand());
-        registerCommand("warpInfo", new WarpInfoCommand(), new WarpNameCompleter(false));
-        registerCommand("warp", new WarpTpCommand(), new WarpNameCompleter(false));
-        registerCommand("setWarp", new WarpSetCommand());
-        registerCommand("delWarp", new WarpDelCommand(), new WarpNameCompleter(true));
 
         if (PluginConfig.METRICS.getNotNull()) {
-            info("启用统计数据...");
+            log("启用统计数据...");
             Metrics metrics = new Metrics(this, 14459);
             metrics.addCustomChart(new SimplePie("storage_method", storageMethod::name));
         }
 
         if (PluginConfig.CHECK_UPDATE.getNotNull()) {
-            info("开始检查更新...");
+            log("开始检查更新...");
             getScheduler().runAsync(GHUpdateChecker.runner(this));
         } else {
-            info("已禁用检查更新，跳过。");
+            log("已禁用检查更新，跳过。");
         }
 
         return true;
@@ -126,19 +108,24 @@ public class Main extends EasyPlugin {
 
     @Override
     protected void shutdown() {
-        info("关闭所有请求...");
+        log("清空简化指令...");
+        if (this.commandManager != null) {
+            this.commandManager.unregisterAll();
+        }
+
+        log("关闭所有请求...");
         this.requestManager.shutdown();
 
-        info("保存用户数据...");
+        log("保存用户数据...");
         this.userManager.unloadAll(true);
 
-        info("保存地标数据...");
+        log("保存地标数据...");
         this.warpManager.saveWarps();
 
-        info("终止存储源...");
+        log("终止存储源...");
         this.storage.shutdown();
 
-        info("卸载监听器...");
+        log("卸载监听器...");
         Bukkit.getServicesManager().unregisterAll(this);
     }
 

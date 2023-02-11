@@ -29,7 +29,7 @@ public class UserListener implements Listener {
         if (PluginConfig.BACK.DEATH.getNotNull()) {
             Player player = event.getEntity();
             MoeTeleport.getUserManager().getData(player).setLastLocation(player.getLocation());
-            PluginMessages.Back.DEATH_MESSAGE.send(player);
+            PluginMessages.BACK.DEATH_MESSAGE.send(player);
         }
     }
 

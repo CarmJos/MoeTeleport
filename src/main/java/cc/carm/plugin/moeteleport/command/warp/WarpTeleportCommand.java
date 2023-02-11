@@ -3,37 +3,40 @@ package cc.carm.plugin.moeteleport.command.warp;
 import cc.carm.plugin.moeteleport.command.parent.WarpCommands;
 import cc.carm.plugin.moeteleport.command.sub.WarpSubCommand;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
+import cc.carm.plugin.moeteleport.manager.TeleportManager;
 import cc.carm.plugin.moeteleport.model.WarpInfo;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
 
-public class WarpInfoCommand extends WarpSubCommand {
+public class WarpTeleportCommand extends WarpSubCommand {
 
-    public WarpInfoCommand(@NotNull WarpCommands parent, String name, String... aliases) {
+    public WarpTeleportCommand(@NotNull WarpCommands parent, String name, String... aliases) {
         super(parent, name, aliases);
     }
 
     @Override
     public Void execute(JavaPlugin plugin, CommandSender sender, String[] args) {
-        String warpName = args[0];
-
-        WarpInfo info = getWarp(warpName);
-        if (info == null) {
-            PluginMessages.WARP.NOT_FOUND.send(sender, warpName);
+        if (!(sender instanceof Player)) {
+            PluginMessages.NOT_PLAYER.send(sender);
             return null;
         }
 
-        String ownerName = info.getOwnerName();
-        if (ownerName != null) {
-            PluginMessages.WARP.INFO_FULL.send(sender, warpName, ownerName, info.getLocation().toFlatString());
-        } else {
-            PluginMessages.WARP.INFO_LOCATION.send(sender, warpName, info.getLocation().toFlatString());
+        if (args.length < 1) return getParent().noArgs(sender);
+
+        Player player = (Player) sender;
+
+        WarpInfo info = getWarp(args[0]);
+        if (info == null) {
+            PluginMessages.WARP.NOT_FOUND.send(player, args[0]);
+            return null;
         }
 
+        TeleportManager.teleport(player, info.getLocation(), false);
         return null;
     }
 
