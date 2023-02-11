@@ -94,11 +94,14 @@ public class PluginMessages extends ConfigurationRoot {
         public static final ConfiguredMessageList<BaseComponent[]> HOMES = list().defaults(
                 "&5&l喵喵传送 &f家指令帮助",
                 "&8#&f home list",
-                "&8-&7 列出自己所有的家位置。",
-                "&8#&f home to &d<家名>",
-                "&8-&7 传送到指定的地标点。",
+                "&8-&7 列出所有的家位置。",
+                "&8#&f home to &d[家名]",
+                "&8-&7 传送到指定的家。",
+                "&8-&7&o 若不填写具体的名称则返回首个设置的家，",
+                "&8-&7&o 若存在名为“home”的家则优先返回“home”。",
                 "&8#&f home set &d[家名]",
                 "&8-&7 设定一个家的位置。",
+                "&8-&7&o 若不填写家的名称则默认为“home”",
                 "&8#&f home delete &d[家名]",
                 "&8-&7 删除一个家的位置。"
         ).build();

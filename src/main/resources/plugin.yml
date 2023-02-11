@@ -26,3 +26,5 @@ commands:
     description: "插件的主命令，用于重载插件或查看插件信息。"
     permission: "MoeTeleport.admin"
     usage: "/MoeTeleport reload"
+    aliases:
+      - mt
