@@ -13,7 +13,7 @@
 [![Download](https://img.shields.io/github/downloads/carm-outsource/MoeTeleport/total)](https://github.com/carm-outsource/MoeTeleport/releases)
 [![Java CI with Maven](https://github.com/carm-outsource/MoeTeleport/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/carm-outsource/MoeTeleport/actions/workflows/maven.yml)
 ![Support](https://img.shields.io/badge/Minecraft-Java%201.13--Latest-blue)
-![](https://visitor-badge.glitch.me/badge?page_id=userprefix.readme)
+![](https://visitor-badge.glitch.me/badge?page_id=moeteleport.readme)
 
 开源的传送插件，包含数个功能，并根据用户需求持续更新添加新功能。
 
