@@ -3,6 +3,7 @@ package cc.carm.plugin.moeteleport.manager;
 import cc.carm.plugin.moeteleport.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.SimplePluginManager;
@@ -36,9 +37,9 @@ public class CommandManager {
     }
 
     @SuppressWarnings("unchecked")
-    public Map<String, org.bukkit.command.Command> getKnownCommands() {
+    protected Map<String, Command> getKnownCommands() {
         try {
-            return (Map<String, org.bukkit.command.Command>) knownCommandsFiled.get(commandMap);
+            return (Map<String, Command>) knownCommandsFiled.get(commandMap);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -49,8 +50,7 @@ public class CommandManager {
         return this.plugin.getName().toLowerCase() + " ";
     }
 
-
-    public SimpleCommandMap getCommandMap() {
+    protected SimpleCommandMap getCommandMap() {
         return commandMap;
     }
 
@@ -79,7 +79,7 @@ public class CommandManager {
         registeredCommands.clear();
     }
 
-    public static class AliasCommand extends org.bukkit.command.Command {
+    public static class AliasCommand extends Command {
 
         protected final CommandManager commandManager;
         protected final String targetCommand;
@@ -90,7 +90,7 @@ public class CommandManager {
             this.targetCommand = targetCommand;
         }
 
-        public SimpleCommandMap getCommandMap() {
+        protected SimpleCommandMap getCommandMap() {
             return this.commandManager.getCommandMap();
         }
 

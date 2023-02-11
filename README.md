@@ -8,6 +8,13 @@
 
 # MoeTeleport 喵喵传送
 
+[![CodeFactor](https://www.codefactor.io/repository/github/carm-outsource/MoeTeleport/badge?s=b76fec1f64726b5f19989aace6adb5f85fdab840)](https://www.codefactor.io/repository/github/carm-outsource/MoeTeleport)
+![CodeSize](https://img.shields.io/github/languages/code-size/carm-outsource/MoeTeleport)
+[![Download](https://img.shields.io/github/downloads/carm-outsource/MoeTeleport/total)](https://github.com/carm-outsource/MoeTeleport/releases)
+[![Java CI with Maven](https://github.com/carm-outsource/MoeTeleport/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/carm-outsource/MoeTeleport/actions/workflows/maven.yml)
+![Support](https://img.shields.io/badge/Minecraft-Java%201.13--Latest-blue)
+![](https://visitor-badge.glitch.me/badge?page_id=userprefix.readme)
+
 开源的传送插件，包含数个功能，并根据用户需求持续更新添加新功能。
 
 项目代码符合开发规范，适合新手开发者学习Bukkit，制作属于自己的插件。
@@ -123,18 +130,6 @@
 ### 消息配置文件 ([messages.yml](src/main/resources/messages.yml))
 
 支持 [MineDown 语法](https://wiki.phoenix616.dev/library:minedown:syntax)，详见源文件。
-
-### 玩家数据配置文件 (data/\<UUID\>.yml)
-
-本插件采用 `YAML格式` 存储玩家数据。
-
-```yaml
-# 玩家的家位置记录
-# 格式为 world;x;y;z;yaw;pitch
-homes:
-  "name": "world;112.21;45;21.241245552;92.5512;-11"
-
-```
 
 ## 使用统计
 

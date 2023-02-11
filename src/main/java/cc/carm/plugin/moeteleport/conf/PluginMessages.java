@@ -34,7 +34,6 @@ public class PluginMessages extends ConfigurationRoot {
         };
     }
 
-
     public static final ConfiguredMessageList<BaseComponent[]> NO_PERMISSION = list().defaults(
             "&c&l抱歉！&f但您没有足够的权限使用该指令。"
     ).build();
@@ -107,7 +106,6 @@ public class PluginMessages extends ConfigurationRoot {
         ).build();
 
     }
-
 
     public static class RELOAD extends ConfigurationRoot {
 
