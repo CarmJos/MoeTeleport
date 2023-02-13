@@ -9,10 +9,7 @@ import cc.carm.plugin.moeteleport.conf.PluginConfig;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import cc.carm.plugin.moeteleport.listener.TeleportListener;
 import cc.carm.plugin.moeteleport.listener.UserListener;
-import cc.carm.plugin.moeteleport.manager.CommandManager;
-import cc.carm.plugin.moeteleport.manager.RequestManager;
-import cc.carm.plugin.moeteleport.manager.UserManager;
-import cc.carm.plugin.moeteleport.manager.WarpManager;
+import cc.carm.plugin.moeteleport.manager.*;
 import cc.carm.plugin.moeteleport.storage.DataStorage;
 import cc.carm.plugin.moeteleport.storage.StorageMethod;
 import org.bstats.bukkit.Metrics;
@@ -29,6 +26,7 @@ public class Main extends EasyPlugin {
     protected WarpManager warpManager;
     protected UserManager userManager;
     protected RequestManager requestManager;
+    protected TeleportManager teleportManager;
     protected CommandManager commandManager;
 
     public Main() {
@@ -71,6 +69,9 @@ public class Main extends EasyPlugin {
 
         log("加载请求管理器...");
         this.requestManager = new RequestManager(this);
+
+        log("加载传送管理器...");
+        this.teleportManager = new TeleportManager(this);
 
         log("注册监听器...");
         registerListener(new UserListener());
@@ -115,6 +116,7 @@ public class Main extends EasyPlugin {
 
         log("关闭所有请求...");
         this.requestManager.shutdown();
+        this.teleportManager.shutdown();
 
         log("保存用户数据...");
         this.userManager.unloadAll(true);

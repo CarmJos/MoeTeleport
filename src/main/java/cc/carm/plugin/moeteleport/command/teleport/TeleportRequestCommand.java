@@ -5,7 +5,7 @@ import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.command.parent.TeleportCommands;
 import cc.carm.plugin.moeteleport.command.sub.TeleportSubCommand;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
-import cc.carm.plugin.moeteleport.model.TeleportRequest;
+import cc.carm.plugin.moeteleport.teleport.TeleportRequest;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,10 +17,10 @@ import java.util.List;
 
 public class TeleportRequestCommand extends TeleportSubCommand {
 
-    private final @NotNull TeleportRequest.RequestType type;
+    private final @NotNull TeleportRequest.Type type;
 
     public TeleportRequestCommand(@NotNull TeleportCommands parent,
-                                  @NotNull TeleportRequest.RequestType type,
+                                  @NotNull TeleportRequest.Type type,
                                   String name, String... aliases) {
         super(parent, name, aliases);
         this.type = type;
@@ -48,9 +48,9 @@ public class TeleportRequestCommand extends TeleportSubCommand {
             return null;
         }
 
-        TeleportRequest request = MoeTeleport.getUserManager().getData(target).getReceivedRequests().get(player.getUniqueId());
-        if (request != null) {
-            PluginMessages.REQUESTS.DUPLICATE.send(sender, target.getName(), request.getRemainSeconds());
+        TeleportRequest sent = MoeTeleport.getRequestManager().getRequest(player.getUniqueId());
+        if (sent != null) {
+            PluginMessages.REQUESTS.DUPLICATE.send(sender, target.getName(), sent.getRemainSeconds());
             return null;
         }
 

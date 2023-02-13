@@ -1,10 +1,10 @@
 package cc.carm.plugin.moeteleport.command.home;
 
+import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.command.parent.HomeCommands;
 import cc.carm.plugin.moeteleport.command.sub.HomeSubCommand;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import cc.carm.plugin.moeteleport.conf.location.DataLocation;
-import cc.carm.plugin.moeteleport.manager.TeleportManager;
 import cc.carm.plugin.moeteleport.storage.UserData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -36,7 +36,7 @@ public class HomeTeleportCommand extends HomeSubCommand {
         if (locationInfo == null) {
             PluginMessages.HOME.NOT_FOUND.send(player);
         } else {
-            TeleportManager.teleport(player, locationInfo.getValue(), false);
+            MoeTeleport.getTeleportManager().queueTeleport(player, locationInfo.getValue());
         }
 
         return null;

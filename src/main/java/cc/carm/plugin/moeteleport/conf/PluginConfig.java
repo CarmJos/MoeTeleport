@@ -5,9 +5,9 @@ import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
 import cc.carm.lib.configuration.core.util.MapFactory;
 import cc.carm.lib.configuration.core.value.ConfigValue;
-import cc.carm.lib.configuration.core.value.type.ConfiguredList;
 import cc.carm.lib.configuration.core.value.type.ConfiguredMap;
 import cc.carm.lib.configuration.core.value.type.ConfiguredValue;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredSound;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredTitle;
 
 public class PluginConfig extends ConfigurationRoot {
@@ -33,7 +33,7 @@ public class PluginConfig extends ConfigurationRoot {
 
         @HeaderComment({"是否启用简化指令"})
         public static final ConfigValue<Boolean> ENABLE = ConfiguredValue.of(Boolean.class, true);
-        
+
         @HeaderComment({
                 "简化指令表，配置以方便玩家使用。",
                 "格式： 简短指令: 本插件子指令(不含前缀)",
@@ -45,6 +45,9 @@ public class PluginConfig extends ConfigurationRoot {
                     map.put("back", "back");
                     map.put("tpa", "teleport to");
                     map.put("tpaHere", "teleport here");
+                    map.put("tpAccept", "teleport accept");
+                    map.put("tpDeny", "teleport deny");
+                    map.put("tpCancel", "teleport cancel");
 
                     map.put("home", "home to");
                     map.put("setHome", "home set");
@@ -73,17 +76,19 @@ public class PluginConfig extends ConfigurationRoot {
     @HeaderComment("传送的相关配置")
     public static final class TELEPORTATION extends ConfigurationRoot {
 
+        /* Will be supported again in the future
         @HeaderComment("危险的方块类型，将判断目的地脚下的方块的类型是否在这个列表中")
         public static final ConfiguredList<String> DANGEROUS_TYPES = ConfiguredList.builder(String.class)
                 .fromString()
                 .defaults("LAVA", "AIR")
                 .build();
+        */
 
         @HeaderComment("传送的引导时间，单位为秒")
         public static final ConfigValue<Integer> WAIT_TIME = ConfiguredValue.of(Integer.class, 3);
 
         @HeaderComment("打断传送引导的方式")
-        public static final class INTERRUPT {
+        public static final class INTERRUPT extends ConfigurationRoot {
 
             @HeaderComment("在传送引导时是否会因为移动打断传送")
             public static final ConfigValue<Boolean> MOVE = ConfiguredValue.of(Boolean.class, true);
@@ -96,22 +101,32 @@ public class PluginConfig extends ConfigurationRoot {
 
         }
 
-        @HeaderComment("传送引导过程中的标题")
-        public static final class TITLE {
+        @HeaderComment("传送过程中的标题")
+        public static final class TITLE extends ConfigurationRoot {
 
-            public static final ConfiguredTitle CHANNELING = ConfiguredTitle.create().defaults(
-                    "&d&l传送中...",
+            public static final ConfiguredTitle CHANNELING = PluginMessages.title().defaults(
+                    "&d&l将在 %(time) 秒后传送",
                     "&7传送过程中请不要移动"
-            ).params("location").fadeIn(0).stay(10).fadeOut(0).build();
+            ).params("time", "target").fadeIn(0).stay(25).fadeOut(0).build();
 
-            public static final ConfiguredTitle TELEPORTED = ConfiguredTitle.create().defaults(
+            public static final ConfiguredTitle TELEPORTED = PluginMessages.title().defaults(
                     "&d&l传送完成",
-                    "&7已将您传送到 %(location)"
-            ).params("location").fadeIn(0).stay(20).fadeOut(10).build();
+                    "&7已将您传送到 %(target)"
+            ).params("target").fadeIn(0).stay(20).fadeOut(10).build();
 
         }
 
-        @HeaderComment("传送引导特效与音效")
+        @HeaderComment("传送引导过程中的音效")
+        public static final class SOUND extends ConfigurationRoot {
+
+            public static final ConfiguredSound CHANNELING = ConfiguredSound.of("UI_BUTTON_CLICK", 0.5f, 1.0f);
+            public static final ConfiguredSound TELEPORTED = ConfiguredSound.of("ENTITY_ENDERMAN_TELEPORT", 0.5f, 1.0f);
+            public static final ConfiguredSound FAILED = ConfiguredSound.of("ENTITY_VILLAGER_NO", 0.5f, 1.0f);
+            public static final ConfiguredSound INTERRUPTED = ConfiguredSound.of("BLOCK_NOTE_BLOCK_BASEDRUM", 1f, 1.0f);
+
+        }
+
+        @HeaderComment("传送引导特效")
         public static final ConfigValue<Boolean> EFFECTS = ConfiguredValue.of(Boolean.class, true);
 
     }
@@ -123,8 +138,14 @@ public class PluginConfig extends ConfigurationRoot {
         @HeaderComment("请求的过期时间，单位为秒")
         public static final ConfigValue<Integer> EXPIRE_TIME = ConfiguredValue.of(Integer.class, 30);
 
-        @HeaderComment("一个玩家同时能发出的最大请求数量")
-        public static final ConfigValue<Integer> MAX = ConfiguredValue.of(Integer.class, 3);
+
+        public static final class SOUND extends ConfigurationRoot {
+
+            public static final ConfiguredSound SENT = ConfiguredSound.of("UI_BUTTON_CLICK", 0.5f, 1.0f);
+            public static final ConfiguredSound RECEIVED = ConfiguredSound.of("ENTITY_EXPERIENCE_ORB_PICKUP", 0.5f, 1.0f);
+            public static final ConfiguredSound CANCELLED = ConfiguredSound.of("ENTITY_VILLAGER_NO", 0.5f, 1.0f);
+
+        }
 
     }
 

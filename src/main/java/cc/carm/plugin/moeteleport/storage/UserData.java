@@ -2,20 +2,17 @@ package cc.carm.plugin.moeteleport.storage;
 
 import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.conf.location.DataLocation;
-import cc.carm.plugin.moeteleport.model.TeleportRequest;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class UserData {
 
     protected final @NotNull UUID userUUID;
     private final LinkedHashMap<String, DataLocation> homeLocations;
-    private final HashSet<UUID/*receiverUUID*/> sentRequests = new HashSet<>(); // 记录发出的请求
-    private final ConcurrentHashMap<UUID/*senderUUID*/, TeleportRequest> receivedRequests = new ConcurrentHashMap<>(); // 记录收到的传送请求
+
     public boolean enableAutoSelect = false;
     private @Nullable Location lastLocation;
 
@@ -72,14 +69,6 @@ public class UserData {
 
     public void setLastLocation(@Nullable Location lastLocation) {
         this.lastLocation = lastLocation;
-    }
-
-    public HashSet<UUID> getSentRequests() {
-        return sentRequests;
-    }
-
-    public ConcurrentHashMap<UUID, TeleportRequest> getReceivedRequests() {
-        return receivedRequests;
     }
 
     public boolean isEnableAutoSelect() {

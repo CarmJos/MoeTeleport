@@ -1,5 +1,6 @@
 package cc.carm.plugin.moeteleport.command.warp;
 
+import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.command.parent.WarpCommands;
 import cc.carm.plugin.moeteleport.command.sub.WarpSubCommand;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
@@ -36,7 +37,7 @@ public class WarpTeleportCommand extends WarpSubCommand {
             return null;
         }
 
-        TeleportManager.teleport(player, info.getLocation(), false);
+        MoeTeleport.getTeleportManager().queueTeleport(player, info.getLocation());
         return null;
     }
 

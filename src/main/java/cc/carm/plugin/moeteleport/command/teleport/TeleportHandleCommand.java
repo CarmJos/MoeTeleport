@@ -4,17 +4,15 @@ import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.command.parent.TeleportCommands;
 import cc.carm.plugin.moeteleport.command.sub.TeleportSubCommand;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
-import cc.carm.plugin.moeteleport.model.TeleportRequest;
 import cc.carm.plugin.moeteleport.storage.UserData;
+import cc.carm.plugin.moeteleport.teleport.TeleportRequest;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class TeleportHandleCommand extends TeleportSubCommand {
 
@@ -34,7 +32,9 @@ public class TeleportHandleCommand extends TeleportSubCommand {
 
         Player player = (Player) sender;
         UserData data = MoeTeleport.getUserManager().getData(player);
-        if (data.getReceivedRequests().isEmpty()) {
+
+        Map<UUID, TeleportRequest> receivedRequests = getReceivedRequests(player);
+        if (receivedRequests.isEmpty()) {
             PluginMessages.REQUESTS.EMPTY_REQUESTS.send(player);
             return null;
         }
@@ -44,18 +44,23 @@ public class TeleportHandleCommand extends TeleportSubCommand {
 
         if (targetName != null) {
             Player target = Bukkit.getPlayer(targetName);
-            if (target == null || !data.getReceivedRequests().containsKey(target.getUniqueId())) {
+            TeleportRequest request = target == null ? null : receivedRequests.get(target.getUniqueId());
+
+            if (request == null) {
                 PluginMessages.REQUESTS.NO_REQUEST_FROM.send(player, target == null ? targetName : target.getName());
             } else {
-                handle(data.getReceivedRequests().get(target.getUniqueId())); // 交给Manager处理
+                handle(request); // 交给Manager处理
             }
         } else {
-            if (data.getReceivedRequests().size() == 1 || data.isEnableAutoSelect()) {
-                data.getReceivedRequests().values().stream()
-                        .min(Comparator.comparingLong(TeleportRequest::getActiveTime))
+            if (receivedRequests.size() == 1 || data.isEnableAutoSelect()) {
+                receivedRequests.values().stream()
+                        .min(Comparator.comparingLong(TeleportRequest::getActiveMillis))
                         .ifPresent(this::handle);
             } else {
-                PluginMessages.REQUESTS.MULTI.send(player, data.getReceivedRequests().size(), (accept ? "tpaccept" : "tpdeny"));
+                PluginMessages.REQUESTS.MULTI.send(player,
+                        receivedRequests.size(),
+                        "moeteleport teleport " + (accept ? "tpAccept" : "tpDeny").toLowerCase()
+                );
                 data.setEnableAutoSelect(true);
             }
         }

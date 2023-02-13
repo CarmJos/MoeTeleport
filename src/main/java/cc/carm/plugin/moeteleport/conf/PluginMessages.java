@@ -4,8 +4,10 @@ import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.easyplugin.utils.ColorParser;
 import cc.carm.lib.mineconfiguration.bukkit.builder.message.CraftMessageListBuilder;
 import cc.carm.lib.mineconfiguration.bukkit.builder.message.CraftMessageValueBuilder;
+import cc.carm.lib.mineconfiguration.bukkit.builder.title.TitleConfigBuilder;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
+import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredTitle;
 import de.themoep.minedown.MineDown;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -25,6 +27,10 @@ public class PluginMessages extends ConfigurationRoot {
     public static @NotNull CraftMessageValueBuilder<BaseComponent[]> value() {
         return ConfiguredMessage.create(getParser())
                 .whenSend((sender, message) -> sender.spigot().sendMessage(message));
+    }
+
+    public static @NotNull TitleConfigBuilder title() {
+        return ConfiguredTitle.create().whenSend((player, in, stay, out, line1, line2) -> player.sendTitle(line1, line2, in, stay, out));
     }
 
     public static @NotNull BiFunction<CommandSender, String, BaseComponent[]> getParser() {
@@ -73,7 +79,9 @@ public class PluginMessages extends ConfigurationRoot {
                 "&8#&f teleport accept &d[玩家]",
                 "&8-&7 同意一个传送请求(可具体指定玩家的请求)。",
                 "&8#&f teleport deny &d[玩家]",
-                "&8-&7 拒绝一个传送请求(可具体指定玩家的请求)。"
+                "&8-&7 拒绝一个传送请求(可具体指定玩家的请求)。",
+                "&8#&f teleport cancel",
+                "&8-&7 取消已经发出的传送请求。"
         ).build();
 
         public static final ConfiguredMessageList<BaseComponent[]> WARPS = list().defaults(
@@ -136,9 +144,9 @@ public class PluginMessages extends ConfigurationRoot {
     }
 
     public static class TELEPORT extends ConfigurationRoot {
-        public static final ConfiguredMessageList<BaseComponent[]> TELEPORTING = list().defaults(
-                "&f正在将您传送到 &d%(location) &f..."
-        ).params("location").build();
+        public static final ConfiguredMessageList<BaseComponent[]> TELEPORTED = list().defaults(
+                "&f正在将您传送到 &d%(target) &f..."
+        ).params("target").build();
 
         public static final ConfiguredMessageList<BaseComponent[]> NOT_SAFE = list().defaults(
                 "&f目标地点 &d%(location) &f可能并不安全，因此传送被暂缓执行。",
@@ -147,6 +155,10 @@ public class PluginMessages extends ConfigurationRoot {
 
         public static final ConfiguredMessageList<BaseComponent[]> NOT_AVAILABLE = list().defaults(
                 "&f目标地点丢失，暂时无法前往，传送被取消。"
+        ).build();
+
+        public static final ConfiguredMessageList<BaseComponent[]> INTERRUPTED = list().defaults(
+                "&c&l传送中断！&f传送过程中请不要移动。"
         ).build();
 
     }
@@ -177,7 +189,8 @@ public class PluginMessages extends ConfigurationRoot {
         ).params("player", "expire").build();
 
         public static final ConfiguredMessageList<BaseComponent[]> DUPLICATE = list().defaults(
-                "&f您已经向 &d%(player) &f发送过传送请求，对方仍有 &5%(expire)秒 &f的时间回应该请求。"
+                "&f您已经向 &d%(player) &f发送过传送请求，对方仍有 &5%(expire)秒 &f的时间回应该请求。",
+                "&f如您想要取消该请求，请输入 [&e&l[点击取消]](show_text=点击同意请求 run_command=/moeteleport teleport cancel %(player)) &f或输入 &5/tpCancel &f取消该请求。"
         ).params("player", "expire").build();
 
         public static final ConfiguredMessageList<BaseComponent[]> RECEIVED_TP_HERE = list().defaults(
@@ -215,6 +228,14 @@ public class PluginMessages extends ConfigurationRoot {
 
         public static final ConfiguredMessageList<BaseComponent[]> RECEIVED_TIMEOUT = list().defaults(
                 "&f来自 &d%(player) &f的传送请求已超时。"
+        ).params("player").build();
+
+        public static final ConfiguredMessageList<BaseComponent[]> SENT_CANCELLED = list().defaults(
+                "&f发往 &d%(player) &f的传送请求已取消。"
+        ).params("player").build();
+
+        public static final ConfiguredMessageList<BaseComponent[]> RECEIVED_CANCELLED = list().defaults(
+                "&f来自 &d%(player) &f的传送请求已被取消。"
         ).params("player").build();
 
     }

@@ -4,59 +4,83 @@ import cc.carm.plugin.moeteleport.Main;
 import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.conf.PluginConfig;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
-import cc.carm.plugin.moeteleport.model.TeleportRequest;
-import cc.carm.plugin.moeteleport.storage.UserData;
-import org.bukkit.Bukkit;
+import cc.carm.plugin.moeteleport.teleport.TeleportRequest;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.Unmodifiable;
 
-import java.util.Objects;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class RequestManager {
 
-    public BukkitRunnable checkRunnable;
+    protected final Map<UUID, TeleportRequest> requests = new ConcurrentHashMap<>();
+    protected BukkitRunnable runnable;
 
     public RequestManager(Main main) {
-        this.checkRunnable = new BukkitRunnable() {
+        this.runnable = new BukkitRunnable() {
             @Override
             public void run() {
-                checkRequests();
+                tickRequests();
             }
         };
-        this.checkRunnable.runTaskTimerAsynchronously(main, 100L, 20L);
+        this.runnable.runTaskTimerAsynchronously(main, 100L, 20L);
     }
 
     public void shutdown() {
-        if (!this.checkRunnable.isCancelled()) {
-            this.checkRunnable.cancel();
+        if (!this.runnable.isCancelled()) {
+            this.runnable.cancel();
         }
     }
 
-    public void checkRequests() {
-        MoeTeleport.getUserManager().getUserDataMap().values()
-                .forEach(data -> data.getReceivedRequests().entrySet().stream()
-                        .filter(entry -> entry.getValue().isExpired())
-                        .peek(entry -> {
-                            Player sender = entry.getValue().getSender();
-                            Player receiver = entry.getValue().getReceiver();
-                            PluginMessages.REQUESTS.SENT_TIMEOUT.send(sender, receiver.getName());
-                            PluginMessages.REQUESTS.RECEIVED_TIMEOUT.send(receiver, sender.getName());
-                        })
-                        .peek(entry -> MoeTeleport.getUserManager()
-                                .getData(entry.getValue().getSender()).getSentRequests()
-                                .remove(entry.getKey()))
-                        .forEach(entry -> data.getReceivedRequests().remove(entry.getKey()))
-                );
+    @Unmodifiable
+    public Map<UUID, TeleportRequest> getRequests() {
+        return Collections.unmodifiableMap(requests);
     }
 
-    public void sendRequest(Player sender, Player receiver, TeleportRequest.RequestType type) {
+    public @Nullable TeleportRequest getRequest(UUID senderUUID) {
+        return requests.get(senderUUID);
+    }
+
+    @Unmodifiable
+    public @NotNull Map<UUID, TeleportRequest> getUserReceivedRequests(@NotNull UUID receiverUUID) {
+        return requests.values().stream()
+                .filter(request -> request.getReceiver().getUniqueId().equals(receiverUUID))
+                .collect(Collectors.toMap(request -> request.getSender().getUniqueId(), request -> request));
+    }
+
+    public void tickRequests() {
+        Iterator<Map.Entry<UUID, TeleportRequest>> requestIterator = requests.entrySet().iterator();
+        while (requestIterator.hasNext()) {
+            Map.Entry<UUID, TeleportRequest> entry = requestIterator.next();
+            TeleportRequest request = entry.getValue();
+            if (!request.isExpired()) continue;
+
+            requestIterator.remove(); // 移除过期的请求
+
+            // 发送提示
+            PluginMessages.REQUESTS.SENT_TIMEOUT.send(request.getSender(), request.getReceiver().getName());
+            PluginMessages.REQUESTS.RECEIVED_TIMEOUT.send(request.getReceiver(), request.getSender().getName());
+        }
+    }
+
+    public void sendRequest(Player sender, Player receiver, TeleportRequest.Type type) {
         int expireTime = PluginConfig.REQUEST.EXPIRE_TIME.getNotNull();
 
-        PluginMessages.REQUESTS.SENT.send(sender, receiver.getName(), expireTime);
+        PluginConfig.REQUEST.SOUND.SENT.playTo(sender);
+        PluginConfig.REQUEST.SOUND.RECEIVED.playTo(receiver);
 
+        PluginMessages.REQUESTS.SENT.send(sender, receiver.getName(), expireTime);
         switch (type) {
-            case TPA: {
+            case TPA_TO: {
                 PluginMessages.REQUESTS.RECEIVED_TP_HERE.send(receiver, sender.getName(), expireTime);
                 break;
             }
@@ -66,17 +90,26 @@ public class RequestManager {
             }
         }
 
-        TeleportRequest request = new TeleportRequest(sender, receiver, type);
-        MoeTeleport.getUserManager().getData(receiver).getReceivedRequests().put(sender.getUniqueId(), request);
-        MoeTeleport.getUserManager().getData(sender).getSentRequests().add(receiver.getUniqueId());
-
+        requests.put(sender.getUniqueId(), new TeleportRequest(type, sender, receiver));
     }
 
     public void acceptRequest(TeleportRequest request) {
         PluginMessages.REQUESTS.WAS_ACCEPTED.send(request.getSender(), request.getReceiver().getName());
         PluginMessages.REQUESTS.ACCEPTED.send(request.getReceiver(), request.getSender().getName());
-        TeleportManager.teleport(request.getTeleportPlayer(), request.getTeleportLocation(), true);
+
         removeRequests(request);
+        MoeTeleport.getTeleportManager().queueTeleport(request.createQueue(
+                Duration.of(PluginConfig.TELEPORTATION.WAIT_TIME.getNotNull(), ChronoUnit.SECONDS)
+        ));
+    }
+
+    public void cancelRequest(TeleportRequest request) {
+        PluginMessages.REQUESTS.WAS_ACCEPTED.send(request.getSender(), request.getReceiver().getName());
+        PluginMessages.REQUESTS.ACCEPTED.send(request.getReceiver(), request.getSender().getName());
+        PluginConfig.REQUEST.SOUND.CANCELLED.playTo(request.getSender());
+        PluginConfig.REQUEST.SOUND.CANCELLED.playTo(request.getReceiver());
+        removeRequests(request);
+        MoeTeleport.getTeleportManager().queueTeleport(request);
     }
 
     public void denyRequest(TeleportRequest request) {
@@ -86,31 +119,21 @@ public class RequestManager {
     }
 
     public void removeRequests(TeleportRequest request) {
-        MoeTeleport.getUserManager().getData(request.getSender())
-                .getSentRequests()
-                .remove(request.getReceiver().getUniqueId());
-        MoeTeleport.getUserManager().getData(request.getReceiver())
-                .getReceivedRequests()
-                .remove(request.getSender().getUniqueId());
+        this.requests.remove(request.getSender().getUniqueId());
     }
 
     public void cancelAllRequests(Player player) {
         UUID playerUUID = player.getUniqueId();
-        UserData data = MoeTeleport.getUserManager().getData(player);
-        data.getReceivedRequests().keySet().stream()
-                .peek(senderUUID -> PluginMessages.REQUESTS.OFFLINE.send(Bukkit.getPlayer(senderUUID), player.getName()))
-                .map(senderUUID -> MoeTeleport.getUserManager().getData(senderUUID))
-                .filter(Objects::nonNull).map(UserData::getSentRequests)
-                .forEach(receivers -> receivers.remove(playerUUID));
 
-        data.getSentRequests().stream()
-                .peek(receiverUUID -> PluginMessages.REQUESTS.OFFLINE.send(Bukkit.getPlayer(receiverUUID), player.getName()))
-                .map(receiverUUID -> MoeTeleport.getUserManager().getData(receiverUUID))
-                .filter(Objects::nonNull).map(UserData::getReceivedRequests)
-                .forEach(senders -> senders.remove(playerUUID));
+        TeleportRequest sent = requests.remove(playerUUID);
+        if (sent != null) {
+            PluginMessages.REQUESTS.OFFLINE.send(sent.getReceiver(), player.getName());
+        }
 
-        data.getSentRequests().clear();
-        data.getReceivedRequests().clear();
+        for (TeleportRequest received : getUserReceivedRequests(playerUUID).values()) {
+            PluginMessages.REQUESTS.OFFLINE.send(received.getSender(), player.getName());
+            removeRequests(received);
+        }
     }
 
 }

@@ -5,7 +5,6 @@ import cc.carm.plugin.moeteleport.MoeTeleport;
 import cc.carm.plugin.moeteleport.command.MainCommands;
 import cc.carm.plugin.moeteleport.conf.PluginConfig;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
-import cc.carm.plugin.moeteleport.manager.TeleportManager;
 import cc.carm.plugin.moeteleport.storage.UserData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -36,7 +35,7 @@ public class BackCommand extends SubCommand<MainCommands> {
             PluginMessages.BACK.NO_LAST_LOCATION.send(player);
             return null;
         }
-        TeleportManager.teleport(player, data.getLastLocation(), false);
+        MoeTeleport.getTeleportManager().queueTeleport(player, data.getLastLocation());
         return null;
     }
 
