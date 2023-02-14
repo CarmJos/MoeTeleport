@@ -23,7 +23,7 @@ public class TeleportListener implements Listener {
 
         if (from.getBlockX() == to.getBlockX()
                 && from.getBlockY() == to.getBlockY()
-                && from.getBlockZ() == to.getBlockZ()){
+                && from.getBlockZ() == to.getBlockZ()) {
             return;
         }
 

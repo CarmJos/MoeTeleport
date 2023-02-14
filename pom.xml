@@ -175,6 +175,13 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>xyz.xenondevs</groupId>
+            <artifactId>particle</artifactId>
+            <version>1.8.3</version>
+            <scope>compile</scope>
+            <optional>true</optional>
+        </dependency>
 
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -312,6 +319,10 @@
                         <relocation>
                             <pattern>org.bstats</pattern>
                             <shadedPattern>cc.carm.plugin.moeteleport.lib.bstats</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>xyz.xenondevs.particle</pattern>
+                            <shadedPattern>cc.carm.plugin.moeteleport.lib.praticle</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>org.json</pattern>

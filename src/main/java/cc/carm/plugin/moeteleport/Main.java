@@ -15,6 +15,7 @@ import cc.carm.plugin.moeteleport.storage.StorageMethod;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
+import xyz.xenondevs.particle.utils.ReflectionUtils;
 
 public class Main extends EasyPlugin {
     private static Main instance;
@@ -34,7 +35,7 @@ public class Main extends EasyPlugin {
     }
 
     @Override
-    protected boolean initialize() {
+    protected void load() {
 
         log("加载插件配置文件...");
         this.configProvider = MineConfiguration.from(this, "config.yml");
@@ -42,6 +43,11 @@ public class Main extends EasyPlugin {
 
         this.messageProvider = MineConfiguration.from(this, "messages.yml");
         this.messageProvider.initialize(PluginMessages.class);
+
+    }
+
+    @Override
+    protected boolean initialize() {
 
         log("初始化存储方式...");
         StorageMethod storageMethod = StorageMethod.read(PluginConfig.STORAGE.METHOD.get());
@@ -55,7 +61,6 @@ public class Main extends EasyPlugin {
             setEnabled(false);
             return false; // 初始化失败，不再继续加载
         }
-
 
         log("加载地标管理器...");
         warpManager = new WarpManager();
@@ -90,7 +95,6 @@ public class Main extends EasyPlugin {
             e.printStackTrace();
         }
 
-
         if (PluginConfig.METRICS.getNotNull()) {
             log("启用统计数据...");
             Metrics metrics = new Metrics(this, 14459);
@@ -103,6 +107,9 @@ public class Main extends EasyPlugin {
         } else {
             log("已禁用检查更新，跳过。");
         }
+
+        log("初始化粒子库...");
+        ReflectionUtils.setPlugin(this);
 
         return true;
     }

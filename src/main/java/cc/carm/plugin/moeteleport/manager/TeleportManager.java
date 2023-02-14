@@ -12,6 +12,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
+import xyz.xenondevs.particle.ParticleBuilder;
+import xyz.xenondevs.particle.ParticleEffect;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -42,6 +44,8 @@ public class TeleportManager {
     }
 
     public void tickQueue() {
+        boolean enableEffect = PluginConfig.TELEPORTATION.EFFECTS.getNotNull();
+
         Iterator<Map.Entry<UUID, TeleportQueue>> queueIterator = teleportQueue.entrySet().iterator();
         while (queueIterator.hasNext()) {
             Map.Entry<UUID, TeleportQueue> entry = queueIterator.next();
@@ -52,6 +56,12 @@ public class TeleportManager {
                         queue.getPlayer(),
                         queue.getRemainSeconds() + 1, queue.getTarget().getText()
                 );
+
+                if (enableEffect) {
+                    new ParticleBuilder(ParticleEffect.PORTAL, queue.getPlayer().getLocation())
+                            .setAmount(100).display();
+                }
+
                 continue;
             }
 
@@ -72,6 +82,14 @@ public class TeleportManager {
 
     public TeleportQueue getQueue(Player player) {
         return getQueue(player.getUniqueId());
+    }
+
+    public boolean isChanneling(UUID uuid) {
+        return teleportQueue.containsKey(uuid);
+    }
+
+    public boolean isChanneling(Player player) {
+        return isChanneling(player.getUniqueId());
     }
 
     public @Nullable Duration getDelayDuration() {
