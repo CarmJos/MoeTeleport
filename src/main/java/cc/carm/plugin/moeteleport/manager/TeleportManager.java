@@ -9,11 +9,14 @@ import cc.carm.plugin.moeteleport.teleport.TeleportRequest;
 import cc.carm.plugin.moeteleport.teleport.target.TeleportLocationTarget;
 import cc.carm.plugin.moeteleport.teleport.target.TeleportTarget;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.Nullable;
 import xyz.xenondevs.particle.ParticleBuilder;
 import xyz.xenondevs.particle.ParticleEffect;
+import xyz.xenondevs.particle.data.texture.ItemTexture;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -59,7 +62,7 @@ public class TeleportManager {
 
                 if (enableEffect) {
                     new ParticleBuilder(ParticleEffect.PORTAL, queue.getPlayer().getLocation())
-                            .setAmount(100).display();
+                            .setAmount(100).setOffsetY(1F).display();
                 }
 
                 continue;
@@ -136,6 +139,13 @@ public class TeleportManager {
                 player.teleport(location);
                 PluginConfig.TELEPORTATION.SOUND.TELEPORTED.playTo(player);
             });
+
+
+            if (PluginConfig.TELEPORTATION.EFFECTS.getNotNull()) {
+                new ParticleBuilder(ParticleEffect.ITEM_CRACK, location)
+                        .setParticleData(new ItemTexture(new ItemStack(Material.ENDER_EYE)))
+                        .setAmount(1).setOffsetY(1F).display();
+            }
         }
     }
 }
