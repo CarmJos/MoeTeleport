@@ -5,6 +5,7 @@
 /_/  /_/\___/\__/_/  \__/_/\__/ .__/\___/_/  \__/ 
                              /_/                  
 ```
+README LANGUAGES [ [**中文**](README.md) | [English](README-EN.md)  ]
 
 # MoeTeleport 喵喵传送
 
@@ -124,11 +125,11 @@
 
 ## 配置
 
-### 插件配置文件 ([config.yml](src/main/resources/config.yml))
+### 插件配置文件 ([config.yml]())
 
 详见源文件。
 
-### 消息配置文件 ([messages.yml](src/main/resources/messages.yml))
+### 消息配置文件 ([messages.yml]())
 
 支持 [MineDown 语法](https://wiki.phoenix616.dev/library:minedown:syntax)，详见源文件。
 
@@ -143,6 +144,9 @@
 由衷感谢以下支持本项目开发的朋友们：
 - 本插件由 [**璎珞**服务器](https://www.yingluo.world/) 委托本人开发，经过授权后开源。
 - 感谢 [**XingMC**(MagicMC服务器开发者)](https://www.mcbbs.net/?4816320) 为本插件提供后续开发的资金赞助。
+
+Many thanks to Jetbrains for kindly providing a license for me to work on this and other open-source projects.  
+[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/CarmJos/UserPrefix)
 
 ## 开源协议
 

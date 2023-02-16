@@ -5,6 +5,7 @@
 /_/  /_/\___/\__/_/  \__/_/\__/ .__/\___/_/  \__/ 
                              /_/                  
 ```
+README LANGUAGES [ [中文](README.md) | [**English**](README-EN.md)  ]
 
 # MoeTeleport
 
@@ -19,10 +20,9 @@ MoeTeleport is an open source delivery plugin that contains several features and
 
 The project code conforms to the development specifications and is suitable for new developers to learn Bukkit and make their own plugins.
 
-## Function and advantage
+## Functions and advantages
 
-### Current function
-
+### Current functions
 
 - Multiple storage formats, select on demand. 
     - Support YAML, JSON and MySQL/MariaDB storage 
@@ -37,7 +37,7 @@ The project code conforms to the development specifications and is suitable for 
     - Support setting different number of homes according to permissions as VIP add-on content 
 - Return to the place of death and the last location
 
-### Advantage
+### Advantages
 
 - ** Lightweight plugin. ** Suitable for small servers, simple and convenient configuration. 
 - ** Specification development. ** Plugin architecture conforms to development specifications, suitable for new developers to learn. 
@@ -49,25 +49,26 @@ The project code conforms to the development specifications and is suitable for 
 ## [Dependencies](https://github.com/CarmJos/MoeTeleport/network/dependencies)
 
 - **[Necessary]** The plugin is based on [Spigot-API](https://hub.spigotmc.org/stash/projects/SPIGOT) 、[BukkitAPI](http://bukkit.org/).
-- **[自带]** Message format is based on [MineDown](https://github.com/Phoenix616/MineDown).
+- **[Included]** Message format is based on [MineDown](https://github.com/Phoenix616/MineDown).
     - All messages.yml support MineDown syntax。
-- **[Recommend]** The variable part is based on [PlaceholderAPI](https://www.spigotmc.org/resources/6245/).
+- **[Recommended]** The variable part is based on [PlaceholderAPI](https://www.spigotmc.org/resources/6245/).
 
 Read this if you need more details. [Dependencies](https://github.com/CarmJos/MoeTeleport/network/dependencies).
 
-## [Command](src/main/resources/plugin.yml)
+## [Commands](src/main/resources/plugin.yml)
 
 The main command is `/MoeTeleport` or `/mt`.
 
-All commands in this plugin support configuration of "simplified commands", such as allowing the player to directly input '/back' and execute '/MoeTeleport back', see [configuration file](# configuration) related content.
+All commands in this plugin support configuration of "simplified commands", 
+such as allowing the player to directly input '/back' and execute '/MoeTeleport back', see [configuration](#Config) related content.
 
 - Required parameter '< Parameter >' 
 - Optional parameter '[parameter]'
 
 ```text
 # reload
-@ executive command (MoeTeleport.admin)
-- Overload the plugin configuration file.
+@ Admin command (MoeTeleport.admin)
+- Reload the plugin configuration file.
 
 # back
 - Return to the last location.
@@ -94,7 +95,7 @@ All commands in this plugin support configuration of "simplified commands", such
 - If there is a home named "home", return to "home" preferentially.
 
 # home list
--List all the home names.
+- List all the home names.
 
 # home set [home name]
 - Set a home location. 
@@ -110,12 +111,12 @@ All commands in this plugin support configuration of "simplified commands", such
 - Teleport to the specified location.
 
 # warp list
--List all current warp locations.
+- List all current warp locations.
 
 # warp set <warp name>
 - Set a warp location. 
-- If the warp already exists and you are the owner (or the server administrator) of the warp
-- The old warp point will be overwritten.
+- If the warp already exists and you are the owner (or the server administrator) of the warp,
+- the old warp point will be overwritten.
 
 # warp delete <Warp name>
 - Delete one of your own warps
@@ -124,11 +125,11 @@ All commands in this plugin support configuration of "simplified commands", such
 
 ## Config
 
-### Plugin configuration file ([config.yml](src/main/resources/config.yml))
+### Plugin configuration file ([config.yml]())
 
 Read source file for more details.
 
-### Message configuration file ([messages.yml](src/main/resources/messages.yml))
+### Message configuration file ([messages.yml]())
 
 Support [MineDown syntax](https://wiki.phoenix616.dev/library:minedown:syntax)
 
@@ -145,6 +146,9 @@ If you find this plugin helps, you can donate to support me. Thank you for being
 Sincere thanks to the following friends who support the development of this project:
 - This plugin is entrusted by [**璎珞 **](https://www.yingluo.world/) server , authorized already. 
 - Thank you to [**XingMC**(MagicMC server developer)](https://www.mcbbs.net/?4816320) for funding the subsequent development of this plugin.
+
+Many thanks to Jetbrains for kindly providing a license for me to work on this and other open-source projects.  
+[![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/CarmJos/UserPrefix)
 
 ## Open source agreement
 
