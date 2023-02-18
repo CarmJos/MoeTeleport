@@ -1,8 +1,8 @@
-package cc.carm.plugin.moeteleport.command.parent;
+package cc.carm.plugin.moeteleport.command.sub;
 
 import cc.carm.lib.easyplugin.command.CommandHandler;
 import cc.carm.plugin.moeteleport.command.MainCommands;
-import cc.carm.plugin.moeteleport.command.warp.*;
+import cc.carm.plugin.moeteleport.command.sub.warp.*;
 import cc.carm.plugin.moeteleport.conf.PluginConfig;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import org.bukkit.command.Command;
@@ -24,6 +24,7 @@ public class WarpCommands extends CommandHandler {
         registerSubCommand(new WarpInfoCommand(this, "info", "i"));
         registerSubCommand(new WarpCreateCommand(this, "set", "create"));
         registerSubCommand(new WarpDeleteCommand(this, "delete", "remove", "del"));
+        registerSubCommand(new WarpRenameCommand(this, "rename", "rn"));
 
     }
 

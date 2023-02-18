@@ -1,8 +1,7 @@
-package cc.carm.plugin.moeteleport.command.home;
+package cc.carm.plugin.moeteleport.command.sub.home;
 
-import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.command.parent.HomeCommands;
-import cc.carm.plugin.moeteleport.command.sub.HomeSubCommand;
+import cc.carm.plugin.moeteleport.command.sub.HomeCommands;
+import cc.carm.plugin.moeteleport.command.base.HomeSubCommand;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import cc.carm.plugin.moeteleport.conf.location.DataLocation;
 import cc.carm.plugin.moeteleport.storage.UserData;
@@ -15,9 +14,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class HomeTeleportCommand extends HomeSubCommand {
+public class HomeDeleteCommand extends HomeSubCommand {
 
-    public HomeTeleportCommand(@NotNull HomeCommands parent, String name, String... aliases) {
+    public HomeDeleteCommand(@NotNull HomeCommands parent, String name, String... aliases) {
         super(parent, name, aliases);
     }
 
@@ -28,15 +27,18 @@ public class HomeTeleportCommand extends HomeSubCommand {
             return null;
         }
 
+        if (args.length < 1) return getParent().noArgs(sender);
+
         Player player = (Player) sender;
         UserData data = getData(player);
-        String homeName = args.length >= 1 ? args[0] : null;
+        String homeName = args[0];
 
         Map.Entry<String, DataLocation> locationInfo = data.getHomeLocation(homeName);
         if (locationInfo == null) {
             PluginMessages.HOME.NOT_FOUND.send(player);
         } else {
-            MoeTeleport.getTeleportManager().queueTeleport(player, locationInfo.getValue());
+            PluginMessages.HOME.REMOVED.send(player, locationInfo.getKey(), locationInfo.getValue().toFlatString());
+            data.delHomeLocation(homeName);
         }
 
         return null;

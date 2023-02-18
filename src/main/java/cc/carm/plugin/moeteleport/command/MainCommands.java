@@ -1,7 +1,7 @@
 package cc.carm.plugin.moeteleport.command;
 
 import cc.carm.lib.easyplugin.command.CommandHandler;
-import cc.carm.plugin.moeteleport.command.parent.*;
+import cc.carm.plugin.moeteleport.command.sub.*;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;

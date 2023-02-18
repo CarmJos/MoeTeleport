@@ -1,8 +1,8 @@
-package cc.carm.plugin.moeteleport.command.sub;
+package cc.carm.plugin.moeteleport.command.base;
 
 import cc.carm.lib.easyplugin.command.SubCommand;
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.command.parent.TeleportCommands;
+import cc.carm.plugin.moeteleport.command.sub.TeleportCommands;
 import cc.carm.plugin.moeteleport.storage.UserData;
 import cc.carm.plugin.moeteleport.teleport.TeleportRequest;
 import org.bukkit.Bukkit;

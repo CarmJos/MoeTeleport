@@ -1,10 +1,10 @@
-package cc.carm.plugin.moeteleport.command.parent;
+package cc.carm.plugin.moeteleport.command.sub;
 
 import cc.carm.lib.easyplugin.command.CommandHandler;
 import cc.carm.plugin.moeteleport.command.MainCommands;
-import cc.carm.plugin.moeteleport.command.teleport.TeleportCancelCommand;
-import cc.carm.plugin.moeteleport.command.teleport.TeleportHandleCommand;
-import cc.carm.plugin.moeteleport.command.teleport.TeleportRequestCommand;
+import cc.carm.plugin.moeteleport.command.sub.teleport.TeleportCancelCommand;
+import cc.carm.plugin.moeteleport.command.sub.teleport.TeleportHandleCommand;
+import cc.carm.plugin.moeteleport.command.sub.teleport.TeleportRequestCommand;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import cc.carm.plugin.moeteleport.teleport.TeleportRequest;
 import org.bukkit.command.CommandSender;

@@ -1,7 +1,7 @@
-package cc.carm.plugin.moeteleport.command.home;
+package cc.carm.plugin.moeteleport.command.sub.home;
 
-import cc.carm.plugin.moeteleport.command.parent.HomeCommands;
-import cc.carm.plugin.moeteleport.command.sub.HomeSubCommand;
+import cc.carm.plugin.moeteleport.command.sub.HomeCommands;
+import cc.carm.plugin.moeteleport.command.base.HomeSubCommand;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import cc.carm.plugin.moeteleport.storage.UserData;
 import org.bukkit.command.CommandSender;

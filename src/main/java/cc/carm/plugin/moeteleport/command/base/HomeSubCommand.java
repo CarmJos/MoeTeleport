@@ -1,8 +1,8 @@
-package cc.carm.plugin.moeteleport.command.sub;
+package cc.carm.plugin.moeteleport.command.base;
 
 import cc.carm.lib.easyplugin.command.SubCommand;
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.command.parent.HomeCommands;
+import cc.carm.plugin.moeteleport.command.sub.HomeCommands;
 import cc.carm.plugin.moeteleport.storage.UserData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

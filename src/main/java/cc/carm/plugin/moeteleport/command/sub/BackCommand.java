@@ -1,4 +1,4 @@
-package cc.carm.plugin.moeteleport.command.parent;
+package cc.carm.plugin.moeteleport.command.sub;
 
 import cc.carm.lib.easyplugin.command.SubCommand;
 import cc.carm.plugin.moeteleport.MoeTeleport;

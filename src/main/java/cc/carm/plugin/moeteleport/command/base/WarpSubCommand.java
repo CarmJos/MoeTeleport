@@ -1,8 +1,8 @@
-package cc.carm.plugin.moeteleport.command.sub;
+package cc.carm.plugin.moeteleport.command.base;
 
 import cc.carm.lib.easyplugin.command.SubCommand;
 import cc.carm.plugin.moeteleport.MoeTeleport;
-import cc.carm.plugin.moeteleport.command.parent.WarpCommands;
+import cc.carm.plugin.moeteleport.command.sub.WarpCommands;
 import cc.carm.plugin.moeteleport.manager.WarpManager;
 import cc.carm.plugin.moeteleport.model.WarpInfo;
 import org.bukkit.command.CommandSender;

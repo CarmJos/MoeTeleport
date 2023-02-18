@@ -1,6 +1,7 @@
 package cc.carm.plugin.moeteleport.conf;
 
 import cc.carm.lib.configuration.core.ConfigurationRoot;
+import cc.carm.lib.configuration.core.annotation.HeaderComment;
 import cc.carm.lib.easyplugin.utils.ColorParser;
 import cc.carm.lib.mineconfiguration.bukkit.builder.message.CraftMessageListBuilder;
 import cc.carm.lib.mineconfiguration.bukkit.builder.message.CraftMessageValueBuilder;
@@ -17,6 +18,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
 
+
+@HeaderComment({
+        "MoeTeleport 传送插件的消息配置文件",
+        "如特定的消息不需要任何提示，可直接留下单行空内容消息。",
+        "支持 支持 &+颜色代码(原版颜色)、§(#XXXXXX)(RGB颜色) 与 &<#XXXXXX>(前后标注RGB颜色渐变)。",
+        " "
+})
 public class PluginMessages extends ConfigurationRoot {
 
     public static @NotNull CraftMessageListBuilder<BaseComponent[]> list() {
@@ -95,7 +103,9 @@ public class PluginMessages extends ConfigurationRoot {
                 "&8-&7&o 若地标点已存在，且您是地标点的设立者，",
                 "&8-&7&o 则会覆盖原有的地标点位置。",
                 "&8#&f warp delete &d[地标名]",
-                "&8-&7 删除一个自己设立的地标点。"
+                "&8-&7 删除一个自己设立的地标点。",
+                "&8#&f warp rename &d<原地标名> &d<新地标名>",
+                "&8-&7 重命名一个自己设立的地标点。"
         ).build();
 
         public static final ConfiguredMessageList<BaseComponent[]> HOMES = list().defaults(
@@ -110,7 +120,9 @@ public class PluginMessages extends ConfigurationRoot {
                 "&8-&7 设定一个家的位置。",
                 "&8-&7&o 若不填写家的名称则默认为“home”",
                 "&8#&f home delete &d[家名]",
-                "&8-&7 删除一个家的位置。"
+                "&8-&7 删除一个家的位置。",
+                "&8#&f home rename &d<原家名> &d<新家名>",
+                "&8-&7 重命名一个家传送点的名称。"
         ).build();
 
     }
@@ -257,6 +269,11 @@ public class PluginMessages extends ConfigurationRoot {
                 "&7或输入 &5/setHome <家名称> &7覆盖之前的家传送点。"
         ).params("max").build();
 
+        public static final ConfiguredMessageList<BaseComponent[]> ALREADY_EXITS = list()
+                .defaults("&f您已存在名为 &d%(name) &f的家传送点，换个名字叭~")
+                .params("name")
+                .build();
+
         public static final ConfiguredMessageList<BaseComponent[]> NOT_FOUND = list()
                 .defaults("&f您还没有设置这个家，请先输入 &5/setHome <家名称> &f设置一个吧！")
                 .build();
@@ -274,6 +291,10 @@ public class PluginMessages extends ConfigurationRoot {
                 "&f成功移除名为 &d%(name) &f的家传送点。",
                 "&8原先位置为 &5%(location) &8。"
         ).params("name", "location").build();
+
+        public static final ConfiguredMessageList<BaseComponent[]> RENAMED = list().defaults(
+                "&f成功以 &d%(newName) 重命名原先的家传送点 &d&o%(oldName) &f。"
+        ).params("newName", "oldName").build();
 
         public static class LIST extends ConfigurationRoot {
 
@@ -336,6 +357,14 @@ public class PluginMessages extends ConfigurationRoot {
                 "&8原先位置为 &5%(location) &8。"
         ).params("name", "location").build();
 
+        public static final ConfiguredMessageList<BaseComponent[]> ALREADY_EXITS = list()
+                .defaults("&f已存在名为 &d%(name) &f的地标点，换个名字叭~")
+                .params("name")
+                .build();
+
+        public static final ConfiguredMessageList<BaseComponent[]> RENAMED = list().defaults(
+                "&f成功以 &d%(newName) 重命名原先的地标点 &d&o%(oldName) &f。"
+        ).params("newName", "oldName").build();
 
         public static class LIST extends ConfigurationRoot {
 

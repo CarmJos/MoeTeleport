@@ -1,11 +1,8 @@
-package cc.carm.plugin.moeteleport.command.parent;
+package cc.carm.plugin.moeteleport.command.sub;
 
 import cc.carm.lib.easyplugin.command.CommandHandler;
 import cc.carm.plugin.moeteleport.command.MainCommands;
-import cc.carm.plugin.moeteleport.command.home.HomeCreateCommand;
-import cc.carm.plugin.moeteleport.command.home.HomeDeleteCommand;
-import cc.carm.plugin.moeteleport.command.home.HomeListCommand;
-import cc.carm.plugin.moeteleport.command.home.HomeTeleportCommand;
+import cc.carm.plugin.moeteleport.command.sub.home.*;
 import cc.carm.plugin.moeteleport.conf.PluginConfig;
 import cc.carm.plugin.moeteleport.conf.PluginMessages;
 import org.bukkit.command.Command;
@@ -26,6 +23,7 @@ public class HomeCommands extends CommandHandler {
         registerSubCommand(new HomeListCommand(this, "list", "ls"));
         registerSubCommand(new HomeCreateCommand(this, "set", "create"));
         registerSubCommand(new HomeDeleteCommand(this, "delete", "remove", "del"));
+        registerSubCommand(new HomeRenameCommand(this, "rename", "rn"));
     }
 
 

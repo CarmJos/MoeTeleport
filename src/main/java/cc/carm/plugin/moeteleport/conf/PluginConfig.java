@@ -54,6 +54,7 @@ public class PluginConfig extends ConfigurationRoot {
                     map.put("delHome", "home delete");
                     map.put("listHomes", "home list");
                     map.put("listHome", "home list");
+                    map.put("renameHome", "home rename");
 
                     map.put("warp", "warp to");
                     map.put("setWarp", "warp set");
@@ -61,6 +62,7 @@ public class PluginConfig extends ConfigurationRoot {
                     map.put("warpInfo", "warp info");
                     map.put("listWarps", "warp list");
                     map.put("listWarp", "warp list");
+                    map.put("renameWarp", "warp rename");
                 }).build();
 
     }
