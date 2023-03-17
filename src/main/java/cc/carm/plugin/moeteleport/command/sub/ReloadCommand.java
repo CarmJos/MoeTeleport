@@ -35,7 +35,7 @@ public class ReloadCommand extends SubCommand<MainCommands> {
 
     @Override
     public boolean hasPermission(CommandSender sender) {
-        return sender.hasPermission("moeteleport.reload");
+        return sender.hasPermission("MoeTeleport.admin");
     }
 
 }

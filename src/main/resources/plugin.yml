@@ -13,18 +13,30 @@ softdepend:
   - CMI
 
 permissions:
-  "MoeTeleport":
-    description: "插件的主权限节点"
-    default: false
 
   "MoeTeleport.admin":
     description: "插件的管理员权限节点"
     default: op
 
+  "MoeTeleport.teleport":
+    description: "使用传送请求相关指令的权限。"
+    default: true
+
+  "MoeTeleport.home":
+    description: "使用家相关指令的权限。"
+    default: true
+
+  "MoeTeleport.warp":
+    description: "使用传送请求相关指令的权限。"
+    default: true
+
+  "MoeTeleport.back":
+    description: "使用返回相关指令的权限。"
+    default: true
+
 commands:
   "MoeTeleport":
     description: "插件的主命令，用于重载插件或查看插件信息。"
-    permission: "MoeTeleport.admin"
-    usage: "/MoeTeleport reload"
+    usage: "您可以输入 /MoeTeleport help 查看插件的相关帮助。"
     aliases:
       - mt

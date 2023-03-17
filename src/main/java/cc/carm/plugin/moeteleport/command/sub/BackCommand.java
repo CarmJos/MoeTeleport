@@ -39,4 +39,9 @@ public class BackCommand extends SubCommand<MainCommands> {
         return null;
     }
 
+    @Override
+    public boolean hasPermission(CommandSender sender) {
+        return sender.hasPermission("MoeTeleport.back");
+    }
+
 }

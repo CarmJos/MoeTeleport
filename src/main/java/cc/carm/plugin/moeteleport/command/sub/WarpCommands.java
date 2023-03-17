@@ -49,4 +49,10 @@ public class WarpCommands extends CommandHandler {
         return main.noPermission(sender);
     }
 
+
+    @Override
+    public boolean hasPermission(CommandSender sender) {
+        return sender.hasPermission("MoeTeleport.warp");
+    }
+
 }

@@ -2,6 +2,7 @@ package cc.carm.plugin.moeteleport;
 
 import cc.carm.lib.configuration.core.source.ConfigurationProvider;
 import cc.carm.lib.easyplugin.EasyPlugin;
+import cc.carm.lib.easyplugin.command.alias.AliasCommandManager;
 import cc.carm.lib.easyplugin.updatechecker.GHUpdateChecker;
 import cc.carm.lib.mineconfiguration.bukkit.MineConfiguration;
 import cc.carm.plugin.moeteleport.command.MainCommands;
@@ -15,6 +16,7 @@ import cc.carm.plugin.moeteleport.storage.StorageMethod;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
+import org.jetbrains.annotations.NotNull;
 import xyz.xenondevs.particle.utils.ReflectionUtils;
 
 public class Main extends EasyPlugin {
@@ -28,7 +30,7 @@ public class Main extends EasyPlugin {
     protected UserManager userManager;
     protected RequestManager requestManager;
     protected TeleportManager teleportManager;
-    protected CommandManager commandManager;
+    protected AliasCommandManager commandManager;
 
     public Main() {
         instance = this;
@@ -85,14 +87,15 @@ public class Main extends EasyPlugin {
         log("注册指令...");
         registerCommand("MoeTeleport", new MainCommands(this));
 
-        try {
-            this.commandManager = new CommandManager(this);
-            if (PluginConfig.COMMAND.ENABLE.getNotNull()) {
+        if (PluginConfig.COMMAND.ENABLE.getNotNull()) {
+            log("注册简化指令映射...");
+            try {
+                this.commandManager = new AliasCommandManager(this);
                 PluginConfig.COMMAND.ALIAS.getNotNull().forEach(commandManager::register);
+            } catch (Exception e) {
+                log("注册简化指令失败： " + e.getMessage());
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            log("注册简化指令失败： " + e.getMessage());
-            e.printStackTrace();
         }
 
         if (PluginConfig.METRICS.getNotNull()) {
@@ -116,8 +119,8 @@ public class Main extends EasyPlugin {
 
     @Override
     protected void shutdown() {
-        log("清空简化指令...");
-        if (this.commandManager != null) {
+        if (PluginConfig.COMMAND.ENABLE.getNotNull() && this.commandManager != null) {
+            log("清空简化指令...");
             this.commandManager.unregisterAll();
         }
 

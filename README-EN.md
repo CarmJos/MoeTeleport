@@ -9,10 +9,10 @@ README LANGUAGES [ [中文](README.md) | [**English**](README-EN.md)  ]
 
 # MoeTeleport
 
-[![CodeFactor](https://www.codefactor.io/repository/github/carm-outsource/MoeTeleport/badge?s=b76fec1f64726b5f19989aace6adb5f85fdab840)](https://www.codefactor.io/repository/github/carm-outsource/MoeTeleport)
-![CodeSize](https://img.shields.io/github/languages/code-size/carm-outsource/MoeTeleport)
-[![Download](https://img.shields.io/github/downloads/carm-outsource/MoeTeleport/total)](https://github.com/carm-outsource/MoeTeleport/releases)
-[![Java CI with Maven](https://github.com/carm-outsource/MoeTeleport/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/carm-outsource/MoeTeleport/actions/workflows/maven.yml)
+[![CodeFactor](https://www.codefactor.io/repository/github/CarmJos/MoeTeleport/badge?s=b76fec1f64726b5f19989aace6adb5f85fdab840)](https://www.codefactor.io/repository/github/CarmJos/MoeTeleport)
+![CodeSize](https://img.shields.io/github/languages/code-size/CarmJos/MoeTeleport)
+[![Download](https://img.shields.io/github/downloads/CarmJos/MoeTeleport/total)](https://github.com/CarmJos/MoeTeleport/releases)
+[![Java CI with Maven](https://github.com/CarmJos/MoeTeleport/actions/workflows/maven.yml/badge.svg?branch=master)](https://github.com/CarmJos/MoeTeleport/actions/workflows/maven.yml)
 ![Support](https://img.shields.io/badge/Minecraft-Java%201.13--Latest-blue)
 ![](https://visitor-badge.glitch.me/badge?page_id=moeteleport.readme)
 

@@ -22,7 +22,7 @@ public class TeleportCommands extends CommandHandler {
 
         registerSubCommand(new TeleportRequestCommand(this, TeleportRequest.Type.TPA_TO, "to"));
         registerSubCommand(new TeleportRequestCommand(this, TeleportRequest.Type.TPA_HERE, "here"));
-        registerSubCommand(new TeleportHandleCommand(this, true, "cancel"));
+        registerSubCommand(new TeleportHandleCommand(this, true, "accept", "agree"));
         registerSubCommand(new TeleportHandleCommand(this, false, "deny", "refuse"));
         registerSubCommand(new TeleportCancelCommand(this, "cancel"));
     }
@@ -36,6 +36,11 @@ public class TeleportCommands extends CommandHandler {
     @Override
     public Void noPermission(CommandSender sender) {
         return main.noPermission(sender);
+    }
+
+    @Override
+    public boolean hasPermission(CommandSender sender) {
+        return sender.hasPermission("MoeTeleport.teleport");
     }
 
 }
