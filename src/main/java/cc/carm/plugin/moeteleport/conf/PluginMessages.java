@@ -3,6 +3,7 @@ package cc.carm.plugin.moeteleport.conf;
 import cc.carm.lib.configuration.core.ConfigurationRoot;
 import cc.carm.lib.configuration.core.annotation.HeaderComment;
 import cc.carm.lib.easyplugin.utils.ColorParser;
+import cc.carm.lib.easyplugin.utils.MessageUtils;
 import cc.carm.lib.mineconfiguration.bukkit.builder.message.CraftMessageListBuilder;
 import cc.carm.lib.mineconfiguration.bukkit.builder.message.CraftMessageValueBuilder;
 import cc.carm.lib.mineconfiguration.bukkit.builder.title.TitleConfigBuilder;
@@ -10,10 +11,8 @@ import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessage;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredMessageList;
 import cc.carm.lib.mineconfiguration.bukkit.value.ConfiguredTitle;
 import de.themoep.minedown.MineDown;
-import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
@@ -42,10 +41,7 @@ public class PluginMessages extends ConfigurationRoot {
     }
 
     public static @NotNull BiFunction<CommandSender, String, BaseComponent[]> getParser() {
-        return (sender, message) -> {
-            if (sender instanceof Player) message = PlaceholderAPI.setPlaceholders((Player) sender, message);
-            return MineDown.parse(ColorParser.parse(message));
-        };
+        return (sender, message) -> MineDown.parse(ColorParser.parse(MessageUtils.setPlaceholders(sender, message)));
     }
 
     public static final ConfiguredMessageList<BaseComponent[]> NO_PERMISSION = list().defaults(
