@@ -104,12 +104,11 @@ public class RequestManager {
     }
 
     public void cancelRequest(TeleportRequest request) {
-        PluginMessages.REQUESTS.WAS_ACCEPTED.send(request.getSender(), request.getReceiver().getName());
-        PluginMessages.REQUESTS.ACCEPTED.send(request.getReceiver(), request.getSender().getName());
+        PluginMessages.REQUESTS.SENT_CANCELLED.send(request.getSender(), request.getReceiver().getName());
+        PluginMessages.REQUESTS.RECEIVED_CANCELLED.send(request.getReceiver(), request.getSender().getName());
         PluginConfig.REQUEST.SOUND.CANCELLED.playTo(request.getSender());
         PluginConfig.REQUEST.SOUND.CANCELLED.playTo(request.getReceiver());
         removeRequests(request);
-        MoeTeleport.getTeleportManager().queueTeleport(request);
     }
 
     public void denyRequest(TeleportRequest request) {
