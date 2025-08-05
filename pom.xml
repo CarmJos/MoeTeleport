@@ -11,7 +11,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 
-        <deps.easyplugin.version>1.5.12</deps.easyplugin.version>
+        <deps.easyplugin.version>1.5.14</deps.easyplugin.version>
         <deps.easysql.version>0.4.7</deps.easysql.version>
         <deps.mineconfig.version>3.1.1</deps.mineconfig.version>
     </properties>
