@@ -13,7 +13,7 @@
 
         <deps.easyplugin.version>1.5.14</deps.easyplugin.version>
         <deps.easysql.version>0.4.7</deps.easysql.version>
-        <deps.mineconfig.version>3.1.1</deps.mineconfig.version>
+        <deps.mineconfig.version>3.1.3</deps.mineconfig.version>
     </properties>
 
     <groupId>cc.carm.plugin</groupId>
